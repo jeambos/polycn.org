@@ -1,27 +1,35 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+// https://astro.build/config
 export default defineConfig({
   integrations: [
     starlight({
-      title: '中文多元关系文库', // 这里填你的新名字 PolyCN
-      social: {
-        github: 'https://github.com/你的用户名/polycn-archive',
-      },
+      title: '中文多元关系文库', // 你的网站标题 PolyCN
+      
+      // ⚠️ 修复部分：这里必须是数组 [...]
+      social: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/jeambos/polycn.org', // 你的仓库地址
+          icon: 'github',
+        },
+      ],
+
+      // 侧边栏配置 (Starlight 会自动读取目录，这里可以手动指定顺序)
       sidebar: [
-        // Starlight 默认会自动根据文件夹生成侧边栏！
-        // 你也可以在这里手动指定顺序，类似 Docusaurus 的 sidebars.js
         {
           label: '书籍',
-          autogenerate: { directory: 'books' }, // 假设你把书放在 src/content/docs/books
+          autogenerate: { directory: 'books' }, 
         },
         {
           label: '文章',
           autogenerate: { directory: 'articles' },
         },
       ],
+
+      // 自定义 CSS 路径
       customCss: [
-        // 稍后我们要在这里引入你的落日橙样式
         './src/styles/custom.css',
       ],
     }),
