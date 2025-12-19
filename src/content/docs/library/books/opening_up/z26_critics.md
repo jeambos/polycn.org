@@ -1,6 +1,5 @@
 ---
-title: 批评文章
-sidebar_label: 批评文章（Gemini生成）
+title: 批评文章（Gemini生成）
 
 ---
 

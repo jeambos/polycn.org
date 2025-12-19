@@ -1,6 +1,5 @@
 ---
-title: 译后记
-sidebar_label: 译后记（Gemini生成）
+title: 译后记（Gemini生成）
 
 ---
 

@@ -1,8 +1,5 @@
 ---
 title: 献词 / 前言 / 致谢
-sidebar_label: 献词 / 前言 / 致谢
-sidebar_position: 1
-
 ---
 
 # 作者献词

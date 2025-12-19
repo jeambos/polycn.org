@@ -1,8 +1,6 @@
 ---
 title: 本书首页
-sidebar_label: 本书首页
-sidebar_position: 0
-slug: /opening_up
+
 ---
 # 《走向开放》
 

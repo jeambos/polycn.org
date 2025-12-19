@@ -1,5 +1,5 @@
 ---
-slug: /beyond
+title: 《超越单偶制的世界》主页
 ---
 # Welcome！
 

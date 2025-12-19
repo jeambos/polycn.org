@@ -1,7 +1,5 @@
 ---
 title: 译者序
-sidebar_label: 译者序（Gemini生成）
-sidebar_position: 2
 
 ---
 
