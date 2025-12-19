@@ -1,5 +1,5 @@
 ---
-slug: /ethical
+title: 《道德浪女》首页
 ---
 
 # 道德浪女
