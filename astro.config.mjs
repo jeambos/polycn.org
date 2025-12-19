@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
   integrations: [
     starlight({
-      title: '中文多元关系文库',
+      title: 'PolyCN',
       
       // ✅ 修复点：将 url 改为 href
       social: [
