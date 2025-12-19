@@ -20,7 +20,8 @@ import BookShelf from '../../components/BookShelf.astro';
 import RecentUpdates from '../../components/RecentUpdates.astro';
 import DailyQuote from '../../components/DailyQuote.astro';
 
-<div class="hero-spacer" style="height: 1rem;"></div>
+{/* 使用 class 代替 inline style */}
+<div class="hero-spacer"></div>
 
 {/* === 2. Feature Grid (痛点引导) === */}
 <CardGrid stagger>
@@ -29,7 +30,7 @@ import DailyQuote from '../../components/DailyQuote.astro';
   <Card title="💖 道德浪女" icon="star">
     非单偶制圣经，本站独家精校译本。
     <br/>
-    <a href="/library/books/ethical-slut" style="font-weight:bold; color:var(--sl-color-accent)">立即阅读 &rarr;</a>
+    <a href="/library/books/ethical-slut" class="link-accent">立即阅读 &rarr;</a>
   </Card>
 
   {/* 卡片2：馆藏一瞥 (话题云) */}
@@ -70,7 +71,7 @@ import DailyQuote from '../../components/DailyQuote.astro';
     <span class="badge">百科·本周词条</span>
     <h3>关系安那其 (Relationship Anarchy)</h3>
     <p>一种拒绝将关系分类或分级的哲学。主张基于个人意愿而非社会规范来构建每一种独特的关系...</p>
-    <a href="/wiki/relationship-anarchy">阅读全文 &rarr;</a>
+    <a href="/wiki/relationship-anarchy" class="link-accent">阅读全文 &rarr;</a>
   </div>
   <div class="wiki-card links">
     <h4>快速导航</h4>
@@ -103,86 +104,10 @@ import DailyQuote from '../../components/DailyQuote.astro';
 />
 
 <div class="home-footer">
+  <hr class="home-hr"/>
   <p>© 2025 PolyCN Archives. CC-BY-NC-SA 4.0</p>
   <p>
     <a href="/about/legal">免责声明</a> | 
     <a href="/about/guidelines">投稿指南</a>
   </p>
 </div>
-
-{/* === 页面内嵌样式 === */}
-<style>
-  /* 话题云样式 */
-  .topic-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  .topic-cloud a {
-    font-size: 0.8rem;
-    padding: 2px 8px;
-    background: var(--sl-color-gray-5);
-    border-radius: 12px;
-    text-decoration: none;
-    color: var(--sl-color-text);
-  }
-  .topic-cloud a:hover {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  /* Wiki 橱窗样式 */
-  .wiki-showcase {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin: 3rem 0;
-  }
-  @media (max-width: 768px) { .wiki-showcase { grid-template-columns: 1fr; } }
-  
-  .wiki-card {
-    padding: 1.5rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 8px;
-    background: var(--sl-color-black);
-  }
-  .wiki-card.featured { border-left: 4px solid var(--sl-color-accent); }
-  .wiki-card .badge {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: var(--sl-color-accent);
-    font-weight: bold;
-    letter-spacing: 0.05em;
-  }
-  .wiki-card h3 { margin-top: 0.5rem; font-size: 1.4rem; color: var(--sl-color-white); }
-  .wiki-card.links ul { list-style: none; padding: 0; }
-  .wiki-card.links li { margin-bottom: 0.5rem; border-bottom: 1px dashed var(--sl-color-gray-5); padding-bottom: 0.5rem; }
-  .wiki-card.links a { text-decoration: none; color: var(--sl-color-gray-2); display: block; }
-  .wiki-card.links a:hover { color: var(--sl-color-accent); transform: translateX(5px); transition: transform 0.2s; }
-
-  /* 加入我们 Banner */
-  .join-us-banner {
-    text-align: center;
-    padding: 3rem 1rem;
-    margin-top: 3rem;
-    background: var(--sl-color-gray-6);
-    border-radius: 12px;
-  }
-  .join-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 1.5rem;
-  }
-
-  /* 页脚 */
-  .home-footer {
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
-    margin-top: 2rem;
-    padding-bottom: 2rem;
-  }
-  .home-footer a { color: inherit; margin: 0 0.5rem; text-decoration: none; }
-</style>

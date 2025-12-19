@@ -5,38 +5,62 @@ import { getCollection } from 'astro:content';
 const allDocs = await getCollection('docs');
 
 const recentDocs = allDocs
-  .filter((doc) => !doc.id.startsWith('index')) // 排除首页
-  // 过滤掉没有日期的文章（避免 TS 报错说 date 可能是 undefined）
-  .filter((doc) => doc.data.date !== undefined) 
+  // 1. 排除首页
+  .filter((doc) => !doc.id.startsWith('index'))
+  // 2. 核心修复：更强壮的排序逻辑
   .sort((a, b) => {
-    // 因为上面过滤过了，这里可以用 ! 断言 date 一定存在，或者直接比较
-    // 强制转换为数字进行比较
-    return (b.data.date!.valueOf() - a.data.date!.valueOf());
+    // 强制转换为 Any 以绕过 TS 检查 (如果你的类型定义还没生效)
+    const aData = a.data as any;
+    const bData = b.data as any;
+
+    // 安全获取日期：如果有日期就转时间戳，没有日期就归零 (1970年)
+    const dateA = aData.date ? new Date(aData.date).valueOf() : 0;
+    const dateB = bData.date ? new Date(bData.date).valueOf() : 0;
+
+    // 降序排列 (数值大的/新的在前)
+    return dateB - dateA;
   })
+  // 3. (可选) 再次过滤：只显示真正有日期的文章
+  // 如果你想显示所有文章(包括没日期的)，就把下面这行注释掉
+  .filter((doc) => (doc.data as any).date) 
   .slice(0, 3); // 只取前3条
+
+// 👇👇👇 加入这一段调试代码 👇👇👇
+console.log("---------------- DEBUG START ----------------");
+console.log("找到的所有文档数量:", allDocs.length);
+console.log("所有文档 ID:", allDocs.map(d => d.id));
+console.log("Helloworld 的数据:", allDocs.find(d => d.id.includes('helloworld'))?.data);
+console.log("最终筛选出的文档:", recentDocs);
+console.log("---------------- DEBUG END ------------------");
+
 ---
 
 <div class="updates-section">
   <h3>✨ 最近更新 (Latest)</h3>
   <div class="updates-list">
-    {recentDocs.map((doc) => (
-      /* 修复说明：
-         1. 使用 doc.id 代替 doc.slug
-         2. doc.id 通常是 'folder/filename.md' 或 'folder/filename'
-         3. 为了保险，我们去掉可能存在的 .md 或 .mdx 后缀，确保链接漂亮
-      */
-      <a href={`/${doc.id.replace(/\.(md|mdx)$/, '')}/`} class="update-card">
-        <span class="update-icon">🆕</span>
-        <div class="update-info">
-          <span class="update-title">{doc.data.title}</span>
-          <span class="update-desc">
-            {/* 显示格式化后的日期 */}
-            {doc.data.date?.toLocaleDateString('zh-CN')}
-          </span>
-        </div>
-        <span class="update-arrow">→</span>
-      </a>
-    ))}
+    {recentDocs.length === 0 ? (
+      <p style="color:var(--sl-color-gray-3); padding:1rem;">暂无更新...</p>
+    ) : (
+      recentDocs.map((doc) => {
+        // 处理日期显示
+        const docDate = (doc.data as any).date;
+        const dateStr = docDate ? new Date(docDate).toLocaleDateString('zh-CN') : '';
+        
+        // 处理链接 (去掉 .md / .mdx 后缀)
+        const href = `/${doc.id.replace(/\.(md|mdx)$/, '')}/`;
+
+        return (
+          <a href={href} class="update-card">
+            <span class="update-icon">🆕</span>
+            <div class="update-info">
+              <span class="update-title">{doc.data.title}</span>
+              <span class="update-desc">{dateStr}</span>
+            </div>
+            <span class="update-arrow">→</span>
+          </a>
+        );
+      })
+    )}
   </div>
 </div>
 
