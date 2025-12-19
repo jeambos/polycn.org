@@ -1,40 +1,78 @@
 ---
 title: 中文多元关系文库
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+description: 打开亲密关系的无限可能性 | 档案 · 百科 · 行动
+template: splash
 hero:
-  tagline: 探索单偶制之外的一切：<br/>多边关系 / 开放关系 / 关系安那其 / 酷儿柏拉图关系 ……
-  image:
-    file: ../../assets/houston.webp
+  tagline: 探索亲密关系的一万种可能 | 权威 · 档案 · 本土
   actions:
-    - text: 先回到 Jeambo.com
-      link: https://www.jeambo.com
-      icon: external
-
+    - text: 从这里开始 (新手村) 
+      link: /start
+      icon: rocket
+      variant: primary
+    - text: 浏览馆藏
+      link: /library/books/
+      icon: right-arrow
+      variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
-/*
+import RecentUpdates from '../../components/RecentUpdates.astro';
+import DailyQuote from '../../components/DailyQuote.astro';
 
-## Next steps
+<div class="hero-spacer" style="height: 2rem;"></div>
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="🚑 情绪急救" icon="warning">
+    嫉妒了怎么办？伴侣去约会了我很难受？
+    <br/>
+    <a href="/library/guides/emotional-first-aid" style="color:var(--sl-color-accent)">获取急救包 &rarr;</a>
+  </Card>
+  <Card title="🇨🇳 中国生存指南" icon="document">
+    如何面对催婚？法律风险有哪些？
+    <br/>
+    <a href="/library/guides/survival-in-china" style="color:var(--sl-color-accent)">查看指南 &rarr;</a>
+  </Card>
+  <Card title="📖 必读经典" icon="open-book">
+    《道德浪女》、《多重关系》等经典译著在线阅读。
+    <br/>
+    <a href="/library/books" style="color:var(--sl-color-accent)">进入书库 &rarr;</a>
+  </Card>
+  <Card title="🧠 术语百科" icon="magnifier">
+    什么是 NRE？什么是关系安那其？
+    <br/>
+    <a href="/wiki" style="color:var(--sl-color-accent)">查阅 Wiki &rarr;</a>
+  </Card>
 </CardGrid>
 
-*/
+<RecentUpdates />
+
+<DailyQuote 
+  quote="爱不是有限的资源，像是一个馅饼，切得越多块越小。爱是无限生成的。" 
+  author="珍妮特·哈迪 《道德浪女》" 
+/>
+
+<div class="home-footer">
+  <hr style="border-color: var(--sl-color-gray-5); margin: 3rem 0;"/>
+  <p>© 2025 PolyCN Archives. CC-BY-NC-SA 4.0</p>
+  <p>
+    <a href="/about/disclaimer">免责声明</a> | 
+    <a href="/about/privacy">隐私政策</a> | 
+    <a href="https://github.com/jeambos/polycn-archive">GitHub</a>
+  </p>
+</div>
+
+<style>
+  .home-footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+  }
+  .home-footer a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  .home-footer a:hover {
+    color: var(--sl-color-accent);
+  }
+</style>
