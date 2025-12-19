@@ -1,0 +1,60 @@
+---
+/* src/components/BookShelf.astro */
+const books = [
+  { title: "道德浪女", cover: "https://via.placeholder.com/150x220?text=Ethical+Slut", link: "/library/books/ethical-slut" },
+  { title: "走向开放", cover: "https://via.placeholder.com/150x220?text=Opening+Up", link: "/library/books/opening-up" },
+  { title: "不止于二", cover: "https://via.placeholder.com/150x220?text=More+Than+Two", link: "/library/books/more-than-two" },
+  { title: "多边安全感", cover: "https://via.placeholder.com/150x220?text=Polysecure", link: "/library/books/polysecure" },
+  { title: "危情伴侣", cover: "https://via.placeholder.com/150x220?text=Mating", link: "/library/books/mating-in-captivity" },
+  { title: "超越单偶制", cover: "https://via.placeholder.com/150x220?text=Beyond", link: "/library/books/a-world-beyond-monogamy" },
+];
+---
+
+<div class="book-shelf-container">
+  <h3>📚 馆藏精选</h3>
+  <div class="book-scroll">
+    {books.map(book => (
+      <a href={book.link} class="book-item">
+        <div class="cover-wrapper">
+          <img src={book.cover} alt={book.title} />
+        </div>
+        <span class="book-title">{book.title}</span>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .book-shelf-container { margin: 3rem 0; }
+  .book-scroll {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    /* 隐藏滚动条但保留功能 */
+    scrollbar-width: thin; 
+  }
+  .book-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    min-width: 120px; /* 限制最小宽度，保证不挤压 */
+    transition: transform 0.2s;
+  }
+  .book-item:hover { transform: translateY(-5px); }
+  .cover-wrapper {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  img { display: block; width: 100%; height: auto; object-fit: cover; }
+  .book-title {
+    font-size: 0.9rem;
+    color: var(--sl-color-text);
+    text-align: center;
+    font-weight: 500;
+  }
+</style>

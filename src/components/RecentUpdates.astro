@@ -1,0 +1,62 @@
+---
+/* src/components/RecentUpdates.astro */
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+
+const recentDocs = allDocs
+  .filter((doc) => !doc.id.startsWith('index')) // 排除首页
+  // 过滤掉没有日期的文章（避免 TS 报错说 date 可能是 undefined）
+  .filter((doc) => doc.data.date !== undefined) 
+  .sort((a, b) => {
+    // 因为上面过滤过了，这里可以用 ! 断言 date 一定存在，或者直接比较
+    // 强制转换为数字进行比较
+    return (b.data.date!.valueOf() - a.data.date!.valueOf());
+  })
+  .slice(0, 3); // 只取前3条
+---
+
+<div class="updates-section">
+  <h3>✨ 最近更新 (Latest)</h3>
+  <div class="updates-list">
+    {recentDocs.map((doc) => (
+      /* 修复说明：
+         1. 使用 doc.id 代替 doc.slug
+         2. doc.id 通常是 'folder/filename.md' 或 'folder/filename'
+         3. 为了保险，我们去掉可能存在的 .md 或 .mdx 后缀，确保链接漂亮
+      */
+      <a href={`/${doc.id.replace(/\.(md|mdx)$/, '')}/`} class="update-card">
+        <span class="update-icon">🆕</span>
+        <div class="update-info">
+          <span class="update-title">{doc.data.title}</span>
+          <span class="update-desc">
+            {/* 显示格式化后的日期 */}
+            {doc.data.date?.toLocaleDateString('zh-CN')}
+          </span>
+        </div>
+        <span class="update-arrow">→</span>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .updates-section { margin-top: 4rem; }
+  .updates-list { display: flex; flex-direction: column; gap: 1rem; }
+  .update-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--sl-color-text);
+    transition: background 0.2s;
+  }
+  .update-card:hover { background: var(--sl-color-gray-5); }
+  .update-info { display: flex; flex-direction: column; flex: 1; }
+  .update-title { font-weight: bold; color: var(--sl-color-accent); }
+  .update-desc { font-size: 0.85rem; color: var(--sl-color-gray-3); }
+</style>

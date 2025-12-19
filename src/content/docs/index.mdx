@@ -1,78 +1,188 @@
 ---
 title: 中文多元关系文库
-description: 打开亲密关系的无限可能性 | 档案 · 百科 · 行动
+description: 打开亲密关系的无限可能性
 template: splash
 hero:
-  tagline: 探索亲密关系的一万种可能 | 权威 · 档案 · 本土
+  tagline: 汇集多元关系的思考与实践
   actions:
-    - text: 从这里开始 (新手村) 
-      link: /start
+    - text: 一键入门 (新手村)
+      link: /start/index
       icon: rocket
       variant: primary
-    - text: 浏览馆藏
-      link: /library/books/
+    - text: 浏览全馆
+      link: /library/books
       icon: right-arrow
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkButton } from '@astrojs/starlight/components';
+import BookShelf from '../../components/BookShelf.astro';
 import RecentUpdates from '../../components/RecentUpdates.astro';
 import DailyQuote from '../../components/DailyQuote.astro';
 
-<div class="hero-spacer" style="height: 2rem;"></div>
+<div class="hero-spacer" style="height: 1rem;"></div>
 
+{/* === 2. Feature Grid (痛点引导) === */}
 <CardGrid stagger>
-  <Card title="🚑 情绪急救" icon="warning">
-    嫉妒了怎么办？伴侣去约会了我很难受？
+  
+  {/* 卡片1：镇馆之宝 */}
+  <Card title="💖 道德浪女" icon="star">
+    非单偶制圣经，本站独家精校译本。
     <br/>
-    <a href="/library/guides/emotional-first-aid" style="color:var(--sl-color-accent)">获取急救包 &rarr;</a>
+    <a href="/library/books/ethical-slut" style="font-weight:bold; color:var(--sl-color-accent)">立即阅读 &rarr;</a>
   </Card>
-  <Card title="🇨🇳 中国生存指南" icon="document">
-    如何面对催婚？法律风险有哪些？
+
+  {/* 卡片2：馆藏一瞥 (话题云) */}
+  <Card title="📑 馆藏一瞥" icon="list-format">
+    从你感兴趣的话题开始：
+    <div class="topic-cloud">
+      <a href="/library/guides/mechanics">#开放关系</a>
+      <a href="/library/guides/emotions">#嫉妒</a>
+      <a href="/library/guides/society">#出柜</a>
+      <a href="/library/guides/sex-health">#性健康</a>
+      <a href="/library/articles/theory">#关系安那其</a>
+      <a href="/library/guides/mechanics">#协议模板</a>
+    </div>
+  </Card>
+
+  {/* 卡片3：百科入口 */}
+  <Card title="🧠 百科 Wiki" icon="magnifier">
+    搞不懂什么是 NRE？Metamour？
     <br/>
-    <a href="/library/guides/survival-in-china" style="color:var(--sl-color-accent)">查看指南 &rarr;</a>
+    <a href="/wiki">查阅术语表</a> | <a href="/wiki/random">🎲 随机词条</a>
   </Card>
-  <Card title="📖 必读经典" icon="open-book">
-    《道德浪女》、《多重关系》等经典译著在线阅读。
+
+  {/* 卡片4：社群 */}
+  <Card title="✈️ 加入社区" icon="telegram">
+    找到你的同类。
     <br/>
-    <a href="/library/books" style="color:var(--sl-color-accent)">进入书库 &rarr;</a>
+    <a href="https://t.me/polycn" target="_blank">加入 TG 频道 (@polycn) &rarr;</a>
   </Card>
-  <Card title="🧠 术语百科" icon="magnifier">
-    什么是 NRE？什么是关系安那其？
-    <br/>
-    <a href="/wiki" style="color:var(--sl-color-accent)">查阅 Wiki &rarr;</a>
-  </Card>
+
 </CardGrid>
 
+{/* === 3. Book Shelf (书籍橱窗) === */}
+<BookShelf />
+
+{/* === 4. Wiki Showcase (百科特色) === */}
+<div class="wiki-showcase">
+  <div class="wiki-card featured">
+    <span class="badge">百科·本周词条</span>
+    <h3>关系安那其 (Relationship Anarchy)</h3>
+    <p>一种拒绝将关系分类或分级的哲学。主张基于个人意愿而非社会规范来构建每一种独特的关系...</p>
+    <a href="/wiki/relationship-anarchy">阅读全文 &rarr;</a>
+  </div>
+  <div class="wiki-card links">
+    <h4>快速导航</h4>
+    <ul>
+      <li><a href="/wiki">🗂️ 百科索引</a></li>
+      <li><a href="/wiki/glossary">📖 词汇表 (A-Z)</a></li>
+      <li><a href="/wiki/random">🎲 随机漫步</a></li>
+      <li><a href="/about/guidelines">✍️ 我要贡献</a></li>
+    </ul>
+  </div>
+</div>
+
+{/* === 5. Latest Updates (最近更新) === */}
 <RecentUpdates />
 
+{/* === 6. Join Us (加入我们) === */}
+<div class="join-us-banner">
+  <h3>🤝 加入 PolyCN 志愿者计划</h3>
+  <p>我们需要翻译、编辑和开发者，共同维护这个档案库。</p>
+  <div class="join-actions">
+    <LinkButton href="https://t.me/polycn" icon="telegram" variant="secondary">TG 频道</LinkButton>
+    <LinkButton href="https://twitter.com/your_twitter" icon="twitter" variant="secondary">关注推特</LinkButton>
+  </div>
+</div>
+
+{/* === 7. Footer (页脚金句) === */}
 <DailyQuote 
   quote="爱不是有限的资源，像是一个馅饼，切得越多块越小。爱是无限生成的。" 
   author="珍妮特·哈迪 《道德浪女》" 
 />
 
 <div class="home-footer">
-  <hr style="border-color: var(--sl-color-gray-5); margin: 3rem 0;"/>
   <p>© 2025 PolyCN Archives. CC-BY-NC-SA 4.0</p>
   <p>
-    <a href="/about/disclaimer">免责声明</a> | 
-    <a href="/about/privacy">隐私政策</a> | 
-    <a href="https://github.com/jeambos/polycn-archive">GitHub</a>
+    <a href="/about/legal">免责声明</a> | 
+    <a href="/about/guidelines">投稿指南</a>
   </p>
 </div>
 
+{/* === 页面内嵌样式 === */}
 <style>
+  /* 话题云样式 */
+  .topic-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .topic-cloud a {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    background: var(--sl-color-gray-5);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--sl-color-text);
+  }
+  .topic-cloud a:hover {
+    background: var(--sl-color-accent);
+    color: white;
+  }
+
+  /* Wiki 橱窗样式 */
+  .wiki-showcase {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+  @media (max-width: 768px) { .wiki-showcase { grid-template-columns: 1fr; } }
+  
+  .wiki-card {
+    padding: 1.5rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 8px;
+    background: var(--sl-color-black);
+  }
+  .wiki-card.featured { border-left: 4px solid var(--sl-color-accent); }
+  .wiki-card .badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--sl-color-accent);
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+  .wiki-card h3 { margin-top: 0.5rem; font-size: 1.4rem; color: var(--sl-color-white); }
+  .wiki-card.links ul { list-style: none; padding: 0; }
+  .wiki-card.links li { margin-bottom: 0.5rem; border-bottom: 1px dashed var(--sl-color-gray-5); padding-bottom: 0.5rem; }
+  .wiki-card.links a { text-decoration: none; color: var(--sl-color-gray-2); display: block; }
+  .wiki-card.links a:hover { color: var(--sl-color-accent); transform: translateX(5px); transition: transform 0.2s; }
+
+  /* 加入我们 Banner */
+  .join-us-banner {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-top: 3rem;
+    background: var(--sl-color-gray-6);
+    border-radius: 12px;
+  }
+  .join-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  /* 页脚 */
   .home-footer {
     text-align: center;
     font-size: 0.8rem;
     color: var(--sl-color-gray-3);
+    margin-top: 2rem;
+    padding-bottom: 2rem;
   }
-  .home-footer a {
-    color: var(--sl-color-gray-3);
-    text-decoration: none;
-    margin: 0 0.5rem;
-  }
-  .home-footer a:hover {
-    color: var(--sl-color-accent);
-  }
+  .home-footer a { color: inherit; margin: 0 0.5rem; text-decoration: none; }
 </style>
