@@ -305,48 +305,154 @@
 /* 预留: .book-card { ... } */
 
 
-/* ==========================================================================
-   7. 首页：百科特色 (Wiki Showcase)
-   ========================================================================== */
+/* src/styles/custom.css */
+
+/* src/styles/custom.css */
+
+/* ====================================================== */
+/* 7. 首页：百科特色 (Wiki Showcase - 最终对齐版)         */
+/* ====================================================== */
 
 .wiki-showcase {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
+  /* 左1右2布局：左侧导航窄，右侧内容宽 */
+  grid-template-columns: 1fr 2fr; 
+  /* gap 负责所有间距：桌面端是左右间距，移动端是上下间距 */
+  gap: 1.5rem; 
   margin: 3rem 0;
+  /* 关键：强制拉伸子元素，确保左右卡片高度完全一致 */
+  align-items: stretch; 
 }
-@media (max-width: 768px) { .wiki-showcase { grid-template-columns: 1fr; } }
+
+/* 手机端适配：单列布局 */
+@media (max-width: 768px) {
+  .wiki-showcase {
+    grid-template-columns: 1fr;
+    /* 这里的 gap: 1.5rem 会自动确保两张卡片上下不会太近 */
+  }
+}
 
 .wiki-card {
-  padding: 1.5rem;
+  /* 核心修复：清除任何可能导致错位的 margin */
+  margin: 0 !important;
+  
+  padding: 2rem;
   border: 1px solid var(--sl-color-gray-5);
-  border-radius: 8px;
+  border-radius: 16px;
+  background: var(--sl-color-gray-6);
+  
+  /* 确保卡片填满网格高度 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- 左侧：导航列表样式 --- */
+.wiki-card.links {
   background: var(--sl-color-black);
 }
-.wiki-card p { font-size: 1.25rem; line-height: 1.6; }
-.wiki-card h3 { font-size: 1.5rem; margin-top: 0.5rem; color: var(--sl-color-white); }
-.wiki-card.featured { border-left: 4px solid var(--sl-color-accent); }
-.wiki-card .badge {
-  font-size: 0.75rem; text-transform: uppercase;
-  color: var(--sl-color-accent); font-weight: bold; letter-spacing: 0.05em;
-}
 
-/* Wiki 链接列表 */
-.wiki-card.links ul { list-style: none; padding: 0; }
-.wiki-card.links li {
-  margin-bottom: 0.5rem; border-bottom: 1px dashed var(--sl-color-gray-5);
+.wiki-card.links h4 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--sl-color-white);
+  border-bottom: 2px solid var(--sl-color-gray-5);
   padding-bottom: 0.5rem;
 }
-.wiki-card.links a { text-decoration: none; color: var(--sl-color-gray-2); display: block; }
-.wiki-card.links a:hover { color: var(--sl-color-accent); transform: translateX(5px); transition: transform 0.2s; }
 
+.wiki-card.links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.wiki-card.links a {
+  text-decoration: none;
+  color: var(--sl-color-gray-2);
+  display: block;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+.wiki-card.links a:hover {
+  color: var(--sl-color-accent);
+  transform: translateX(5px);
+}
+
+/* --- 右侧：本周词条样式 --- */
+.wiki-card.featured {
+  position: relative;
+  border-left: 6px solid var(--sl-color-accent);
+  background: linear-gradient(135deg, var(--sl-color-gray-6) 0%, rgba(230, 149, 37, 0.05) 100%);
+}
+
+.wiki-card .badge {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: var(--sl-color-accent);
+  font-weight: 700;
+  /* letter-spacing: 0.05em;*/
+  /* margin-bottom: 0.5rem; */
+  display: block;
+}
+
+.wiki-card h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--sl-color-white);
+  line-height: 1.3;
+}
+
+.wiki-card p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--sl-color-gray-2);
+  margin-bottom: 1.5rem;
+  flex: 1; /* 让正文占据剩余空间 */
+}
+
+.read-more {
+  font-weight: bold;
+  color: var(--sl-color-accent);
+  text-decoration: none;
+  font-size: 1.1rem;
+  align-self: flex-start;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
 
 /* ==========================================================================
    8. 首页：最近更新 (Recent Updates)
    ========================================================================== */
 
-.update-title { font-size: 1.5rem; }
-.update-desc { font-size: 1.25rem; line-height: 1.5; }
+/* 1. 整个板块的大标题 (如：✨ 最近更新) */
+.updates-section h3 {
+  font-size: 1.5rem !important; /* 你可以改为 1.25rem 或其他大小 */
+  margin-bottom: 1rem !important; /* 标题和列表之间的间距 */
+  color: var(--sl-color-white);
+  border-bottom: none !important; /* 去掉可能存在的下划线 */
+}
+
+/* 2. 列表中每一篇文章的标题 */
+.update-title {
+  font-size: 1.25rem !important; /* 推荐比大标题小一号，比如 18px */
+  font-weight: bold;
+}
+
+/* 3. 列表中每一篇文章的日期/描述 */
+.update-desc {
+  font-size: 0.95 rem !important; /* 描述文字应该更小，比如 14-16px */
+  line-height: 1.5;
+  color: var(--sl-color-gray-3);
+}
 
 
 /* ==========================================================================

@@ -114,16 +114,12 @@ import DailyQuote from '../../components/DailyQuote.astro';
 {/* === 3. Book Shelf (书籍橱窗) === */}
 <BookShelf />
 
-{/* === 4. Wiki Showcase (百科特色) === */}
+{/* === 4. Wiki Showcase (百科特色 - 已修正布局) === */}
 <div class="wiki-showcase">
-  <div class="wiki-card featured">
-    <span class="badge">百科·本周词条</span>
-    <h3>关系安那其 (Relationship Anarchy)</h3>
-    <p>一种拒绝将关系分类或分级的哲学。主张基于个人意愿而非社会规范来构建每一种独特的关系...</p>
-    <a href="/wiki/relationship-anarchy" class="link-accent">阅读全文 &rarr;</a>
-  </div>
+  
+  {/* 左侧：导航列表 (Links) - 现在放到了前面 */}
   <div class="wiki-card links">
-    <h4>快速导航</h4>
+    <h3>Wiki</h3>
     <ul>
       <li><a href="/wiki">🗂️ 百科索引</a></li>
       <li><a href="/wiki/glossary">📖 词汇表 (A-Z)</a></li>
@@ -131,6 +127,15 @@ import DailyQuote from '../../components/DailyQuote.astro';
       <li><a href="/about/guidelines">✍️ 我要贡献</a></li>
     </ul>
   </div>
+
+  {/* 右侧：本周词条 (Featured) */}
+  <div class="wiki-card featured">
+    <span class="badge">百科·本周词条</span>
+    <h3>关系安那其 (Relationship Anarchy)</h3>
+    <p>一种拒绝将关系分类或分级的哲学。主张基于个人意愿而非社会规范来构建每一种独特的关系...</p>
+    <a href="/wiki/relationship-anarchy" class="read-more">阅读全文 &rarr;</a>
+  </div>
+
 </div>
 
 {/* === 5. Latest Updates (最近更新) === */}
