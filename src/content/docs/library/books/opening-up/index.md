@@ -21,15 +21,34 @@ title: 本书首页
 <details>
 <summary>点此展开 / 收起</summary>
 
-TRISTAN TAORMINO 是一位屡获殊荣的作家、专栏作家、编辑和性教育家。她是《真实的欲望：性、色情和变态的冒险》(True Lust: Adventures in Sex, Porn and Perversion)、《肮脏的性秘密》(Down and Dirty Sex Secrets) 和《女性肛交终极指南》(The Ultimate Guide to Anal Sex for Women) 的作者，也是获得兰姆达文学奖 (Lambda Literary Award) 的选集系列《最佳女同性恋情色》(Best Lesbian Erotica) 的编辑。她是《村声》(Village Voice) 和《好色客禁忌》(Hustler’s Taboo) 的专栏作家。她经营自己的成人电影制作公司 Smart Ass Productions，目前是 Vivid Entertainment 的独家导演。在 Vivid，她执导了真人秀系列 *Chemistry*，该系列赢得了多个奖项，包括 2007 年 AVN 最佳刚佐 (Gonzo) 发行奖。她还掌管 Vivid 的性教育品牌 Vivid-Ed，并为此撰写、制作和导演了四部作品：《肛交专家指南》(The Expert Guide to Anal Sex)、《口交专家指南 1：舔阴》(The Expert Guide to Oral Sex 1: Cunnilingus)、《口交专家指南 2：口交》(The Expert Guide to Oral Sex 2: Fellatio) 和《G 点专家指南》(The Expert Guide to the G-Spot)。
+TRISTAN TAORMINO 是一位屡获殊荣的作家、专栏作家、编辑和性教育家。
 
-Tristan 曾在 250 多种出版物中被报道，包括《纽约时报》(New York Times)、《红书》(Redbook)、《大都会》(Cosmopolitan)、《魅力》(Glamour)、《娱乐周刊》(Entertainment Weekly)、《详情》(Details)、《纽约杂志》(New York Magazine)、《男性健康》(Men’s Health) 和《花花公子》(Playboy)。她曾出现在 HBO 的 *Real Sex*、《霍华德·斯特恩秀》(The Howard Stern Show)、*Loveline*、*Ricki Lake* 以及 CNN、MTV 和探索频道 (The Discovery Channel) 上。她在顶尖学院和大学讲课，在那里她演讲关于男女同性恋问题、性和性别、另类关系以及女权主义。她在世界各地教授性和关系研讨会，并经营两个网站：puckerup.com 和 openingup.net。她与她的伴侣和他们的三只狗住在纽约州北部。
+她是《真实的欲望：性、色情和变态的冒险》(True Lust: Adventures in Sex, Porn and Perversion)、《肮脏的性秘密》(Down and Dirty Sex Secrets) 和《女性肛交终极指南》(The Ultimate Guide to Anal Sex for Women) 的作者，也是获得兰姆达文学奖 (Lambda Literary Award) 的选集系列《最佳女同性恋情色》(Best Lesbian Erotica) 的编辑。
+
+她是《村声》(Village Voice) 和《好色客禁忌》(Hustler’s Taboo) 的专栏作家。
+
+她经营自己的成人电影制作公司 Smart Ass Productions，目前是 Vivid Entertainment 的独家导演。
+
+在 Vivid，她执导了真人秀系列 *Chemistry*，该系列赢得了多个奖项，包括 2007 年 AVN 最佳刚佐 (Gonzo) 发行奖。
+
+她还掌管 Vivid 的性教育品牌 Vivid-Ed，并为此撰写、制作和导演了四部作品：《肛交专家指南》(The Expert Guide to Anal Sex)、《口交专家指南 1：舔阴》(The Expert Guide to Oral Sex 1: Cunnilingus)、《口交专家指南 2：口交》(The Expert Guide to Oral Sex 2: Fellatio) 和《G 点专家指南》(The Expert Guide to the G-Spot)。
+
+Tristan 曾在 250 多种出版物中被报道，包括《纽约时报》(New York Times)、《红书》(Redbook)、《大都会》(Cosmopolitan)、《魅力》(Glamour)、《娱乐周刊》(Entertainment Weekly)、《详情》(Details)、《纽约杂志》(New York Magazine)、《男性健康》(Men’s Health) 和《花花公子》(Playboy)。
+
+她曾出现在 HBO 的 *Real Sex*、《霍华德·斯特恩秀》(The Howard Stern Show)、*Loveline*、*Ricki Lake* 以及 CNN、MTV 和探索频道 (The Discovery Channel) 上。
+
+她在顶尖学院和大学讲课，在那里她演讲关于男女同性恋问题、性和性别、另类关系以及女权主义。
+
+她在世界各地教授性和关系研讨会，并经营两个网站：puckerup.com 和 openingup.net。
+
+她与她的伴侣和他们的三只狗住在纽约州北部。
 
 </details>
 
 :::
 
-:::info[编辑推荐]
+:::tip[编辑推荐]
+
 <details>
 <summary>点此展开 / 收起</summary>
 

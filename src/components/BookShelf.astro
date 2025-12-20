@@ -1,12 +1,14 @@
 ---
 /* src/components/BookShelf.astro */
 const books = [
-  { title: "道德浪女", cover: "https://via.placeholder.com/150x220?text=Ethical+Slut", link: "/library/books/ethical-slut" },
-  { title: "走向开放", cover: "https://via.placeholder.com/150x220?text=Opening+Up", link: "/library/books/opening-up" },
-  { title: "不止于二", cover: "https://via.placeholder.com/150x220?text=More+Than+Two", link: "/library/books/more-than-two" },
-  { title: "多边安全感", cover: "https://via.placeholder.com/150x220?text=Polysecure", link: "/library/books/polysecure" },
-  { title: "危情伴侣", cover: "https://via.placeholder.com/150x220?text=Mating", link: "/library/books/mating-in-captivity" },
-  { title: "超越单偶制", cover: "https://via.placeholder.com/150x220?text=Beyond", link: "/library/books/a-world-beyond-monogamy" },
+  { title: "道德浪女", cover: "images/ethical-slut-preview.jpg", link: "/library/books/ethical-slut" },
+  { title: "超越单偶制的世界", cover: "images/beyond-monogamy-preview.jpg", link: "/library/books/beyond-monogamy" },
+  { title: "不止于二", cover: "images/more-than-two-preview.jpg", link: "/library/books/more-than-two" },
+  { title: "走向开放", cover: "images/opening-up-preview.jpg", link: "/library/books/opening-up" },
+  { title: "多边关系中的安全感", cover: "images/polysecure-preview.webp", link: "/library/books/polysecure" },
+  { title: "道德浪女（台版）", cover: "images/ethical-slut-tw-preview.jpg", link: "/library/books/ethical-slut-tw" },
+  { title: "另一种重要他人", cover: "images/the-other-preview.jpg", link: "/library/books/the-other" },
+
 ];
 ---
 
@@ -40,7 +42,7 @@ const books = [
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    min-width: 120px; /* 限制最小宽度，保证不挤压 */
+    min-width: 150px; /* 限制最小宽度，保证不挤压 */
     transition: transform 0.2s;
   }
   .book-item:hover { transform: translateY(-5px); }
