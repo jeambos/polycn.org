@@ -5,58 +5,44 @@ import { getCollection } from 'astro:content';
 const allDocs = await getCollection('docs');
 
 const recentDocs = allDocs
-  // 1. 排除首页
   .filter((doc) => !doc.id.startsWith('index'))
-  // 2. 核心修复：更强壮的排序逻辑
+  // ✅ 1. 严格保留逻辑：必须有 date 字段才显示
+  .filter((doc) => (doc.data as any).date)
+  // 2. 排序
   .sort((a, b) => {
-    // 强制转换为 Any 以绕过 TS 检查 (如果你的类型定义还没生效)
     const aData = a.data as any;
     const bData = b.data as any;
-
-    // 安全获取日期：如果有日期就转时间戳，没有日期就归零 (1970年)
-    const dateA = aData.date ? new Date(aData.date).valueOf() : 0;
-    const dateB = bData.date ? new Date(bData.date).valueOf() : 0;
-
-    // 降序排列 (数值大的/新的在前)
+    const dateA = new Date(aData.date).valueOf();
+    const dateB = new Date(bData.date).valueOf();
     return dateB - dateA;
   })
-  // 3. (可选) 再次过滤：只显示真正有日期的文章
-  // 如果你想显示所有文章(包括没日期的)，就把下面这行注释掉
-  .filter((doc) => (doc.data as any).date) 
-  .slice(0, 3); // 只取前3条
-
-// 👇👇👇 加入这一段调试代码 👇👇👇
-console.log("---------------- UPDATES RENEW START ----------------");
-console.log("找到的所有文档数量:", allDocs.length);
-//console.log("所有文档 ID:", allDocs.map(d => d.id));
-//console.log("Helloworld 的数据:", allDocs.find(d => d.id.includes('helloworld'))?.data);
-console.log("最终筛选出的文档:", recentDocs.length);
-console.log("---------------- UPDATES RENEW END ------------------");
-
+  .slice(0, 5); // 取前5篇
 ---
 
-<div class="updates-section">
-  <h3>✨ 最近更新 (Latest)</h3>
+<div class="updates-card-container">
+  <div class="updates-header">
+    <h3>✨ 最近更新</h3>
+    <a href="/timeline" class="view-all-link">查看历史 &rarr;</a>
+  </div>
+  
   <div class="updates-list">
     {recentDocs.length === 0 ? (
-      <p style="color:var(--sl-color-gray-3); padding:1rem;">暂无更新...</p>
+      <div class="empty-state">暂无更新</div>
     ) : (
       recentDocs.map((doc) => {
-        // 处理日期显示
-        const docDate = (doc.data as any).date;
-        const dateStr = docDate ? new Date(docDate).toLocaleDateString('zh-CN') : '';
+        const data = doc.data as any;
+        // 日期格式化：只显示 MM-DD，更短更省空间
+        const dateStr = new Date(data.date).toLocaleDateString('zh-CN', { 
+          month: '2-digit', 
+          day: '2-digit' 
+        });
         
-        // 处理链接 (去掉 .md / .mdx 后缀)
         const href = `/${doc.id.replace(/\.(md|mdx)$/, '')}/`;
 
         return (
-          <a href={href} class="update-card">
-            <span class="update-icon">🆕</span>
-            <div class="update-info">
-              <span class="update-title">{doc.data.title}</span>
-              <span class="update-desc">{dateStr}</span>
-            </div>
-            <span class="update-arrow">→</span>
+          <a href={href} class="compact-update-item">
+            <span class="update-title">{data.title}</span>
+            <span class="update-date">{dateStr}</span>
           </a>
         );
       })
@@ -65,22 +51,115 @@ console.log("---------------- UPDATES RENEW END ------------------");
 </div>
 
 <style>
-  .updates-section { margin-top: 4rem; }
-  .updates-list { display: flex; flex-direction: column; gap: 1rem; }
-  .update-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+  /* 容器：圆角卡片 */
+  .updates-card-container {
     background: var(--sl-color-gray-6);
     border: 1px solid var(--sl-color-gray-5);
-    border-radius: 8px;
-    text-decoration: none;
-    color: var(--sl-color-text);
-    transition: background 0.2s;
+    border-radius: 16px;
+    padding: 1.2rem; /* 稍微减小容器内边距 */
+    margin-top: 4rem;
   }
-  .update-card:hover { background: var(--sl-color-gray-5); }
-  .update-info { display: flex; flex-direction: column; flex: 1; }
-  .update-title { font-weight: bold; color: var(--sl-color-accent); }
-  .update-desc { font-size: 1rem; color: var(--sl-color-gray-3); }
+
+  /* 头部：标题 + 链接 */
+  .updates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 垂直居中对齐 */
+    margin-bottom: 0.8rem; /* 减小标题下方的留白 */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+  }
+
+  .updates-header h3 {
+    font-size: 1.2rem; /* 标题稍微改小一点点 */
+    margin: 0;
+    color: var(--sl-color-white);
+  }
+
+  .view-all-link {
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+  }
+  .view-all-link:hover { color: var(--sl-color-accent); }
+
+  /* 列表容器 */
+  .updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* ✅ 极度紧凑：项目之间的间距几乎为0 */
+  }
+
+  /* 单行文章项 */
+  .compact-update-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* ✅ 核心修改：极小的内边距，实现高密度 */
+    padding: 0.35rem 0.5rem; 
+    
+    text-decoration: none;
+    color: var(--sl-color-gray-2);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .compact-update-item:hover {
+    background: var(--sl-color-black);
+    color: var(--sl-color-accent);
+    padding-left: 0.8rem; /* 悬停时稍微移动一点点 */
+  }
+
+  /* 标题文字 */
+  .update-title {
+    font-size: 0.95rem; /* 字号适中 */
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 超长省略 */
+    max-width: 75%; 
+    line-height: 1.2; /* 紧凑的行高 */
+  }
+
+  /* 日期文字 */
+  .update-date {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-4);
+    font-family: monospace;
+    opacity: 0.8;
+  }
+  
+  .empty-state {
+    text-align: center;
+    color: var(--sl-color-gray-4);
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+
+
+/* ========================================= */
+/* ✨ 特别高亮：列表中的第一篇文章 (最新)      */
+/* ========================================= */
+
+/* 1. 让第一篇文章的标题变橙、变粗 */
+.updates-list a:first-child .update-title {
+  color: var(--sl-color-accent); /* 橙色高亮 */
+  font-weight: bold;             /* 加粗 */
+  font-size: 1.05rem;            /* 字号微调大一丢丢 */
+}
+
+/* 2. (可选) 让第一篇文章的日期也带一点橙色调，保持协调 */
+.updates-list a:first-child .update-date {
+  color: var(--sl-color-accent);
+  opacity: 0.8; /* 稍微淡一点，不要抢标题风头 */
+}
+
+/* 3. (可选) 给第一篇文章加一个极其微弱的背景色，增加尊贵感 
+.updates-list a:first-child {
+  background: rgba(230, 149, 37, 0.05); 
+}*/
+
+
 </style>
