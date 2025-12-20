@@ -474,7 +474,7 @@
 /* --- 左侧文本区 (保持不变) --- */
 .join-text-area { flex: 3; }
 .join-text-area h2 { font-size: 1.5rem !important; margin-bottom: 1rem !important; color: var(--sl-color-white); }
-.join-content-slim { color: var(--sl-color-gray-3); font-size: 1rem; line-height: 1.6; }
+.join-content-slim { color: var(--sl-color-gray-3); font-size: 1.125rem; line-height: 1.6; }
 .join-content-slim strong { color: var(--sl-color-white); font-weight: 600; }
 .join-content-slim .highlight { color: var(--sl-color-accent); font-size: 0.9rem; }
 
@@ -806,6 +806,47 @@
     width: 100% !important; /* 按钮撑满宽度 */
     justify-content: center !important;
   }
+}
+
+/* src/styles/custom.css 末尾追加 */
+
+/* ====================================================== */
+/* 15. 页面底部留白终极消除 (The End)                     */
+/* ====================================================== */
+
+/* 1. 收紧你的自定义页脚 */
+.home-footer {
+  /* 去掉底部过大的留白 */
+  padding-bottom: 0rem !important; 
+  /* 确保没有下边距 */
+  margin-bottom: 0 !important;
+}
+
+/* 2. 隐藏 Starlight 系统默认页脚 */
+/* Starlight 在每个页面底部都会自动加一个 footer (包含 'Edit this page' 等) */
+/* 在首页我们已经有了自定义页脚，所以这个是多余的 */
+
+footer.sl-flex {
+  display: none !important;
+}
+
+/* 防御性代码：如果有其他包裹容器产生的间距，也一并消除 */
+.main-frame {
+  padding-bottom: 0 !important;
+}
+
+
+/* ====================================================== */
+/* 16. 消除 Content Panel 底部残留空白 (The Final Cut)    */
+/* ====================================================== */
+
+
+/* 仅在首页生效的写法 (根据 Starlight 版本可能略有不同) */
+body[data-slug=""] .content-panel,
+body[data-slug=""] .sl-container,
+body:not([data-slug]) .content-panel,
+body:not([data-slug]) .sl-container {
+  padding-bottom: 0 !important;
 }
 
 
