@@ -317,16 +317,19 @@
 }
 
 /* ====================================================== */
-/* 8. Bento Grid 布局 (左1右3 - 左右布局版)               */
+/* 8. Bento Grid 布局 (响应式修复版)                       */
 /* ====================================================== */
 
 .bento-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr; /* 左侧稍微宽一点 */
+  grid-template-columns: 1.2fr 1fr; /* 桌面端：左1右3 */
   gap: 1rem;
   margin: 2rem 0;
-  /* 设定固定高度，这是对齐的关键 */
-  height: 380px; 
+  
+  /* ✅ 修复遮挡问题：不要写死 height，改用 min-height */
+  /* 这样当内容变多时，盒子会自动长高，不会遮挡下方内容 */
+  height: auto; 
+  min-height: 380px; 
 }
 
 /* 右侧列容器 */
@@ -342,7 +345,6 @@
   background: var(--sl-color-gray-6);
   border: 1px solid var(--sl-color-gray-5);
   border-radius: 16px;
-  /* 注意：这里不要设置 padding，因为大卡片左侧图片需要贴边 */
   text-decoration: none !important;
   color: var(--sl-color-text);
   position: relative;
@@ -357,104 +359,103 @@
   z-index: 1;
 }
 
-/* --- 左侧大卡片特有样式 (左右分栏 - 修正版) --- */
+/* --- 左侧大卡片特有样式 --- */
 .large-card {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  /* 背景跟随主题自动变化，不再写死深色渐变 */
-  background: var(--sl-color-gray-6); 
-  /* 如果想要一点点微弱的渐变质感，可以用这个代替上一行： */
-  /* background: linear-gradient(90deg, var(--sl-color-gray-6) 0%, var(--sl-color-gray-5) 100%); */
+  flex-direction: row; /* 桌面端：左右排列 */
+  align-items: stretch; /* 确保左右高度一致 */
+  background: var(--sl-color-gray-6);
 }
 
 /* 左半部分：图片容器 */
 .large-card-poster {
   width: 45%; 
-  height: 100%;
+  /* 移除固定高度，让它跟随卡片高度 */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem; /* 稍微加大一点内边距，让书不要贴得太紧 */
-  
-  /* ✅ 修复 1 & 2：移除背景色，设为透明 */
-  background: transparent; 
+  padding: 1.5rem;
+  background: transparent;
 }
 
 /* 封面图片 */
 .book-cover-img {
   width: 100%;
   height: 100%;
-  
-  /* 保持完整显示，不裁切 */
   object-fit: contain; 
-  
-  /* 给图片本身加一点投影，增加立体感 */
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); 
-  
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* 鼠标悬停时书本稍微放大并摆动 */
 .large-card:hover .book-cover-img {
-  transform: scale(1.05) rotate(-3deg);
+  transform: scale(1.05) rotate(-2deg);
 }
 
 /* 右半部分：文字容器 */
 .large-card-content {
   flex: 1; 
-  padding: 0rem 1.5rem 1.5rem 0.5rem; /* 上方 padding 设为 0，避免离顶部太远。左侧padding设为0.5rem因为图片已经有padding */
+  padding: 1.5rem 1.5rem 1.5rem 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  justify-content: center; /* 内容垂直居中 */
+  justify-content: center;
 }
 
-/* ✅ 修复 3：统一正文字号 */
 .large-card-content .card-body p {
-  font-size: 1.1rem; /* 统一设为较大字号 */
+  font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 0.8rem;
-  color: var(--sl-color-gray-2); /* 默认文字颜色 */
+  color: var(--sl-color-gray-2);
 }
 
-/* ✅ 修复大卡片图标布局：强制并排 */
-.large-card .card-header {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.6rem !important;
-  margin-bottom: 0.8rem !important; /* 大卡片间距稍微大一点 */
-}
-
-/* ✅ 修复大卡片图标颜色与尺寸 */
-.large-card .card-icon {
-  width: 32px; /* 大卡片配大图标，显得更有气势 */
-  height: 32px;
-  color: var(--sl-color-accent) !important; /* 强制橙色 */
-  fill: currentColor;
-  flex-shrink: 0;
-}
-
-/* 微调大卡片标题，确保垂直居中 */
-.large-card .card-header h3 {
-  margin: 0 !important;
-  line-height: 1.2 !important;
-  /* font-size 已经在之前定义过了 (1.6rem)，这里不需要重复 */
-}
-
-
-/* 第二行文字的特殊样式（只改颜色，不改字号） */
 .highlight-text {
-  color: var(--sl-color-text) !important; /* 这一行更亮/更白，表示强调 */
-  font-weight: 500; /* 稍微加粗一点点 */
-  margin-top: 0 !important; /* 去掉多余间距 */
+  color: var(--sl-color-text) !important;
+  font-weight: 500;
+  margin-top: 0 !important;
 }
 
-/* 标题样式微调 */
 .large-card .card-header h3 {
-  font-size: 1.6rem !important; /* 大卡片标题再大一点 */
+  font-size: 1.6rem !important;
   margin-bottom: 0.5rem !important;
 }
+
+/* --- ✅ 移动端/窄屏适配 (关键修复) --- */
+@media (max-width: 768px) {
+  .bento-grid {
+    /* 强制变为单列布局 */
+    grid-template-columns: 1fr !important; 
+    height: auto !important; /* 高度完全自适应 */
+    min-height: auto !important;
+  }
+
+  /* 修复大卡片在手机上的布局 */
+  .large-card {
+    flex-direction: column !important; /* 改为上下排列 */
+    height: auto !important;
+  }
+
+  .large-card-poster {
+    width: 100% !important; /* 图片占满宽度 */
+    height: 250px !important; /* 给个固定高度展示图片 */
+    padding: 1.5rem 1.5rem 0 1.5rem !important; /* 调整内边距 */
+  }
+
+  .large-card-content {
+    width: 100% !important;
+    padding: 1.5rem !important; /* 恢复四周内边距 */
+  }
+
+  /* 修复右侧列的高度 */
+  .bento-col-right {
+    height: auto !important;
+  }
+  
+  .small-card {
+    min-height: 140px; /* 保证小卡片有最小高度 */
+    margin-bottom: 0;
+  }
+}
+
+/* ... (后续的小卡片样式保持不变) ... */
 
 /* ====================================================== */
 /* 9. 右侧小卡片特有样式 (样式隔离与统一版)               */
@@ -572,4 +573,66 @@
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
+}
+
+/* ====================================================== */
+/* 12. 强制修复 Bento Grid 标题图标 (SVG)                 */
+/* ====================================================== */
+
+/* 1. 全局卡片图标约束 (防止被默认样式撑大) */
+.bento-card .card-icon {
+  width: 24px !important;  /* 默认大小 */
+  height: 24px !important;
+  min-width: 24px !important; /* 防止被挤压 */
+  
+  color: var(--sl-color-accent) !important; /* 强制橙色 */
+  fill: currentColor !important; /* 确保填充色跟随文字颜色(也就是橙色) */
+  
+  margin-right: 0.5rem !important; /* 图标和文字的间距 */
+  display: inline-block !important;
+}
+
+/* 2. 修复卡片标题头部的布局 (确保横向排列) */
+.bento-card .card-header {
+  display: flex !important;
+  align-items: center !important;
+  flex-direction: row !important; /* 强制横向 */
+}
+
+/* 3. 左侧大卡片：图标稍微大一点 */
+.large-card .card-icon {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+}
+
+/* 4. 右侧小卡片：图标稍微小一点 */
+.small-card .card-icon {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+}
+
+/* ====================================================== */
+/* 13. 标题文字垂直对齐精修                               */
+/* ====================================================== */
+
+.bento-card .card-header h3 {
+  /* 1. 暴力清除所有外边距和内边距 */
+  margin: 0 !important;
+  padding: 0 !important;
+  
+  /* 2. 重置行高 */
+  /* 默认行高可能太大，导致文字在自己的格子里偏下 */
+  line-height: 1.2 !important; 
+  
+  /* 3. 视觉微调 */
+  /* 有时候字体本身的基线偏高或偏低，可以用 translate 微调 */
+  /* 如果觉得文字还是偏下，试着把下面的 0px 改成 -1px 或 -2px */
+  transform: translateY(0px); 
+}
+
+/* 再次确认父容器是垂直居中的 */
+.bento-card .card-header {
+  align-items: center !important;
 }
