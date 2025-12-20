@@ -454,22 +454,123 @@
   color: var(--sl-color-gray-3);
 }
 
+/* ====================================================== */
+/* 9. 首页：加入我们 (彩色图标版)                         */
+/* ====================================================== */
 
-/* ==========================================================================
-   9. 首页：加入我们与页脚 (Join Us & Footer)
-   ========================================================================== */
-
-.join-us-banner {
-  text-align: center;
-  padding: 3rem 1rem;
+/* --- 主容器 (保持不变) --- */
+.join-section.compact-banner {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  padding: 2rem;
   margin-top: 3rem;
   background: var(--sl-color-gray-6);
-  border-radius: 12px;
-}
-.join-actions {
-  display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;
+  border-radius: 16px;
+  border: 1px dashed var(--sl-color-gray-5);
+  text-align: left;
 }
 
+/* --- 左侧文本区 (保持不变) --- */
+.join-text-area { flex: 3; }
+.join-text-area h2 { font-size: 1.5rem !important; margin-bottom: 1rem !important; color: var(--sl-color-white); }
+.join-content-slim { color: var(--sl-color-gray-3); font-size: 1rem; line-height: 1.6; }
+.join-content-slim strong { color: var(--sl-color-white); font-weight: 600; }
+.join-content-slim .highlight { color: var(--sl-color-accent); font-size: 0.9rem; }
+
+/* --- 右侧按钮区 (保持不变) --- */
+.join-actions-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* 桌面端竖排 */
+  gap: 1rem;
+  align-items: center; /* 确保图标在区域内居中 */
+}
+
+/* --- 大图标按钮容器样式 (净化版) --- */
+.big-icon-btn {
+  display: block; /* 让链接包裹住图片 */
+  padding: 0;     /* 移除内边距，紧贴图片 */
+  
+  /* ✅ 核心修改：移除背景和边框 */
+  background: transparent;
+  border: none;
+  border-radius: 0; /* 不需要容器圆角了，图标自带 */
+  
+  text-decoration: none !important;
+  /* 保留过渡动画 */
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 图片本身样式 --- */
+.icon-img {
+  /* ✅ 核心修改：设定尺寸为 48x48 */
+  width: 64px;
+  height: 64px;
+  display: block; /* 防止底部出现多余空隙 */
+  /* 如果你找的图标不是圆角的，想让代码帮你裁切成圆角，
+     可以取消下面这行的注释：
+     border-radius: 12px; 
+  */
+  transition: filter 0.2s ease; /* 让投影过渡更平滑 */
+}
+
+/* --- 悬停效果 (只保留上浮和投影) --- */
+.big-icon-btn:hover {
+  /* 保留上浮 */
+  transform: translateY(-4px);
+  /* ❌ 已取消变色和边框变化 */
+}
+
+/* ✅ 使用 drop-shadow 给图片加品牌色投影 */
+/* 效果比 box-shadow 更好，它会贴合图标的透明轮廓 */
+.big-icon-btn.tg:hover .icon-img {
+  filter: drop-shadow(0 4px 8px rgba(41, 160, 218, 0.5));
+}
+.big-icon-btn.twitter:hover .icon-img {
+  /* Twitter X 标志通常是黑/白，用白色光晕比较合适 */
+  filter: drop-shadow(0 4px 8px rgba(70, 70, 70, 0.4));
+}
+.big-icon-btn.mail:hover .icon-img {
+  /* 邮件用品牌橙色光晕 */
+  filter: drop-shadow(0 4px 8px rgba(230, 149, 37, 0.5));
+}
+
+
+/* ====================================================== */
+/* 📱 移动端适配 (更新版)                                */
+/* ====================================================== */
+@media (max-width: 768px) {
+  .join-section.compact-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .join-text-area, .join-actions-area { width: 100%; }
+  
+  .join-actions-area {
+    flex-direction: row; /* 手机端横排 */
+    justify-content: center;
+    gap: 2.5rem;
+    
+    /* ✅ 核心修复：强制移除顶部的 18px margin */
+    margin-top: 0 !important; 
+    
+    /* 如果觉得还是太宽，可以把上面的 gap: 1.5rem 也改小一点，比如 gap: 1rem */
+  }
+  
+  /* 确保左侧文本区的最后一段也没有多余的下边距干扰 */
+  .join-text-area p:last-child {
+    margin-bottom: 0 !important;
+  }
+}
+
+
+/* ==========================================================================
+   10. 页脚
+   ========================================================================== */
 .home-footer {
   text-align: center;
   font-size: 0.8rem;

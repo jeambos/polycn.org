@@ -141,27 +141,54 @@ import DailyQuote from '../../components/DailyQuote.astro';
 {/* === 5. Latest Updates (最近更新) === */}
 <RecentUpdates />
 
-{/* === 6. Join Us (加入我们) === */}
-<div class="join-us-banner">
-  <h3>🤝 加入 PolyCN 志愿者计划</h3>
-  <p>我们需要翻译、编辑和开发者，共同维护这个档案库。</p>
-  <div class="join-actions">
-    <LinkButton href="https://t.me/polycn" icon="telegram" variant="secondary">TG 频道</LinkButton>
-    <LinkButton href="https://twitter.com/your_twitter" icon="twitter" variant="secondary">关注推特</LinkButton>
+{/* === 5. 加入我们 (左右紧凑布局版) === */}
+<div class="join-section compact-banner">
+  
+  {/* 左侧 (手机上方)：文本公告区 */}
+  <div class="join-text-area">
+    <h2>加入我们</h2>
+    <div class="join-content-slim">
+      <p>PolyCN&nbsp是致力于多元关系知识普及的非营利项目，目前不需要经济捐助。</p>
+      <p style="margin-top: 0.5rem;">网站运营只有 <a href="https://www.jeambo.com" target="_blank">Jeambo</a> 一人 <span class="highlight">（等你来了就改写这句话！）</span>。</p>
+      <p style="margin-top: 0.5rem;">我们需要志愿者协助搜集与整理资料，有意请联系。</p>
+    </div>
   </div>
+
+{/* 右侧 (手机下方)：纯图标按钮区 (图片版) */}
+<div class="join-actions-area">
+  
+  {/* Telegram 按钮 */}
+  <a href="https://t.me/polycn" target="_blank" class="big-icon-btn tg" aria-label="加入 Telegram">
+    {/* 请确保图片路径正确 */}
+    <img src="/images/icon-tg.svg" alt="Telegram" class="icon-img" />
+  </a>
+
+  {/* Twitter (X) 按钮 */}
+  <a href="https://x.com/polycn_org" target="_blank" class="big-icon-btn twitter" aria-label="关注 Twitter">
+    <img src="/images/icon-x.svg" alt="Twitter" class="icon-img" />
+  </a>
+
+  {/* Mail 按钮 */}
+  <a href="mailto:hi@polycn.org" class="big-icon-btn mail" aria-label="发送邮件">
+    <img src="/images/icon-mail.svg" alt="Mail" class="icon-img" />
+  </a>
+
+</div>
 </div>
 
-{/* === 7. Footer (页脚金句) === */}
-<DailyQuote 
-  quote="爱不是有限的资源，像是一个馅饼，切得越多块越小。爱是无限生成的。" 
-  author="珍妮特·哈迪 《道德浪女》" 
-/>
+{/* === 6. 视觉 Footer (纯文字 Quote) === */}
+<blockquote class="footer-quote">
+  爱是无限的，就像知识一样。当我们分享它时，它不会变少，只会变多。
+  <footer>— 《道德浪女》</footer>
+</blockquote>
+
 
 <div class="home-footer">
   <hr class="home-hr"/>
   <p>© 2025 PolyCN Archives. CC-BY-NC-SA 4.0</p>
   <p>
+    <a href="/about">关于我们</a> |
     <a href="/about/legal">免责声明</a> | 
-    <a href="/about/guidelines">投稿指南</a>
+    <a href="/about/guidelines">投稿指南</a> |
   </p>
 </div>
