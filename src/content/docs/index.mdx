@@ -27,43 +27,75 @@ import DailyQuote from '../../components/DailyQuote.astro';
 <div class="hero-spacer"></div>
 
 {/* === 2. Feature Grid (痛点引导) === */}
-<CardGrid stagger>
+{/* src/content/docs/index.mdx */}
+
+{/* ... 之前的 Hero 代码 ... */}
+
+<div class="hero-spacer"></div>
+
+{/* === 2. Bento Grid (新版核心导航) === */}
+<div class="bento-grid">
   
-  {/* 卡片1：镇馆之宝 */}
-  <Card title="💖 道德浪女" icon="star">
-    非单偶制圣经，本站独家精校译本。
-    <br/>
-    <a href="/library/books/ethical-slut" class="link-accent">立即阅读 &rarr;</a>
-  </Card>
-
-  {/* 卡片2：馆藏一瞥 (话题云) */}
-  <Card title="📑 馆藏一瞥" icon="list-format">
-    从你感兴趣的话题开始：
-    <div class="topic-cloud">
-      <a href="/library/guides/mechanics">#开放关系</a>
-      <a href="/library/guides/emotions">#嫉妒</a>
-      <a href="/library/guides/society">#出柜</a>
-      <a href="/library/guides/sex-health">#性健康</a>
-      <a href="/library/articles/theory">#关系安那其</a>
-      <a href="/library/guides/mechanics">#协议模板</a>
+  {/* 左列：大卡片 (道德浪女) */}
+  <a href="/library/books/ethical-slut" class="bento-card large-card">
+    <div class="card-header">
+      {/* SVG Icon 占位符 1 */}
+      <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      <h3>道德浪女</h3>
     </div>
-  </Card>
+    <div class="card-body">
+      <p>非单偶制圣经，本站独家精校译本。从这里开始你的探索之旅。</p>
+      {/* 封面图占位，请把你的书籍封面放在 src/assets/ 下并替换这里 */}
+      <div class="book-cover-placeholder">
+        <span>Book Cover</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="link-text">立即阅读 &rarr;</span>
+    </div>
+  </a>
 
-  {/* 卡片3：百科入口 */}
-  <Card title="🧠 百科 Wiki" icon="magnifier">
-    搞不懂什么是 NRE？Metamour？
-    <br/>
-    <a href="/wiki">查阅术语表</a> | <a href="/wiki/random">🎲 随机词条</a>
-  </Card>
+  {/* 右列：垂直排列的三个小卡片 */}
+  <div class="bento-col-right">
+    
+    {/* 右1：馆藏一瞥 */}
+    <div class="bento-card small-card">
+      <div class="card-header">
+         {/* SVG Icon 占位符 2 */}
+        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16"/></svg>
+        <h3>馆藏一瞥</h3>
+      </div>
+      <div class="topic-cloud compact">
+        <a href="/library/guides/mechanics">#开放关系</a>
+        <a href="/library/guides/emotions">#嫉妒</a>
+        <a href="/library/guides/society">#出柜</a>
+        <a href="/library/guides/sex-health">#性健康</a>
+        <a href="/library/articles/theory">#RA</a>
+      </div>
+    </div>
 
-  {/* 卡片4：社群 */}
-  <Card title="✈️ 加入社区" icon="telegram">
-    找到你的同类。
-    <br/>
-    <a href="https://t.me/polycn" target="_blank">加入 TG 频道 (@polycn) &rarr;</a>
-  </Card>
+    {/* 右2：百科 Wiki */}
+    <a href="/wiki" class="bento-card small-card link-card">
+      <div class="card-header">
+         {/* SVG Icon 占位符 3 */}
+        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
+        <h3>百科 Wiki</h3>
+      </div>
+      <p class="compact-text">搞不懂 NRE / Metamour？查阅术语表或 <span style="color:var(--sl-color-accent)">🎲 随机词条</span></p>
+    </a>
 
-</CardGrid>
+    {/* 右3：加入社区 */}
+    <a href="https://t.me/polycn" target="_blank" class="bento-card small-card link-card">
+      <div class="card-header">
+         {/* SVG Icon 占位符 4 */}
+        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4v16h16V4z"/></svg>
+        <h3>加入社区</h3>
+      </div>
+      <p class="compact-text">找到你的同类。点击加入 TG 频道 (@polycn)</p>
+    </a>
+
+  </div>
+</div>
 
 {/* === 3. Book Shelf (书籍橱窗) === */}
 <BookShelf />
