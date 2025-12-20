@@ -31,20 +31,53 @@ const books = [
 </div>
 
 <script>
-  // 交互逻辑：当组件进入视口时，触发“回弹”动画
   const scrollArea = document.getElementById('bookScrollArea');
   
   if (scrollArea) {
+    // --- 功能 1: 智能滚轮支持 (到底自动释放) ---
+    scrollArea.addEventListener('wheel', (evt) => {
+      // 只有当内容溢出时才处理
+      if (scrollArea.scrollWidth <= scrollArea.clientWidth) return;
+
+      const isScrollingDown = evt.deltaY > 0;
+      const isScrollingUp = evt.deltaY < 0;
+      
+      const maxScrollLeft = scrollArea.scrollWidth - scrollArea.clientWidth;
+      const currentScrollLeft = scrollArea.scrollLeft;
+      
+      // 容差值 (处理高分屏下的像素小数问题)
+      const tolerance = 2; 
+
+      // 判断边界情况
+      const atRightEdge = currentScrollLeft >= maxScrollLeft - tolerance;
+      const atLeftEdge = currentScrollLeft <= tolerance;
+
+      // 核心逻辑：智能放行
+      if (isScrollingDown && atRightEdge) {
+        // 1. 如果是往右滑，且已经到了最右边 -> 不拦截，让页面向下滚
+        return; 
+      }
+      
+      if (isScrollingUp && atLeftEdge) {
+        // 2. 如果是往左滑，且已经到了最左边 -> 不拦截，让页面向上滚
+        return;
+      }
+
+      // 3. 其他情况 -> 拦截滚轮，转换为横向滑动
+      evt.preventDefault();
+      scrollArea.scrollLeft += evt.deltaY;
+    }, { passive: false }); // 关键：标记为非被动，允许我们阻止默认行为
+
+
+    // --- 功能 2: 进场回弹动画 ---
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // 添加动画类
           scrollArea.classList.add('hint-animation');
-          // 动画只播放一次，播放完就停止监听
           observer.disconnect();
         }
       });
-    }, { threshold: 0.3 }); // 当 30% 的区域进入屏幕时触发
+    }, { threshold: 0.3 });
 
     observer.observe(scrollArea);
   }
@@ -66,6 +99,7 @@ const books = [
   .shelf-header h3 {
     font-size: 1.5rem;
     margin: 0;
+    color: var(--sl-color-white);
   }
   
   .view-all {
@@ -80,35 +114,45 @@ const books = [
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
-    padding: 0.5rem 0.5rem 1.5rem 0.5rem; /* 底部留多点 padding 给投影 */
-    scroll-behavior: smooth;
+    padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+    scroll-behavior: smooth; /* 让滚轮滚动时更平滑 */
     
-    /* 1. 隐藏滚动条 (这是现代做法) */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    /* 关键设置：显示美化后的滚动条 */
+    scrollbar-width: thin; 
+    scrollbar-color: var(--sl-color-accent) var(--sl-color-gray-6);
   }
   
-  /* Chrome/Safari 隐藏滚动条 */
+  /* Chrome/Safari/Edge 滚动条样式定制 */
   .book-scroll::-webkit-scrollbar {
-    display: none;
+    height: 6px; /* 细条高度 */
+  }
+  
+  .book-scroll::-webkit-scrollbar-track {
+    background: var(--sl-color-gray-6); /* 轨道颜色 */
+    border-radius: 3px;
+  }
+  
+  .book-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--sl-color-accent); /* 滑块颜色 (橙色) */
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .book-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sl-color-text-accent); /* 悬停加深 */
   }
 
-  /* --- 2. 交互动画 --- */
-  /* 定义动画：向左滑动一点点，再弹回来 */
+  /* --- 进场动画 --- */
   @keyframes scrollHint {
     0% { transform: translateX(0); }
-    20% { transform: translateX(-40px); } /* 向左露出来 40px */
-    50% { transform: translateX(-40px); } /* 稍微停顿一下 */
-    100% { transform: translateX(0); }    /* 弹回去 */
+    20% { transform: translateX(-40px); }
+    50% { transform: translateX(-40px); }
+    100% { transform: translateX(0); }
   }
 
-  /* JS 会加上这个类，触发动画 */
   :global(.hint-animation) .book-item {
     animation: scrollHint 1.2s ease-in-out;
   }
-  
-  /* 我们可以利用 delay 让书本产生波浪效果，或者整体移动 */
-  /* 这里选择整体移动，不加 delay，避免太乱 */
 
   /* --- 单本书样式 --- */
   .book-item {
@@ -117,34 +161,30 @@ const books = [
     align-items: center;
     text-decoration: none;
     
-    /* 防止被压缩，保持固定宽度 */
     flex-shrink: 0;
-    width: 140px; 
+    width: 160px; /* 这里的宽度是你修改后的 */
     
     transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
-  /* 悬停上浮效果 */
   .book-item:hover {
     transform: translateY(-8px);
   }
 
-  /* --- 封面容器 (相框法则) --- */
+  /* --- 封面容器 --- */
   .cover-wrapper {
     width: 100%;
-    
-    /* 关键设置：固定纵横比 2:3 (常见书籍比例) */
     aspect-ratio: 2 / 3;
-    
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    border-radius: 6px; /* 圆角稍微大一点 */
+    
+    border-radius: 4px; /* 这里是你修改后的小圆角 */
+    
     overflow: hidden;
     margin-bottom: 0.8rem;
-    background: var(--sl-color-gray-5); /* 图片加载前的底色 */
+    background: var(--sl-color-gray-5);
     position: relative;
   }
   
-  /* 书脊效果：左侧加一条淡淡的白光，更有立体感 */
   .cover-wrapper::after {
     content: "";
     position: absolute;
@@ -159,19 +199,11 @@ const books = [
     display: block;
     width: 100%;
     height: 100%;
-    
-    /* 关键设置：填满相框，裁切多余部分 */
     object-fit: cover; 
-    /* 确保书名在上面时，优先展示图片上方 */
     object-position: top center; 
-    
-    transition: transform 0.3s;
+    /* 去掉了 scale 缩放动画 */
   }
   
-  .book-item:hover img {
-    transform: scale(1.05); /* 悬停时图片微缩放 */
-  }
-
   .book-title {
     font-size: 1rem;
     line-height: 1.4;
@@ -179,7 +211,6 @@ const books = [
     text-align: center;
     font-weight: 500;
     
-    /* 限制标题最多显示两行，超出省略 */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
