@@ -13,6 +13,7 @@
   --sl-color-text-accent: #e69525;
   
   /* 字体设置 (保留你的宋体/衬线体偏好) */
+  font-size: 18px; /* 推荐先试 18px，觉得太大就改 17px */
   --sl-font-system: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "Georgia", serif;
 }
 
@@ -121,7 +122,7 @@
 .topic-cloud a {
   font-size: 0.8rem;
   padding: 2px 8px;
-  background: var(--sl-color-gray-5);
+  background: var(--sl-color-gray-6);
   border-radius: 12px;
   text-decoration: none;
   color: var(--sl-color-text);
@@ -221,4 +222,85 @@
 .home-hr {
     border-color: var(--sl-color-gray-5); 
     margin: 3rem 0;
+}
+
+
+/* ====================================================== */
+/* 6. 首页 Hero 动画 (呼吸效果)                             */
+/* ====================================================== */
+
+/* 修正点：在 css 文件里直接写选择器，不要加 :global */
+.hero img {
+  /* 这里的 float 是动画名称，6s 是时长(慢一点更优雅)，infinite 是无限循环 */
+  animation: float 3s ease-in-out infinite;
+  
+  /* 增加一个滤镜过渡，防止夜间模式切换时太生硬 */
+  transition: filter 0.3s;
+}
+
+/* 定义浮动+挤压动画的关键帧 */
+@keyframes float {
+  0%, 100% {
+    /* 初始状态：原位，原大小 */
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    /* 中间状态：向上浮动 20px，同时横向变宽(1.05)纵向变扁(0.95)，模拟软软的质感 */
+    transform: translateY(-5px) scale(0.98, 1.02);
+  }
+}
+
+/* 只放大文章正文，不影响菜单和侧边栏 */
+.sl-markdown-content {
+  font-size: 1.25rem; /* 相当于 22.5px (1.25*18) */
+}
+
+/* 同时微调正文的行高，确保大字号下不拥挤 */
+.sl-markdown-content p {
+  line-height: 1.6; /* 稍微再松一点 */
+}
+
+/* src/styles/custom.css 末尾追加 */
+
+/* ====================================================== */
+/* 7. 首页模块字号强制修正 (统一全站体验)                   */
+/* ====================================================== */
+
+/* --- 1. 修正 Hero 下方的 Feature Grid 卡片 --- */
+/* Starlight 的卡片默认字号较小，我们强制放大 */
+.card .body {
+  font-size: 1.25rem; /* 约等于 20px (18px * 1.125)，与你设定的正文一致 */
+  line-height: 1.6;
+}
+
+/* 卡片标题也要相应放大，不然头重脚轻 */
+.card .title {
+  font-size: 1.5rem !important; 
+}
+
+/* --- 2. 修正 Wiki 橱窗 --- */
+.wiki-card p {
+  font-size: 1.25rem; 
+  line-height: 1.6;
+}
+
+/* Wiki 标题 */
+.wiki-card h3 {
+  font-size: 1.5rem;
+}
+
+/* --- 3. 修正最近更新列表 --- */
+/* 列表比较紧凑，建议稍微小一点点，或者保持一致 */
+.update-title {
+  font-size: 1.5rem;
+}
+
+.update-desc {
+  font-size: 1.25rem; /* 描述文字保持 18px，太大了列表会很长 */
+  line-height: 1.5;
+}
+
+/* --- 4. 修正话题云标签 --- */
+.topic-cloud a {
+  font-size: 1.125rem; /* 标签不需要太大 */
 }
