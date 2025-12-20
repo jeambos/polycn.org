@@ -303,131 +303,7 @@
 /* --- 4. 修正话题云标签 --- */
 .topic-cloud a {
   font-size: 1.125rem; /* 标签不需要太大 */
-}
-
-/* src/styles/custom.css 末尾追加 */
-
-/* ====================================================== */
-/* 8. Bento Grid 布局 (左1右3)                            */
-/* ====================================================== */
-
-.bento-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr; /* 左边稍微宽一点，视觉更平衡 */
-  gap: 1rem;
-  margin: 2rem 0;
-  /* 限制最大高度，防止左边无限拉长，约等于 3个小卡片的高度 */
-  height: 420px; 
-}
-
-/* 手机端适配：变成单列 */
-@media (max-width: 768px) {
-  .bento-grid {
-    grid-template-columns: 1fr;
-    height: auto; /* 手机端高度自适应 */
-  }
-  .large-card {
-    height: 300px !important; /* 手机端大卡片的高度 */
-  }
-}
-
-/* 右侧列容器：使用 Flex 垂直均分 */
-.bento-col-right {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  height: 100%;
-}
-
-/* --- 卡片通用样式 (圆角、边框、发光) --- */
-.bento-card {
-  background: var(--sl-color-gray-6); /* 深色背景 */
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 16px; /* 4. 圆角矩形 */
-  padding: 1.2rem;
-  text-decoration: none !important; /* 去掉链接下划线 */
-  color: var(--sl-color-text);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  
-  /* Flex 布局方便内容对齐 */
-  display: flex;
-  flex-direction: column;
-}
-
-/* 4. 鼠标悬停效果：发光 + 上浮 */
-.bento-card:hover {
-  border-color: var(--sl-color-accent); /* 边框变橙色 */
-  box-shadow: 0 0 20px rgba(230, 149, 37, 0.3); /* 橙色光晕 */
-  transform: translateY(-4px); /* 微微上浮 */
-  z-index: 1;
-}
-
-/* --- 标题区域与 SVG 图标 --- */
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-header h3 {
-  margin: 0 !important;
-  font-size: 1.2rem !important;
-  color: var(--sl-color-white);
-  font-weight: bold;
-}
-
-/* 5. SVG 图标样式 */
-.card-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--sl-color-accent); /* 图标也是橙色 */
-  flex-shrink: 0;
-}
-
-/* --- 左侧大卡片特有样式 --- */
-.large-card {
-  height: 100%;
-  justify-content: space-between; /* 让底部链接沉底 */
-  background: linear-gradient(180deg, var(--sl-color-gray-6) 0%, rgba(230, 149, 37, 0.05) 100%);
-}
-
-.book-cover-placeholder {
-  width: 100%;
-  height: 200px;
-  background: var(--sl-color-black);
-  border-radius: 8px;
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--sl-color-gray-4);
-  font-size: 0.9rem;
-  border: 1px dashed var(--sl-color-gray-4);
-}
-
-.card-footer {
-  margin-top: auto;
-  font-weight: bold;
-  color: var(--sl-color-accent);
-  text-align: right;
-}
-
-/* --- 右侧小卡片特有样式 --- */
-.small-card {
-  flex: 1; /* 关键：三个卡片平分垂直空间 */
-  justify-content: center; /* 内容垂直居中 */
-  padding: 1rem 1.2rem; /* 2. 紧凑一点 */
-}
-
-/* 紧凑版文字 */
-.compact-text {
-  font-size: 1.125rem !important;
-  margin: 0 !important;
-  line-height: 1.4 !important;
-  color: var(--sl-color-gray-3);
+  line-height: 1.4; /* 稍微松一点 */
 }
 
 /* 紧凑版话题云 */
@@ -437,5 +313,263 @@
 }
 .topic-cloud.compact a {
   font-size: 1.125rem;
-  padding: 1px 6px;
+  padding: 1px 1px;
+}
+
+/* ====================================================== */
+/* 8. Bento Grid 布局 (左1右3 - 左右布局版)               */
+/* ====================================================== */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* 左侧稍微宽一点 */
+  gap: 1rem;
+  margin: 2rem 0;
+  /* 设定固定高度，这是对齐的关键 */
+  height: 380px; 
+}
+
+/* 右侧列容器 */
+.bento-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+/* --- 卡片通用样式 --- */
+.bento-card {
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 16px;
+  /* 注意：这里不要设置 padding，因为大卡片左侧图片需要贴边 */
+  text-decoration: none !important;
+  color: var(--sl-color-text);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bento-card:hover {
+  border-color: var(--sl-color-accent);
+  box-shadow: 0 0 20px rgba(230, 149, 37, 0.3);
+  transform: translateY(-4px);
+  z-index: 1;
+}
+
+/* --- 左侧大卡片特有样式 (左右分栏 - 修正版) --- */
+.large-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* 背景跟随主题自动变化，不再写死深色渐变 */
+  background: var(--sl-color-gray-6); 
+  /* 如果想要一点点微弱的渐变质感，可以用这个代替上一行： */
+  /* background: linear-gradient(90deg, var(--sl-color-gray-6) 0%, var(--sl-color-gray-5) 100%); */
+}
+
+/* 左半部分：图片容器 */
+.large-card-poster {
+  width: 45%; 
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem; /* 稍微加大一点内边距，让书不要贴得太紧 */
+  
+  /* ✅ 修复 1 & 2：移除背景色，设为透明 */
+  background: transparent; 
+}
+
+/* 封面图片 */
+.book-cover-img {
+  width: 100%;
+  height: 100%;
+  
+  /* 保持完整显示，不裁切 */
+  object-fit: contain; 
+  
+  /* 给图片本身加一点投影，增加立体感 */
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); 
+  
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 鼠标悬停时书本稍微放大并摆动 */
+.large-card:hover .book-cover-img {
+  transform: scale(1.05) rotate(-3deg);
+}
+
+/* 右半部分：文字容器 */
+.large-card-content {
+  flex: 1; 
+  padding: 0rem 1.5rem 1.5rem 0.5rem; /* 上方 padding 设为 0，避免离顶部太远。左侧padding设为0.5rem因为图片已经有padding */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center; /* 内容垂直居中 */
+}
+
+/* ✅ 修复 3：统一正文字号 */
+.large-card-content .card-body p {
+  font-size: 1.1rem; /* 统一设为较大字号 */
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+  color: var(--sl-color-gray-2); /* 默认文字颜色 */
+}
+
+/* ✅ 修复大卡片图标布局：强制并排 */
+.large-card .card-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-bottom: 0.8rem !important; /* 大卡片间距稍微大一点 */
+}
+
+/* ✅ 修复大卡片图标颜色与尺寸 */
+.large-card .card-icon {
+  width: 32px; /* 大卡片配大图标，显得更有气势 */
+  height: 32px;
+  color: var(--sl-color-accent) !important; /* 强制橙色 */
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* 微调大卡片标题，确保垂直居中 */
+.large-card .card-header h3 {
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  /* font-size 已经在之前定义过了 (1.6rem)，这里不需要重复 */
+}
+
+
+/* 第二行文字的特殊样式（只改颜色，不改字号） */
+.highlight-text {
+  color: var(--sl-color-text) !important; /* 这一行更亮/更白，表示强调 */
+  font-weight: 500; /* 稍微加粗一点点 */
+  margin-top: 0 !important; /* 去掉多余间距 */
+}
+
+/* 标题样式微调 */
+.large-card .card-header h3 {
+  font-size: 1.6rem !important; /* 大卡片标题再大一点 */
+  margin-bottom: 0.5rem !important;
+}
+
+/* ====================================================== */
+/* 9. 右侧小卡片特有样式 (样式隔离与统一版)               */
+/* ====================================================== */
+
+.small-card {
+  flex: 1; /* 三个卡片平分高度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 内容垂直居中 */
+  padding: 0 1.5rem; /* 左右内边距 */
+}
+
+/* ✅ 修复 1：强制开启 Flex 布局，让图标和标题并排 */
+.small-card .card-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ✅ 修复 2：强制指定图标颜色 */
+.small-card .card-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  
+  /* 关键：找回丢失的颜色 */
+  color: var(--sl-color-accent) !important;
+  fill: currentColor; /* 确保 SVG 填充当前颜色 */
+  flex-shrink: 0; /* 防止图标被压扁 */
+}
+
+/* --- 层级 1：标题 (Title) --- */
+/* 使用 !important 或高优先级选择器，防止被全局 h3 样式干扰 */
+.small-card .card-header h3 {
+  font-size: 1.25rem !important; /* 约 22px，固定大小，不随全局变化 */
+  line-height: 1.4 !important;
+  margin: 0 !important; /* 去掉多余边距 */
+  font-weight: bold !important;
+  color: var(--sl-color-white);
+  letter-spacing: 0.5px;
+}
+
+/* 修正图标大小，让它配合这个标题字号 */
+.small-card .card-icon {
+  width: 20px; 
+  height: 20px;
+  margin-top: 2px; /* 视觉微调对齐 */
+}
+
+/* --- 层级 2：正文 (Body) --- */
+/* 统一控制 compact-text，确保只有这一种正文样式 */
+.small-card .compact-text {
+  font-size: 1.125rem !important; /* 约 18px，清晰易读 */
+  line-height: 1.6 !important; /* 舒适的行高 */
+  color: var(--sl-color-gray-3);
+  margin: 0 0 0 0 !important; /* 统一上边距 */
+  
+  /* 防止过长文字换行导致布局崩坏 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 最多显示2行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- 层级 2 (变体)：标签云 (Tag Cloud) --- */
+/* 让标签云的字号、行高与正文完全一致 */
+.topic-cloud.compact {
+  margin-top: 0.5rem !important; /* 间距与 compact-text 一致 */
+  gap: 0.5rem; /* 标签之间的间距 */
+}
+
+.topic-cloud.compact a {
+  /* 关键：字号设为 0.9rem */
+  /* 说明：标签有背景框，视觉上会比纯文字显大，所以比正文(1rem)稍微小一点点视觉才平衡 */
+  /* 如果你坚持要物理尺寸完全一致，改成 1rem 即可 */
+  font-size: 1rem !important; 
+  
+  line-height: 1.6 !important; /* 行高与正文一致 */
+  padding: 2px 10px; /* 稍微宽一点的内边距，像按钮 */
+  background: var(--sl-color-gray-5);
+  border: 1px solid transparent; /* 预留边框位置，防抖动 */
+}
+
+/* 标签悬停效果 */
+.topic-cloud.compact a:hover {
+  background: rgba(230, 149, 37, 0.15); /* 橙色背景淡化 */
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-accent);
+}
+
+
+
+/* ====================================================== */
+/* 11. Hero 区域间距调整                                  */
+/* ====================================================== */
+
+.hero {
+  /* padding-top: 顶部距离 (默认很大，建议改为 2rem - 4rem) */
+  padding-top: 2rem !important; 
+  
+  /* padding-bottom: 底部距离 (建议改为 1rem - 2rem) */
+  padding-bottom: 1rem !important; 
+
+  padding-left: 4rem !important; /* 左右内边距 */
+  padding-right: 4rem !important;
+}
+
+/* 如果你觉得手机端还是很空，可以单独针对手机再小一点 */
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
