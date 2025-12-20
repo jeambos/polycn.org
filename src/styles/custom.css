@@ -568,19 +568,245 @@
 }
 
 
-/* ==========================================================================
-   10. 页脚
-   ========================================================================== */
+/* src/styles/custom.css 末尾 */
+
+/* ====================================================== */
+/* 10. 视觉注脚 (Book Style - Final)                      */
+/* ====================================================== */
+
+.visual-footer-quote {
+  text-align: center;
+  padding: 4rem 1rem 2rem 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* --- 金句正文 (700字重宋体) --- */
+.quote-text {
+  /* 强制使用宋体 */
+  font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  
+  /* 700 字重 (Bold) */
+  font-weight: 700 !important;
+  
+  /* 消除斜体 */
+  font-style: normal !important;
+  
+  font-size: 1.35rem; /* 字号稍微加大，更有分量 */
+  color: var(--sl-color-text);
+  line-height: 1.8;
+  margin-top: 4rem !important;
+  
+  /* 可选：给文字加一点极其微弱的阴影，模拟印刷的墨晕感，防止在某些屏上发虚 */
+  text-shadow: 0 0 1px rgba(0,0,0,0.1); 
+}
+
+/* src/styles/custom.css */
+
+/* --- 作者名 (宋体、大字号、灰色斜体) --- */
+.quote-author {
+  /* 1. 字体：与引文完全一致 (宋体) */
+  font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;  
+  /* 1. 字号：与引文保持一致 */
+  font-size: 1.2rem;  
+  /* 2. 颜色：保持灰色 */
+  color: var(--sl-color-gray-4);  
+  /* 3. 样式：斜体 */
+  font-style: italic;
+    /* 细节：字重设为 500 (比引文的 700 稍轻，形成主次层次) */
+  font-weight: 500;  
+  margin-bottom: 2rem !important;
+  letter-spacing: 1px;
+  text-align: center !important;
+  text-indent: 0 !important; /* 强制取消首行缩进 */
+}
+
+/* ====================================================== */
+/* 11. 作者名彩蛋链接 (隐藏式链接)                        */
+/* ====================================================== */
+
+/* 1. 常规状态：完全伪装成普通文字 */
+.quote-author a {
+  color: inherit !important;          /* 强制继承父级的灰色 */
+  text-decoration: none !important;   /* 去掉默认的下划线 */
+  transition: all 0.3s ease;          /* 添加平滑过渡 */
+  border-bottom: 1px solid transparent; /* 预留边框位置，防止 hover 时跳动 */
+}
+
+/* 2. 悬停状态：暴露彩蛋 */
+.quote-author a:hover {
+  color: var(--sl-color-accent) !important; /* 变橙色 */
+  border-bottom-color: var(--sl-color-accent); /* 出现橙色下划线 (比 text-decoration 更精致) */
+  /* 如果你更喜欢传统的下划线，可以用下面这行代替上一行： */
+  /* text-decoration: underline !important; */
+}
+
+/* 如果你 CSS 里还有 .quote-divider-bottom 的代码，可以直接删掉或留空 */
+.quote-divider-bottom {
+  display: none;
+}
+
+/* --- D2: 上方装饰线 (花码风格) --- */
+.quote-divider-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  opacity: 0.6;
+  margin-bottom: 1rem;
+}
+
+.quote-divider-top .divider-line {
+  height: 1px;
+  width: 60px; /* 线条长度 */
+  background: var(--sl-color-gray-4);
+}
+
+.quote-divider-top .divider-ornament {
+  font-family: serif;
+  font-size: 1.2rem;
+  color: var(--sl-color-accent); /* 花码用橙色点缀 */
+  font-weight: bold;
+}
+
+/* --- D3: 下方装饰线 (书法渐变风格) --- */
+.quote-divider-bottom {
+  height: 2px;
+  width: 120px; /* 整体宽度 */
+  margin: 0 auto;
+  
+  /* 菱形渐变：中间粗/深，两头细/浅 */
+  background: radial-gradient(
+    ellipse at center, 
+    var(--sl-color-gray-4) 0%, 
+    transparent 80%
+  );
+  
+  opacity: 0.5;
+  border-radius: 50%; /* 让两头变圆尖 */
+}
+
+/* --- 底部版权页脚 (保持你现在的样式并微调) --- */
 .home-footer {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--sl-color-gray-3);
-  margin-top: 2rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;     /* 底部留白，防止贴底 */
 }
-.home-footer a { color: inherit; margin: 0 0.5rem; text-decoration: none; }
-.home-footer a:hover { color: var(--sl-color-accent); }
-.home-hr { border-color: var(--sl-color-gray-5); margin: 3rem 0; }
+
+.home-hr {
+  border: 0;
+  border-top: 1px dashed var(--sl-color-gray-5); /* 虚线分割更轻盈 */
+  margin: 1rem auto 2rem auto; /* 上下间距 */
+  max-width: 200px; /* 分割线不要太长，精致一点 */
+}
+
+.home-footer a {
+  color: var(--sl-color-gray-3);
+  margin: 0 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.home-footer a:hover {
+  color: var(--sl-color-accent); /* 悬停变橙色 */
+}
+
+/* src/styles/custom.css 末尾追加 */
+
+/* ====================================================== */
+/* 14. Hero 区域终极美化 (核弹级覆盖版)                    */
+/* ====================================================== */
+
+/* 1. 强制纠正按钮容器对齐方式 */
+/* 这里的 :where() 是为了提高权重，防止被默认样式覆盖 */
+.hero .actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 1.5rem !important; /* 按钮之间的间距 */
+  
+  /* ❌ 删除了之前的 justify-content: center */
+  /* ✅ 改为左对齐 (flex-start) */
+  justify-content: flex-start !important; 
+  
+  margin-top: 2rem !important;
+}
+
+/* 2. 所有按钮的基础样式 (尺寸、字体) */
+.hero .actions a {
+  /* 强制变成胶囊形状 */
+  border-radius: 999px !important; 
+  
+  /* 尺寸加大 */
+  padding: 1rem 2.2rem !important;
+  font-size: 1.15rem !important;
+
+  letter-spacing: 0.5px !important;
+  
+  /* 布局 */
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.8rem !important;
+  line-height: 1 !important;
+  
+  /* 去除默认下划线 */
+  text-decoration: none !important;
+  
+  /* 动画 */
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* 3. 主按钮 (Primary: 从这里开始) - 实心橙色 */
+/* 使用 [data-variant="primary"] 选择器确保精准命中 */
+.hero .actions a[data-variant="primary"],
+.hero .actions a.primary {
+  background-color: var(--sl-color-accent) !important;
+  color: #fff !important;
+  border: 2px solid var(--sl-color-accent) !important;
+  
+  /* 初始投影 */
+  box-shadow: 0 4px 15px rgba(230, 149, 37, 0.4) !important;
+}
+
+/* 主按钮悬停效果 */
+.hero .actions a[data-variant="primary"]:hover,
+.hero .actions a.primary:hover {
+  background-color: var(--sl-color-accent-high) !important;
+  border-color: var(--sl-color-accent-high) !important;
+  transform: translateY(-4px) !important; /* 上浮 */
+  box-shadow: 0 10px 25px rgba(230, 149, 37, 0.6) !important; /* 发光 */
+}
+
+/* 4. 次按钮 (Minimal: 浏览全馆) - 描边样式已删除 */
+
+
+/* 次按钮悬停效果 */
+.hero .actions a[data-variant="minimal"]:hover,
+.hero .actions a.minimal:hover {
+  color: var(--sl-color-accent) !important; /* 文字变橙 */
+  transform: translateY(-4px) !important;
+}
+
+/* 5. 修复按钮内图标大小 */
+.hero .actions a svg {
+  width: 1.2em !important;
+  height: 1.2em !important;
+}
+
+/* 6. 手机端适配：手机上还是居中比较好看，且按钮撑满 */
+@media (max-width: 768px) {
+  .hero .actions {
+    justify-content: center !important; /* 手机上恢复居中 */
+    flex-direction: column !important; /* 垂直排列 */
+    gap: 1rem !important;
+  }
+  
+  .hero .actions a {
+    width: 100% !important; /* 按钮撑满宽度 */
+    justify-content: center !important;
+  }
+}
 
 
 /* ==========================================================================

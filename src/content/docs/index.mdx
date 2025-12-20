@@ -8,7 +8,7 @@ hero:
     file: ../../assets/hero-logo.svg
     alt: PolyCN Logo
   actions:
-    - text: 一键入门
+    - text: 从这里开始
       link: /start/index
       icon: rocket
       variant: primary
@@ -176,19 +176,34 @@ import DailyQuote from '../../components/DailyQuote.astro';
 </div>
 </div>
 
-{/* === 6. 视觉 Footer (纯文字 Quote) === */}
-<blockquote class="footer-quote">
-  爱是无限的，就像知识一样。当我们分享它时，它不会变少，只会变多。
-  <footer>— 《道德浪女》</footer>
-</blockquote>
+{/* === 6. 视觉注脚 (Book-style Quote) === */}
+<div class="visual-footer-quote">
+  {/* 上方装饰线 (D2: Ornamental) */}
+  <div class="quote-divider-top">
+    <span class="divider-line"></span>
+    <span class="divider-ornament">§</span>
+    <span class="divider-line"></span>
+  </div>
 
+  {/* 金句正文 */}
+  <p class="quote-text">
+    爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。
+  </p>
+  
+  {/* 作者 */}
+  <p class="quote-author"><a href="https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it" target="_blank">珀西·比希·雪莱</a></p>
 
+  {/* 下方装饰线 (D3: Calligraphic) 
+  <div class="quote-divider-bottom"></div>*/}
+</div>
+
+{/* === 7. 真正的页脚 (版权与链接) === */}
 <div class="home-footer">
   <hr class="home-hr"/>
   <p>© 2025 PolyCN Archives. CC-BY-NC-SA 4.0</p>
   <p>
     <a href="/about">关于我们</a> |
     <a href="/about/legal">免责声明</a> | 
-    <a href="/about/guidelines">投稿指南</a> |
+    <a href="/about/guidelines">投稿指南</a>
   </p>
 </div>
