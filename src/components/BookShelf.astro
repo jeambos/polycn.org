@@ -1,62 +1,188 @@
 ---
 /* src/components/BookShelf.astro */
 const books = [
-  { title: "道德浪女", cover: "images/ethical-slut-preview.jpg", link: "/library/books/ethical-slut" },
-  { title: "超越单偶制的世界", cover: "images/beyond-monogamy-preview.jpg", link: "/library/books/beyond-monogamy" },
-  { title: "不止于二", cover: "images/more-than-two-preview.jpg", link: "/library/books/more-than-two" },
-  { title: "走向开放", cover: "images/opening-up-preview.jpg", link: "/library/books/opening-up" },
-  { title: "多边关系中的安全感", cover: "images/polysecure-preview.webp", link: "/library/books/polysecure" },
-  { title: "道德浪女（台版）", cover: "images/ethical-slut-tw-preview.jpg", link: "/library/books/ethical-slut-tw" },
-  { title: "另一种重要他人", cover: "images/the-other-preview.jpg", link: "/library/books/the-other" },
-
+  { title: "道德浪女", cover: "/images/ethical-slut.jpg", link: "/library/books/ethical-slut" },
+  { title: "超越单偶制的世界", cover: "/images/beyond-monogamy-preview.jpg", link: "/library/books/beyond-monogamy" },
+  { title: "不止于二", cover: "/images/more-than-two-preview.jpg", link: "/library/books/more-than-two" },
+  { title: "走向开放", cover: "/images/opening-up-preview.jpg", link: "/library/books/opening-up" },
+  { title: "多边关系中的安全感", cover: "/images/polysecure-preview.webp", link: "/library/books/polysecure" },
+  { title: "道德浪女（台版）", cover: "/images/ethical-slut-tw-preview.jpg", link: "/library/books/ethical-slut-tw" },
+  { title: "另一种重要他人", cover: "/images/the-other-preview.jpg", link: "/library/books/the-other" },
 ];
 ---
 
 <div class="book-shelf-container">
-  <h3>📚 藏书精选</h3>
-  <div class="book-scroll">
+  <div class="shelf-header">
+    <h3>📚 藏书精选</h3>
+    <a href="/library/books" class="view-all">查看全部 &rarr;</a>
+  </div>
+  
+  <div class="book-scroll" id="bookScrollArea">
     {books.map(book => (
       <a href={book.link} class="book-item">
         <div class="cover-wrapper">
-          <img src={book.cover} alt={book.title} />
+          <img src={book.cover} alt={book.title} loading="lazy" />
         </div>
         <span class="book-title">{book.title}</span>
       </a>
     ))}
+    <div class="spacer" style="min-width: 1px;"></div>
   </div>
 </div>
 
+<script>
+  // 交互逻辑：当组件进入视口时，触发“回弹”动画
+  const scrollArea = document.getElementById('bookScrollArea');
+  
+  if (scrollArea) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // 添加动画类
+          scrollArea.classList.add('hint-animation');
+          // 动画只播放一次，播放完就停止监听
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 }); // 当 30% 的区域进入屏幕时触发
+
+    observer.observe(scrollArea);
+  }
+</script>
+
 <style>
-  .book-shelf-container { margin: 3rem 0; }
+  .book-shelf-container {
+    margin: 3rem 0;
+  }
+  
+  .shelf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .shelf-header h3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .view-all {
+    font-size: 0.9rem;
+    color: var(--sl-color-accent);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  /* --- 核心滚动区域 --- */
   .book-scroll {
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
-    padding: 1rem 0.5rem;
+    padding: 0.5rem 0.5rem 1.5rem 0.5rem; /* 底部留多点 padding 给投影 */
     scroll-behavior: smooth;
-    /* 隐藏滚动条但保留功能 */
-    scrollbar-width: thin; 
+    
+    /* 1. 隐藏滚动条 (这是现代做法) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
   }
+  
+  /* Chrome/Safari 隐藏滚动条 */
+  .book-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* --- 2. 交互动画 --- */
+  /* 定义动画：向左滑动一点点，再弹回来 */
+  @keyframes scrollHint {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-40px); } /* 向左露出来 40px */
+    50% { transform: translateX(-40px); } /* 稍微停顿一下 */
+    100% { transform: translateX(0); }    /* 弹回去 */
+  }
+
+  /* JS 会加上这个类，触发动画 */
+  :global(.hint-animation) .book-item {
+    animation: scrollHint 1.2s ease-in-out;
+  }
+  
+  /* 我们可以利用 delay 让书本产生波浪效果，或者整体移动 */
+  /* 这里选择整体移动，不加 delay，避免太乱 */
+
+  /* --- 单本书样式 --- */
   .book-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    min-width: 150px; /* 限制最小宽度，保证不挤压 */
-    transition: transform 0.2s;
+    
+    /* 防止被压缩，保持固定宽度 */
+    flex-shrink: 0;
+    width: 140px; 
+    
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-  .book-item:hover { transform: translateY(-5px); }
+
+  /* 悬停上浮效果 */
+  .book-item:hover {
+    transform: translateY(-8px);
+  }
+
+  /* --- 封面容器 (相框法则) --- */
   .cover-wrapper {
+    width: 100%;
+    
+    /* 关键设置：固定纵横比 2:3 (常见书籍比例) */
+    aspect-ratio: 2 / 3;
+    
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    border-radius: 4px;
+    border-radius: 6px; /* 圆角稍微大一点 */
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    background: var(--sl-color-gray-5); /* 图片加载前的底色 */
+    position: relative;
   }
-  img { display: block; width: 100%; height: auto; object-fit: cover; }
+  
+  /* 书脊效果：左侧加一条淡淡的白光，更有立体感 */
+  .cover-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+  }
+
+  /* --- 图片处理 --- */
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    
+    /* 关键设置：填满相框，裁切多余部分 */
+    object-fit: cover; 
+    /* 确保书名在上面时，优先展示图片上方 */
+    object-position: top center; 
+    
+    transition: transform 0.3s;
+  }
+  
+  .book-item:hover img {
+    transform: scale(1.05); /* 悬停时图片微缩放 */
+  }
+
   .book-title {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    line-height: 1.4;
     color: var(--sl-color-text);
     text-align: center;
     font-weight: 500;
+    
+    /* 限制标题最多显示两行，超出省略 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>

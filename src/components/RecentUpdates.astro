@@ -26,12 +26,12 @@ const recentDocs = allDocs
   .slice(0, 3); // 只取前3条
 
 // 👇👇👇 加入这一段调试代码 👇👇👇
-console.log("---------------- DEBUG START ----------------");
+console.log("---------------- UPDATES RENEW START ----------------");
 console.log("找到的所有文档数量:", allDocs.length);
-console.log("所有文档 ID:", allDocs.map(d => d.id));
-console.log("Helloworld 的数据:", allDocs.find(d => d.id.includes('helloworld'))?.data);
-console.log("最终筛选出的文档:", recentDocs);
-console.log("---------------- DEBUG END ------------------");
+//console.log("所有文档 ID:", allDocs.map(d => d.id));
+//console.log("Helloworld 的数据:", allDocs.find(d => d.id.includes('helloworld'))?.data);
+console.log("最终筛选出的文档:", recentDocs.length);
+console.log("---------------- UPDATES RENEW END ------------------");
 
 ---
 

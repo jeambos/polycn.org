@@ -1,10 +1,12 @@
 /* src/styles/custom.css */
 
-/* ====================================================== */
-/* 1. Starlight 主题色定义 (从 Docusaurus 翻译而来)         */
-/* ====================================================== */
+/* ==========================================================================
+   1. 全局设置 (Global Settings)
+   ========================================================================== */
+
+/* 1.1 主题色与变量定义 */
 :root {
-  /* 你的落日橙 #e69525 */
+  /* --- 你的落日橙主题色 #e69525 --- */
   --sl-color-accent-low: #faebd7;  /* 浅色背景 */
   --sl-color-accent: #e69525;      /* 核心强调色 */
   --sl-color-accent-high: #b86e00; /* 深色文字/高亮 */
@@ -12,92 +14,81 @@
   /* 链接颜色 */
   --sl-color-text-accent: #e69525;
   
-  /* 字体设置 (保留你的宋体/衬线体偏好) */
-  font-size: 18px; /* 推荐先试 18px，觉得太大就改 17px */
+  /* --- 字体设置 --- */
+  /* 全局基准字号：推荐 18px */
+  font-size: 18px; 
+  /* 字体族：优先使用宋体/衬线体 */
   --sl-font-system: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "Georgia", serif;
 }
 
-/* 暗黑模式适配 */
+/* 1.2 暗黑模式适配 */
 :root[data-theme='dark'] {
   --sl-color-accent-low: #4a2c00;
   --sl-color-accent: #ff9800; /* 暗黑模式下稍微亮一点的橙 */
   --sl-color-accent-high: #ffe0b2;
 }
 
-/* ====================================================== */
-/* 2. 字体混排魔法 (保留你之前的配置)                       */
-/* ====================================================== */
-
-/* 虚拟粗体 'BookBold' */
+/* 1.3 虚拟字体定义 (用于 Markdown 内的粗体/斜体模拟) */
 @font-face {
   font-family: 'BookBold';
   src: local('Arial Bold Italic'), local('Helvetica Bold Oblique'), local('PingFang SC'), local('Microsoft YaHei');
-  unicode-range: U+0000-00FF; 
-  font-weight: 700;
-  font-style: normal;
+  unicode-range: U+0000-00FF; font-weight: 700; font-style: normal;
 }
-
-/* 虚拟斜体 'BookItalic' */
 @font-face {
   font-family: 'BookItalic';
   src: local('Times New Roman Italic'), local('KaiTi'), local('STKaiti');
   font-style: normal;
 }
 
-/* 应用到 Starlight 的 Markdown 内容 */
+/* ==========================================================================
+   2. 正文排版 (Global Markdown Content)
+   适用于 .md/.mdx 渲染出来的文章正文
+   ========================================================================== */
+
+/* 2.1 字体应用 */
 .sl-markdown-content strong,
 .sl-markdown-content b {
   font-family: 'BookBold', sans-serif;
   font-style: normal;
-  color: var(--sl-color-text-heading); /* 适配亮/暗模式 */
+  color: var(--sl-color-text-heading);
 }
-
 .sl-markdown-content em,
 .sl-markdown-content i {
   font-family: 'BookItalic', serif;
   font-style: normal;
 }
 
-/* ====================================================== */
-/* 3. 正文排版优化 (模拟实体书体验)                        */
-/* ====================================================== */
-
-/* 段落首行缩进 2字符 */
+/* 2.2 段落与行高 */
+.sl-markdown-content {
+  font-size: 1.25rem; /* 约 22.5px */
+}
 .sl-markdown-content p {
-  text-indent: 2em;
-  text-align: justify; /* 两端对齐 */
-  line-height: 1.8;
+  text-indent: 2em;      /* 首行缩进 */
+  text-align: justify;   /* 两端对齐 */
+  line-height: 1.6;      /* 宽松行高 */
   margin-bottom: 1em;
 }
 
-/* 图片、标题、引用块 不需要缩进 */
-.sl-markdown-content h1,
-.sl-markdown-content h2,
-.sl-markdown-content h3,
-.sl-markdown-content figure,
-.sl-markdown-content img,
-.sl-markdown-content blockquote p {
+/* 排除缩进的元素 */
+.sl-markdown-content h1, .sl-markdown-content h2, .sl-markdown-content h3,
+.sl-markdown-content figure, .sl-markdown-content img, .sl-markdown-content blockquote p {
   text-indent: 0;
 }
 
-/* ====================================================== */
-/* 4. 引用块 (Blockquote) 美化                            */
-/* ====================================================== */
+/* 2.3 引用块 (Blockquote) 美化 */
 .sl-markdown-content blockquote {
-  border-left: none; /* 去掉默认边框 */
+  border-left: none;
   background: var(--sl-color-gray-6);
   padding: 1.5rem;
   border-radius: 8px;
   position: relative;
-  font-family: "KaiTi", "STKaiti", serif; /* 引用内容用楷体 */
+  font-family: "KaiTi", "STKaiti", serif;
 }
-
-/* 加一个装饰性的引号图标 */
+/* 装饰性引号 */
 .sl-markdown-content blockquote::before {
   content: '“';
   position: absolute;
-  top: -10px;
-  left: 10px;
+  top: -10px; left: 10px;
   font-size: 4rem;
   color: var(--sl-color-accent);
   opacity: 0.3;
@@ -105,234 +96,65 @@
   line-height: 1;
 }
 
-/* ====================================================== */
-/* 5. 首页专用样式 (Home Page) - 我们刚刚写的部分           */
-/* ====================================================== */
+/* ==========================================================================
+   3. 全局布局元素 (Layout Elements)
+   包括：侧边栏、顶部导航、TOC 等
+   ========================================================================== */
 
-/* Hero 间距 */
-.hero-spacer { height: 1rem; }
+/* [预留] 侧边栏样式 (Sidebar) */
+/* .sidebar-pane { ... } */
 
-/* 话题云 */
-.topic-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-.topic-cloud a {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  background: var(--sl-color-gray-6);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--sl-color-text);
-}
-.topic-cloud a:hover {
-  background: var(--sl-color-accent);
-  color: white;
-}
+/* [预留] 顶部导航 (Navbar) */
+/* .site-title { ... } */
 
-/* 强调链接 */
-.link-accent {
-  font-weight: bold;
-  color: var(--sl-color-accent) !important;
-  text-decoration: none;
-}
 
-/* Wiki 橱窗 */
-.wiki-showcase {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
-  margin: 3rem 0;
+/* ==========================================================================
+   4. 首页：Hero 区域 (Hero Section)
+   ========================================================================== */
+
+/* 4.1 间距调整 */
+.hero {
+  padding-top: 2rem !important; 
+  padding-bottom: 1rem !important; 
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
 }
 @media (max-width: 768px) {
-  .wiki-showcase { grid-template-columns: 1fr; }
+  .hero {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
 
-.wiki-card {
-  padding: 1.5rem;
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 8px;
-  background: var(--sl-color-black);
-}
-.wiki-card.featured { border-left: 4px solid var(--sl-color-accent); }
-.wiki-card .badge {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: var(--sl-color-accent);
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-.wiki-card h3 {
-  margin-top: 0.5rem;
-  font-size: 1.4rem;
-  color: var(--sl-color-white);
-}
+/* 4.2 占位符控制 (如果 index.mdx 里还有的话) */
+.hero-spacer { height: 1rem; }
 
-/* Wiki 链接列表 */
-.wiki-card.links ul { list-style: none; padding: 0; }
-.wiki-card.links li {
-  margin-bottom: 0.5rem;
-  border-bottom: 1px dashed var(--sl-color-gray-5);
-  padding-bottom: 0.5rem;
-}
-.wiki-card.links a {
-  text-decoration: none;
-  color: var(--sl-color-gray-2);
-  display: block;
-}
-.wiki-card.links a:hover {
-  color: var(--sl-color-accent);
-  transform: translateX(5px);
-  transition: transform 0.2s;
-}
-
-/* 加入我们 Banner */
-.join-us-banner {
-  text-align: center;
-  padding: 3rem 1rem;
-  margin-top: 3rem;
-  background: var(--sl-color-gray-6);
-  border-radius: 12px;
-}
-.join-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-/* 页脚 */
-.home-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--sl-color-gray-3);
-  margin-top: 2rem;
-  padding-bottom: 2rem;
-}
-.home-footer a {
-  color: inherit;
-  margin: 0 0.5rem;
-  text-decoration: none;
-}
-.home-footer a:hover { color: var(--sl-color-accent); }
-
-/* 分割线 */
-.home-hr {
-    border-color: var(--sl-color-gray-5); 
-    margin: 3rem 0;
-}
-
-
-/* ====================================================== */
-/* 6. 首页 Hero 动画 (呼吸效果)                             */
-/* ====================================================== */
-
-/* 修正点：在 css 文件里直接写选择器，不要加 :global */
+/* 4.3 小人呼吸动画 */
 .hero img {
-  /* 这里的 float 是动画名称，6s 是时长(慢一点更优雅)，infinite 是无限循环 */
   animation: float 3s ease-in-out infinite;
-  
-  /* 增加一个滤镜过渡，防止夜间模式切换时太生硬 */
   transition: filter 0.3s;
 }
-
-/* 定义浮动+挤压动画的关键帧 */
 @keyframes float {
-  0%, 100% {
-    /* 初始状态：原位，原大小 */
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    /* 中间状态：向上浮动 20px，同时横向变宽(1.05)纵向变扁(0.95)，模拟软软的质感 */
-    transform: translateY(-5px) scale(0.98, 1.02);
-  }
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-5px) scale(0.98, 1.02); } /* 微微挤压浮动 */
 }
 
-/* 只放大文章正文，不影响菜单和侧边栏 */
-.sl-markdown-content {
-  font-size: 1.25rem; /* 相当于 22.5px (1.25*18) */
-}
+/* ==========================================================================
+   5. 首页：Bento Grid (核心网格导航)
+   包含：布局、大卡片、小卡片、移动端适配
+   ========================================================================== */
 
-/* 同时微调正文的行高，确保大字号下不拥挤 */
-.sl-markdown-content p {
-  line-height: 1.6; /* 稍微再松一点 */
-}
-
-/* src/styles/custom.css 末尾追加 */
-
-/* ====================================================== */
-/* 7. 首页模块字号强制修正 (统一全站体验)                   */
-/* ====================================================== */
-
-/* --- 1. 修正 Hero 下方的 Feature Grid 卡片 --- */
-/* Starlight 的卡片默认字号较小，我们强制放大 */
-.card .body {
-  font-size: 1.25rem; /* 约等于 20px (18px * 1.125)，与你设定的正文一致 */
-  line-height: 1.6;
-}
-
-/* 卡片标题也要相应放大，不然头重脚轻 */
-.card .title {
-  font-size: 1.5rem !important; 
-}
-
-/* --- 2. 修正 Wiki 橱窗 --- */
-.wiki-card p {
-  font-size: 1.25rem; 
-  line-height: 1.6;
-}
-
-/* Wiki 标题 */
-.wiki-card h3 {
-  font-size: 1.5rem;
-}
-
-/* --- 3. 修正最近更新列表 --- */
-/* 列表比较紧凑，建议稍微小一点点，或者保持一致 */
-.update-title {
-  font-size: 1.5rem;
-}
-
-.update-desc {
-  font-size: 1.25rem; /* 描述文字保持 18px，太大了列表会很长 */
-  line-height: 1.5;
-}
-
-/* --- 4. 修正话题云标签 --- */
-.topic-cloud a {
-  font-size: 1.125rem; /* 标签不需要太大 */
-  line-height: 1.4; /* 稍微松一点 */
-}
-
-/* 紧凑版话题云 */
-.topic-cloud.compact {
-  margin-top: 0;
-  gap: 0.4rem;
-}
-.topic-cloud.compact a {
-  font-size: 1.125rem;
-  padding: 1px 1px;
-}
-
-/* ====================================================== */
-/* 8. Bento Grid 布局 (响应式修复版)                       */
-/* ====================================================== */
-
+/* 5.1 整体网格容器 */
 .bento-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr; /* 桌面端：左1右3 */
+  grid-template-columns: 1.2fr 1fr; /* 左1右3 */
   gap: 1rem;
   margin: 2rem 0;
-  
-  /* ✅ 修复遮挡问题：不要写死 height，改用 min-height */
-  /* 这样当内容变多时，盒子会自动长高，不会遮挡下方内容 */
   height: auto; 
-  min-height: 380px; 
+  min-height: 380px; /* 防止内容遮挡的关键 */
 }
-
-/* 右侧列容器 */
 .bento-col-right {
   display: flex;
   flex-direction: column;
@@ -340,7 +162,7 @@
   height: 100%;
 }
 
-/* --- 卡片通用样式 --- */
+/* 5.2 卡片通用样式 */
 .bento-card {
   background: var(--sl-color-gray-6);
   border: 1px solid var(--sl-color-gray-5);
@@ -351,7 +173,6 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-
 .bento-card:hover {
   border-color: var(--sl-color-accent);
   box-shadow: 0 0 20px rgba(230, 149, 37, 0.3);
@@ -359,280 +180,212 @@
   z-index: 1;
 }
 
-/* --- 左侧大卡片特有样式 --- */
+/* 5.3 左侧大卡片 (Large Card) */
 .large-card {
   display: flex;
-  flex-direction: row; /* 桌面端：左右排列 */
-  align-items: stretch; /* 确保左右高度一致 */
+  flex-direction: row;
+  align-items: stretch;
   background: var(--sl-color-gray-6);
 }
-
-/* 左半部分：图片容器 */
-.large-card-poster {
+.large-card-poster { /* 图片容器 */
   width: 45%; 
-  /* 移除固定高度，让它跟随卡片高度 */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   background: transparent;
 }
-
-/* 封面图片 */
 .book-cover-img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: contain; 
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); 
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.large-card:hover .book-cover-img { transform: scale(1.05) rotate(-2deg); }
 
-.large-card:hover .book-cover-img {
-  transform: scale(1.05) rotate(-2deg);
-}
-
-/* 右半部分：文字容器 */
-.large-card-content {
+.large-card-content { /* 文字容器 */
   flex: 1; 
   padding: 1.5rem 1.5rem 1.5rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: flex; flex-direction: column; justify-content: center;
 }
-
 .large-card-content .card-body p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 0.8rem;
-  color: var(--sl-color-gray-2);
+  font-size: 1.1rem; line-height: 1.6;
+  margin-bottom: 0.8rem; color: var(--sl-color-gray-2);
 }
-
 .highlight-text {
   color: var(--sl-color-text) !important;
-  font-weight: 500;
-  margin-top: 0 !important;
+  font-weight: 500; margin-top: 0 !important;
 }
 
-.large-card .card-header h3 {
-  font-size: 1.6rem !important;
-  margin-bottom: 0.5rem !important;
-}
-
-/* --- ✅ 移动端/窄屏适配 (关键修复) --- */
-@media (max-width: 768px) {
-  .bento-grid {
-    /* 强制变为单列布局 */
-    grid-template-columns: 1fr !important; 
-    height: auto !important; /* 高度完全自适应 */
-    min-height: auto !important;
-  }
-
-  /* 修复大卡片在手机上的布局 */
-  .large-card {
-    flex-direction: column !important; /* 改为上下排列 */
-    height: auto !important;
-  }
-
-  .large-card-poster {
-    width: 100% !important; /* 图片占满宽度 */
-    height: 250px !important; /* 给个固定高度展示图片 */
-    padding: 1.5rem 1.5rem 0 1.5rem !important; /* 调整内边距 */
-  }
-
-  .large-card-content {
-    width: 100% !important;
-    padding: 1.5rem !important; /* 恢复四周内边距 */
-  }
-
-  /* 修复右侧列的高度 */
-  .bento-col-right {
-    height: auto !important;
-  }
-  
-  .small-card {
-    min-height: 140px; /* 保证小卡片有最小高度 */
-    margin-bottom: 0;
-  }
-}
-
-/* ... (后续的小卡片样式保持不变) ... */
-
-/* ====================================================== */
-/* 9. 右侧小卡片特有样式 (样式隔离与统一版)               */
-/* ====================================================== */
-
+/* 5.4 右侧小卡片 (Small Card) */
 .small-card {
-  flex: 1; /* 三个卡片平分高度 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 内容垂直居中 */
-  padding: 0 1.5rem; /* 左右内边距 */
+  flex: 1; /* 平分高度 */
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.5rem;
 }
-
-/* ✅ 修复 1：强制开启 Flex 布局，让图标和标题并排 */
-.small-card .card-header {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.6rem !important;
-  margin-bottom: 0.5rem !important;
-}
-
-/* ✅ 修复 2：强制指定图标颜色 */
-.small-card .card-icon {
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  
-  /* 关键：找回丢失的颜色 */
-  color: var(--sl-color-accent) !important;
-  fill: currentColor; /* 确保 SVG 填充当前颜色 */
-  flex-shrink: 0; /* 防止图标被压扁 */
-}
-
-/* --- 层级 1：标题 (Title) --- */
-/* 使用 !important 或高优先级选择器，防止被全局 h3 样式干扰 */
-.small-card .card-header h3 {
-  font-size: 1.25rem !important; /* 约 22px，固定大小，不随全局变化 */
-  line-height: 1.4 !important;
-  margin: 0 !important; /* 去掉多余边距 */
-  font-weight: bold !important;
-  color: var(--sl-color-white);
-  letter-spacing: 0.5px;
-}
-
-/* 修正图标大小，让它配合这个标题字号 */
-.small-card .card-icon {
-  width: 20px; 
-  height: 20px;
-  margin-top: 2px; /* 视觉微调对齐 */
-}
-
-/* --- 层级 2：正文 (Body) --- */
-/* 统一控制 compact-text，确保只有这一种正文样式 */
+/* 小卡片正文 (Compact Text) */
 .small-card .compact-text {
-  font-size: 1.125rem !important; /* 约 18px，清晰易读 */
-  line-height: 1.6 !important; /* 舒适的行高 */
+  font-size: 1.125rem !important;
+  line-height: 1.6 !important;
   color: var(--sl-color-gray-3);
-  margin: 0 0 0 0 !important; /* 统一上边距 */
-  
-  /* 防止过长文字换行导致布局崩坏 */
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 最多显示2行 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin: 0 !important;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* --- 层级 2 (变体)：标签云 (Tag Cloud) --- */
-/* 让标签云的字号、行高与正文完全一致 */
-.topic-cloud.compact {
-  margin-top: 0.5rem !important; /* 间距与 compact-text 一致 */
-  gap: 0.5rem; /* 标签之间的间距 */
+/* 5.5 话题云 (Topic Cloud) */
+.topic-cloud {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;
 }
-
-.topic-cloud.compact a {
-  /* 关键：字号设为 0.9rem */
-  /* 说明：标签有背景框，视觉上会比纯文字显大，所以比正文(1rem)稍微小一点点视觉才平衡 */
-  /* 如果你坚持要物理尺寸完全一致，改成 1rem 即可 */
-  font-size: 1rem !important; 
-  
-  line-height: 1.6 !important; /* 行高与正文一致 */
-  padding: 2px 10px; /* 稍微宽一点的内边距，像按钮 */
-  background: var(--sl-color-gray-5);
-  border: 1px solid transparent; /* 预留边框位置，防抖动 */
+.topic-cloud a {
+  font-size: 1.125rem; line-height: 1.4;
+  padding: 2px 8px;
+  background: var(--sl-color-gray-6); border-radius: 12px;
+  text-decoration: none; color: var(--sl-color-text);
 }
-
-/* 标签悬停效果 */
-.topic-cloud.compact a:hover {
-  background: rgba(230, 149, 37, 0.15); /* 橙色背景淡化 */
-  border-color: var(--sl-color-accent);
-  color: var(--sl-color-accent);
+.topic-cloud a:hover {
+  background: var(--sl-color-accent); color: white;
 }
+/* 紧凑版话题云 */
+.topic-cloud.compact { margin-top: 0; gap: 0.4rem; }
+.topic-cloud.compact a { font-size: 1.125rem; padding: 1px 1px; }
 
-
-
-/* ====================================================== */
-/* 11. Hero 区域间距调整                                  */
-/* ====================================================== */
-
-.hero {
-  /* padding-top: 顶部距离 (默认很大，建议改为 2rem - 4rem) */
-  padding-top: 2rem !important; 
-  
-  /* padding-bottom: 底部距离 (建议改为 1rem - 2rem) */
-  padding-bottom: 1rem !important; 
-
-  padding-left: 4rem !important; /* 左右内边距 */
-  padding-right: 4rem !important;
-}
-
-/* 如果你觉得手机端还是很空，可以单独针对手机再小一点 */
-@media (max-width: 768px) {
-  .hero {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-}
-
-/* ====================================================== */
-/* 12. 强制修复 Bento Grid 标题图标 (SVG)                 */
-/* ====================================================== */
-
-/* 1. 全局卡片图标约束 (防止被默认样式撑大) */
+/* 5.6 标题与图标修复 (Header & Icons) */
+/* 强制修复图标大小与颜色 */
 .bento-card .card-icon {
-  width: 24px !important;  /* 默认大小 */
-  height: 24px !important;
-  min-width: 24px !important; /* 防止被挤压 */
-  
-  color: var(--sl-color-accent) !important; /* 强制橙色 */
-  fill: currentColor !important; /* 确保填充色跟随文字颜色(也就是橙色) */
-  
-  margin-right: 0.5rem !important; /* 图标和文字的间距 */
+  width: 24px !important; height: 24px !important; min-width: 24px !important;
+  color: var(--sl-color-accent) !important;
+  fill: currentColor !important;
+  margin-right: 0.5rem !important;
   display: inline-block !important;
 }
-
-/* 2. 修复卡片标题头部的布局 (确保横向排列) */
+/* 强制标题横向排列 */
 .bento-card .card-header {
-  display: flex !important;
-  align-items: center !important;
-  flex-direction: row !important; /* 强制横向 */
+  display: flex !important; align-items: center !important; flex-direction: row !important;
 }
-
-/* 3. 左侧大卡片：图标稍微大一点 */
-.large-card .card-icon {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-}
-
-/* 4. 右侧小卡片：图标稍微小一点 */
-.small-card .card-icon {
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px !important;
-}
-
-/* ====================================================== */
-/* 13. 标题文字垂直对齐精修                               */
-/* ====================================================== */
-
+/* 标题文字对齐修正 */
 .bento-card .card-header h3 {
-  /* 1. 暴力清除所有外边距和内边距 */
-  margin: 0 !important;
-  padding: 0 !important;
-  
-  /* 2. 重置行高 */
-  /* 默认行高可能太大，导致文字在自己的格子里偏下 */
-  line-height: 1.2 !important; 
-  
-  /* 3. 视觉微调 */
-  /* 有时候字体本身的基线偏高或偏低，可以用 translate 微调 */
-  /* 如果觉得文字还是偏下，试着把下面的 0px 改成 -1px 或 -2px */
-  transform: translateY(0px); 
+  margin: 0 !important; padding: 0 !important;
+  line-height: 1.2 !important;
+  transform: translateY(0px); /* 垂直对齐微调 */
+  font-weight: bold !important;
+  color: var(--sl-color-white);
+}
+/* 特殊尺寸覆盖 */
+.large-card .card-icon { width: 32px !important; height: 32px !important; min-width: 32px !important; }
+.large-card .card-header h3 { font-size: 1.6rem !important; }
+.small-card .card-icon { width: 20px !important; height: 20px !important; min-width: 20px !important; }
+.small-card .card-header h3 { font-size: 1.25rem !important; letter-spacing: 0.5px; }
+
+/* 5.7 移动端适配 (Mobile Responsive) */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr !important; /* 强制单列 */
+    height: auto !important; min-height: auto !important;
+  }
+  .large-card {
+    flex-direction: column !important; /* 上下排列 */
+    height: auto !important;
+  }
+  .large-card-poster {
+    width: 100% !important; height: 250px !important;
+    padding: 1.5rem 1.5rem 0 1.5rem !important;
+  }
+  .large-card-content { width: 100% !important; padding: 1.5rem !important; }
+  .bento-col-right { height: auto !important; }
+  .small-card { min-height: 140px; margin-bottom: 0; }
 }
 
-/* 再次确认父容器是垂直居中的 */
-.bento-card .card-header {
-  align-items: center !important;
+
+/* ==========================================================================
+   6. 首页：图书橱窗 (Book Shelf)
+   [待修改]
+   ========================================================================== */
+
+/* 预留: .book-shelf-container { ... } */
+/* 预留: .book-card { ... } */
+
+
+/* ==========================================================================
+   7. 首页：百科特色 (Wiki Showcase)
+   ========================================================================== */
+
+.wiki-showcase {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin: 3rem 0;
 }
+@media (max-width: 768px) { .wiki-showcase { grid-template-columns: 1fr; } }
+
+.wiki-card {
+  padding: 1.5rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 8px;
+  background: var(--sl-color-black);
+}
+.wiki-card p { font-size: 1.25rem; line-height: 1.6; }
+.wiki-card h3 { font-size: 1.5rem; margin-top: 0.5rem; color: var(--sl-color-white); }
+.wiki-card.featured { border-left: 4px solid var(--sl-color-accent); }
+.wiki-card .badge {
+  font-size: 0.75rem; text-transform: uppercase;
+  color: var(--sl-color-accent); font-weight: bold; letter-spacing: 0.05em;
+}
+
+/* Wiki 链接列表 */
+.wiki-card.links ul { list-style: none; padding: 0; }
+.wiki-card.links li {
+  margin-bottom: 0.5rem; border-bottom: 1px dashed var(--sl-color-gray-5);
+  padding-bottom: 0.5rem;
+}
+.wiki-card.links a { text-decoration: none; color: var(--sl-color-gray-2); display: block; }
+.wiki-card.links a:hover { color: var(--sl-color-accent); transform: translateX(5px); transition: transform 0.2s; }
+
+
+/* ==========================================================================
+   8. 首页：最近更新 (Recent Updates)
+   ========================================================================== */
+
+.update-title { font-size: 1.5rem; }
+.update-desc { font-size: 1.25rem; line-height: 1.5; }
+
+
+/* ==========================================================================
+   9. 首页：加入我们与页脚 (Join Us & Footer)
+   ========================================================================== */
+
+.join-us-banner {
+  text-align: center;
+  padding: 3rem 1rem;
+  margin-top: 3rem;
+  background: var(--sl-color-gray-6);
+  border-radius: 12px;
+}
+.join-actions {
+  display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;
+}
+
+.home-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--sl-color-gray-3);
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+.home-footer a { color: inherit; margin: 0 0.5rem; text-decoration: none; }
+.home-footer a:hover { color: var(--sl-color-accent); }
+.home-hr { border-color: var(--sl-color-gray-5); margin: 3rem 0; }
+
+
+/* ==========================================================================
+   10. 分区特定样式 (Section Specifics)
+   为不同版块预留的独立样式定义
+   ========================================================================== */
+
+/* 10.1 新手村 (Start) */
+/* [预留] body[data-slug^="start"] ... */
+
+/* 10.2 图书馆 (Library) */
+/* [预留] body[data-slug^="library"] ... */
+
+/* 10.3 百科 (Wiki) */
+/* [预留] body[data-slug^="wiki"] ... */
