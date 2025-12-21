@@ -1,10 +1,18 @@
 ---
 title: 全站馆藏
 description: PolyCN Archives 索引首页
-tableOfContents: false
+template: splash
 sidebar:
   order: 0
   label: 🏛️ 馆藏大厅
+# 🔥 核心修改：通过 head 属性注入全局 CSS，只在当前页面生效
+head:
+  - tag: style
+    content: |
+      /* 隐藏内容区的 H1 标题 */
+      h1#_top { display: none !important; }
+      /* 如果有 .content-panel 包裹，也强制隐藏 */
+      .content-panel h1 { display: none !important; }
 ---
 
 import Footer from '../../../components/Footer.astro';
@@ -90,10 +98,9 @@ import CategorySection from '../../../components/CategorySection.astro';
 </div>
 
 <style>{`
-  /* --- 1. 隐藏自动生成的 H1 标题 --- */
-  :global(.content-panel h1), :global(main > h1) {
-    display: none !important;
-  }
+  /* ========================================= */
+  /* 1. 布局调整                               */
+  /* ========================================= */
 
   .library-container {
     max-width: 1080px;
@@ -101,14 +108,20 @@ import CategorySection from '../../../components/CategorySection.astro';
     padding: 0 1rem;
   }
 
-  /* --- 2. Hero 区域调整：顶部增加空地 --- */
+  /* Hero 区域 */
   .library-hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 6rem 1rem 3rem; /* 顶部 padding 从 3rem 增加到 6rem */
+    padding: 6rem 1rem 3rem; 
     gap: 1.5rem;
+  }
+
+  /* 保护我们自己的 Hero 标题不被上面的 CSS 误伤 */
+  .hero-content h1 {
+    display: block !important;
+    margin-top: 0 !important;
   }
 
   @media (min-width: 768px) {
@@ -131,8 +144,6 @@ import CategorySection from '../../../components/CategorySection.astro';
     font-size: 3rem;
     font-weight: 900;
     margin-bottom: 1rem;
-    /* 强制显示这里的 H1 */
-    display: block !important; 
     background: -webkit-linear-gradient(315deg, var(--sl-color-white) 25%, var(--sl-color-accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -140,32 +151,34 @@ import CategorySection from '../../../components/CategorySection.astro';
   }
 
   .hero-content p {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
     color: var(--sl-color-gray-3);
     max-width: 500px;
   }
 
-/* --- 3. 标题强制左对齐 (忽略) --- */
+  /* ========================================= */
+  /* 2. 统计区域修正                           */
+  /* ========================================= */
 
-
-  /* --- 4. 修正统计区域高度不一致问题 --- */
-  /* 强制统计容器垂直居中 */
   :global(.stats-container) {
     align-items: center !important;
-    padding: 3rem 0 !important; /* 增加上下空间 */
+    padding: 3rem 0 !important;
   }
   
-  /* 调整分割线高度，使其与文字块视觉平衡 */
   :global(.stat-divider) {
-    height: 50px !important; 
-    margin-top: 5px; /* 微调垂直位置 */
-  }
-  
-  /* 确保每个统计项内部对齐 */
-  :global(.stat-item) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    height: 50px !important;
+    margin-top: 5px;
   }
 
+  /* ========================================= */
+  /* 3. 栏目标题强制左对齐                     */
+  /* ========================================= */
+  
+  :global(.section-title) {
+    text-align: left !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
 `}</style>
