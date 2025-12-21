@@ -1,46 +1,55 @@
 ---
-const today = new Date();
+// 获取当前年份，避免手动修改
+const currentYear = new Date().getFullYear();
 ---
 
-<footer>
-  <div class="footer-content">
-    <div class="copyright">
-      &copy; {today.getFullYear()} PolyCN.org <span class="divider">|</span> 开源与多元之爱
-    </div>
-    
-    <div class="social-links">
-      <a href="mailto:hi@polycn.org" target="_blank">Email</a>
-      <a href="/rss.xml" target="_blank">RSS</a>
-      <a href="https://github.com/your-repo" target="_blank">GitHub</a>
-    </div>
-  </div>
+<footer class="home-footer">
+  <hr class="home-hr" />
+  <p>
+    © {currentYear} PolyCN Archives. 
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener noreferrer">
+      CC-BY-NC-SA 4.0
+    </a>
+  </p>
+  <p>
+    <a href="/about">关于我们</a> | 
+    <a href="/about/legal">免责声明</a> | 
+    <a href="/about/guidelines">投稿指南</a>
+  </p>
 </footer>
 
 <style>
-  footer {
-    padding: 2em 1em 4em 1em;
-    background: #f4f4f4; /* 浅灰色背景，区别于正文 */
-    color: #666;
+  /* --- 底部版权页脚 --- */
+  .home-footer {
     text-align: center;
-    margin-top: 4rem; /* 保证页脚和正文有距离 */
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-3);
+    padding-bottom: 3rem; /* 底部留白，防止贴底 */
+    margin-top: 4rem;    /* 增加与上方内容的间距 */
   }
-  .footer-content {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+
+  .home-hr {
+    border: 0;
+    border-top: 1px dashed var(--sl-color-gray-5); /* 虚线分割更轻盈 */
+    margin: 1rem auto 2rem auto; /* 上下间距 */
+    max-width: 200px; /* 分割线不要太长，精致一点 */
   }
-  .social-links a {
+
+  .home-footer a {
+    color: var(--sl-color-gray-3);
     margin: 0 0.5rem;
-    color: #333;
     text-decoration: none;
-    border-bottom: 1px dashed #999;
+    transition: color 0.2s;
   }
-  .social-links a:hover {
-    color: #000;
-    border-bottom-style: solid;
+
+  .home-footer a:hover {
+    color: var(--sl-color-accent); /* 悬停变橙色，继承自 Starlight 变量 */
   }
-  .divider { color: #ccc; margin: 0 0.5em; }
+
+  /* 适配移动端：在小屏幕上取消 | 符号的视觉挤压（可选） */
+  @media (max-width: 480px) {
+    .home-footer p {
+      line-height: 2;
+    }
+  }
 </style>

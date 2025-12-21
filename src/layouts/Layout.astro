@@ -1,62 +1,82 @@
 ---
-// 引入刚才写的 Footer 组件
 import Footer from '../components/Footer.astro';
+import QuoteBlock from '../components/QuoteBlock.astro';
 
 interface Props {
-	title: string;
-	description?: string;
+  title: string;
+  description?: string;
+  // 增加一个开关：是否在正文下方显示金句注脚？默认不显示。
+  showQuote?: boolean; 
 }
 
-const { title, description = "PolyCN - 探索亲密关系的另一种可能" } = Astro.props;
+const { title, description, showQuote = false } = Astro.props;
+
+// 默认的金句内容（你可以根据需要修改，或者通过 Props 传进来）
+const defaultQuote = {
+  content: "爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。",
+  author: "珀西·比希·雪莱",
+  source: "https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it"
+};
 ---
 
 <!doctype html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-        </head>
-	<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    {/* 这里可以保留你之前的字体链接或 CSS 变量 */}
+  </head>
+  <body>
+    <div class="site-wrapper">
+      {/* 页面主要内容插槽 */}
+      <main class="site-main">
         <slot />
-        
-        <Footer />
-	</body>
+      </main>
+
+      {/* 条件渲染：只有在页面指定 showQuote={true} 时才显示金句 */}
+      {showQuote && (
+        <section class="bottom-quote">
+          <QuoteBlock 
+            content={defaultQuote.content} 
+            author={defaultQuote.author} 
+            source={defaultQuote.source} 
+          />
+        </section>
+      )}
+
+      {/* 全站统一页脚 */}
+      <Footer />
+    </div>
+  </body>
 </html>
 
 <style is:global>
-    /* 全局 CSS 变量和重置样式 */
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-        --bg-color: #ffffff;
-        --text-color: #1a1a1a;
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: var(--bg-color);
-        color: var(--text-color);
-        line-height: 1.6;
-	}
-    body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    /* 让 slot 占据剩余空间，把 footer 挤到底部 */
-    slot {
-        flex: 1;
-    }
-	code {
-		font-family: monospace;
-	}
-    a {
-        color: inherit;
-    }
+  /* 基础重置 */
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--sl-color-bg, #fff);
+    color: var(--sl-color-text, #111);
+    min-height: 100vh;
+  }
+
+  .site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 确保 wrapper 至少撑满全屏 */
+  }
+
+  .site-main {
+    flex: 1; /* 这会让 main 自动占据剩余空间，将 footer 推到底部 */
+    width: 100%;
+    max-width: 800px; /* 限制正文宽度，提升阅读舒适度 */
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .bottom-quote {
+    margin-top: 2rem;
+  }
 </style>
