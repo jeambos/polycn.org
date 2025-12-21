@@ -34,7 +34,7 @@ export default defineConfig({
         label: '🏛️ 文库馆藏',
         items: [
           {
-            label: '📚 书籍',
+            label: '📚 图书',
             collapsed: true,
             autogenerate: { directory: 'library/books' },
           },
@@ -48,6 +48,13 @@ export default defineConfig({
             collapsed: true,
             autogenerate: { directory: 'library/articles' },
           },
+          
+          {
+            label: '🎤 真人故事',
+            collapsed: true,
+            autogenerate: { directory: 'stories' },
+          },
+
         ],
       },
 
@@ -58,12 +65,8 @@ export default defineConfig({
         autogenerate: { directory: 'wiki' },
       },
 
-      // 4. 访谈录
-      {
-        label: '🎤 访谈录',
-        collapsed: true,
-        autogenerate: { directory: 'stories' },
-      },
+      // 4. 访谈录移动到上面去了
+      
 
       // 5. 关于本站
       {
