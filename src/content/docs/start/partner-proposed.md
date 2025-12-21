@@ -105,10 +105,10 @@ sidebar:
 如需进一步了解相关信息，可参考以下资源：
 
 **基础认知**
-* [非单偶制简介](/introduction) - 了解定义与光谱
-* [常见误区 (Myths)](/myths) - 针对常见偏见的解析
-* [FAQ 常见问题](/faq) - 新手常见疑问解答
-* [自我评估](/assessment) - 准备度检查工具
+* [非单偶制简介](/start/introduction) - 了解定义与光谱
+* [常见误区 (Myths)](/start/myths) - 针对常见偏见的解析
+* [FAQ 常见问题](/start/faq) - 新手常见疑问解答
+* [自我评估](/start/assessment) - 准备度检查工具
 
 **深入阅读**
 * [Wiki 百科索引](/wiki) - 术语表与概念索引

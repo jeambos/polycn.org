@@ -107,10 +107,10 @@ sidebar:
 当你准备好进一步探索时，请参考以下资源：
 
 **基础认知**
-* [非单偶制简介](/introduction) - 了解定义与光谱
-* [常见误区 (Myths)](/myths) - 帮你澄清概念
-* [FAQ 常见问题](/faq) - 解答新手疑惑
-* [自我评估](/assessment) - 再次检查动机
+* [非单偶制简介](/start/introduction) - 了解定义与光谱
+* [常见误区 (Myths)](/start/myths) - 帮你澄清概念
+* [FAQ 常见问题](/start/faq) - 解答新手疑惑
+* [自我评估](/start/assessment) - 再次检查动机
 
 **深入阅读**
 * [Wiki 百科索引](/wiki) - 术语表与概念索引
