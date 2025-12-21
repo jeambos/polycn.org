@@ -21,60 +21,39 @@ export default defineConfig({
 
 
     sidebar: [
-      // 1. 快速入门
-      {
-        label: '🚀 快速入门',
-        // 自动折叠，保持侧边栏整洁
-        collapsed: false, 
-        autogenerate: { directory: 'start' },
-      },
+        // 1. 【开始使用】是一个单纯的链接，没问题
+        { 
+          label: '🚀 开始探索', 
+          link: '/start' 
+        },
 
-      // 2. 文库馆藏 (核心区域，手动分组)
-      {
-        label: '🏛️ 文库馆藏',
-        items: [
-          {
-            label: '📚 图书',
-            collapsed: true,
-            autogenerate: { directory: 'library/books' },
-          },
-          {
-            label: '🧭 实操指南',
-            collapsed: true,
-            autogenerate: { directory: 'library/guides' },
-          },
-          {
-            label: '📰 深度文章',
-            collapsed: true,
-            autogenerate: { directory: 'library/articles' },
-          },
+        // 2. 【馆藏大厅】必须是一个纯粹的分组
+        {
+          label: '🏛️ 全部馆藏',
+          // ❌ 删除下面这一行：不能同时拥有 link 和 autogenerate
+          // link: '/library', 
           
-          {
-            label: '🎤 真人故事',
-            collapsed: true,
-            autogenerate: { directory: 'stories' },
-          },
+          // ✅ 保留自动生成：它会自动把 index.mdx 作为第一项显示
+          autogenerate: { directory: 'library' },
+          collapsed: true, 
+        },
 
-        ],
-      },
-
-      // 3. 百科 Wiki
-      {
-        label: '🧠 百科 Wiki',
-        collapsed: true,
-        autogenerate: { directory: 'wiki' },
-      },
-
-      // 4. 访谈录移动到上面去了
-      
-
-      // 5. 关于本站
-      {
-        label: 'ℹ️ 关于本站',
-        collapsed: true,
-        autogenerate: { directory: 'about' },
-      },
-    ],
+        // 3. 【Wiki 百科】同理
+        {
+          label: '🧠 Wiki 百科',
+          // ❌ 删除下面这一行
+          // link: '/wiki',
+          
+          autogenerate: { directory: 'wiki' },
+          collapsed: true,
+        },
+        
+        // ... 其他配置
+        {
+          label: '关于我们',
+          autogenerate: { directory: 'about' },
+        }
+      ],
 
    
     customCss: ['./src/styles/custom.css'], 
