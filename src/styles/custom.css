@@ -740,8 +740,180 @@ body:not([data-slug]) .sl-container {
    为不同版块预留的独立样式定义
    ========================================================================== */
 
-/* 10.1 新手村 (Start) */
-/* [预留] body[data-slug^="start"] ... */
+/* ====================================================== */
+/* 10.1 新手村 (Start) - 字体放大增强版                     */
+/* ====================================================== */
+
+/* 核心修复：针对 splash 模板的宽屏补丁 */
+.start-page-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 强制让 Splash 模板的内容区撑满，不要窄窄的 */
+:root[data-template="splash"] .sl-container {
+  max-width: 100% !important;
+  padding-inline: 2rem; /* 给两边留点呼吸感 */
+}
+:root[data-template="splash"] .content-panel {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* --- 1. Hero 区域 (对齐主页 Hero) --- */
+/* 增加副标题字号，使其更像是一个“导语” */
+.start-page-wrapper .hero-subtitle {
+  font-size: 1.35rem !important; /* 增大到约 24px */
+  line-height: 1.6;
+  color: var(--sl-color-gray-2);
+  margin-bottom: 3rem !important;
+  max-width: 800px; /* 限制宽度，防止单行过长难读 */
+}
+
+/* --- 2. Axioms 基础价值观 --- */
+.start-page-wrapper .axioms-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; /* 间距加大 */
+  margin-bottom: 2rem;
+}
+
+.start-page-wrapper .axiom-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem; /* 内边距加大 */
+  background: var(--sl-color-gray-6);
+  border-radius: 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+.start-page-wrapper .axiom-icon { font-size: 1.5rem; } /* 图标放大 */
+
+.start-page-wrapper .axiom-text strong { 
+  display: block; 
+  font-size: 1.15rem; /* 标题放大 */
+  color: var(--sl-color-white); 
+  margin-bottom: 0.2rem;
+}
+
+.start-page-wrapper .axiom-text small { 
+  color: var(--sl-color-gray-3); 
+  font-size: 0.9rem; /* 英文注解放大 */
+  display: block; 
+}
+
+.start-page-wrapper .axiom-warning {
+  font-size: 1.1rem !important; /* 警告语放大 */
+  border-inline-start: 4px solid var(--sl-color-accent) !important; /* 边框加粗 */
+  background: transparent !important;
+  margin: 1.5rem 0 4rem 0 !important;
+  padding-left: 1.5rem !important;
+  line-height: 1.6;
+}
+
+/* --- 3. Triage Grid 分流卡片 (对齐主页 Bento Grid) --- */
+.start-page-wrapper .triage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 卡片最小宽度加大 */
+  gap: 2rem; /* 间距加大 */
+  margin: 3rem 0 5rem 0;
+  width: 100%;
+}
+
+.start-page-wrapper .start-card {
+  text-decoration: none !important;
+  color: inherit !important;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 1rem; /* 圆角加大 */
+  padding: 2rem; /* 内边距加大，更透气 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--sl-color-gray-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 260px; /* 最小高度增加 */
+}
+
+/* 卡片内容区 */
+.start-page-wrapper .card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.start-page-wrapper .start-card:hover {
+  border-color: var(--sl-color-accent);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+  background: var(--sl-color-bg);
+}
+
+/* 卡片标题：对齐主页 Bento 小卡片标题 */
+.start-page-wrapper .start-card h3 {
+  margin-top: 0 !important;
+  margin-bottom: 1.25rem !important;
+  color: var(--sl-color-white) !important;
+  font-size: 1.5rem !important; /* 放大到 27px */
+  line-height: 1.3;
+  border: none !important;
+  font-weight: bold !important;
+}
+
+/* 卡片正文：对齐主页 Bento 小卡片正文 (1.125rem) */
+.start-page-wrapper .start-card p {
+  font-size: 1.15rem; /* 放大！ */
+  font-style: italic; /* 保持斜体，代表用户心声 */
+  color: var(--sl-color-gray-2); /* 颜色加深一点，提高对比度 */
+  margin-bottom: 2rem !important;
+  line-height: 1.7; /* 行高增加，更易读 */
+  flex-grow: 1;
+}
+
+/* 按钮文字 */
+.start-page-wrapper .card-btn {
+  display: inline-block;
+  font-size: 1rem; /* 放大到 16px */
+  font-weight: 700;
+  color: var(--sl-color-accent);
+  margin-top: auto;
+  letter-spacing: 0.5px;
+}
+
+/* --- 4. Start Footer 底部导航 --- */
+.start-page-wrapper .start-footer-nav {
+  text-align: center;
+  margin: 5rem 0;
+  padding-top: 3rem;
+  border-top: 1px dashed var(--sl-color-gray-5);
+}
+
+.start-page-wrapper .skip-btn {
+  font-size: 1.1rem; /* 放大 */
+  color: var(--sl-color-gray-3) !important;
+  text-decoration: underline !important;
+  transition: color 0.2s;
+}
+.start-page-wrapper .skip-btn:hover {
+  color: var(--sl-color-accent) !important;
+}
+
+.start-page-wrapper .quick-links {
+  margin-top: 2rem;
+  font-size: 1.05rem; /* 放大 */
+  color: var(--sl-color-gray-2);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .start-page-wrapper .axioms-container { grid-template-columns: 1fr; }
+  .start-page-wrapper .triage-grid { grid-template-columns: 1fr; }
+  
+  /* 手机上字体稍微回调一点，防止爆框 */
+  .start-page-wrapper .start-card h3 { font-size: 1.35rem !important; }
+  :root[data-template="splash"] .sl-container { padding-inline: 1rem; }
+}
 
 /* 10.2 图书馆 (Library) */
 /* [预留] body[data-slug^="library"] ... */

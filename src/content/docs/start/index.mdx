@@ -1,0 +1,101 @@
+---
+title: 从这里开始
+description: PolyCN 关系导航：根据你的当前状态，找到适合的阅读路径。
+template: splash
+editUrl: false
+lastUpdated: false
+prev: false
+next: false
+sidebar:
+  order: 1
+  label: 从这里开始
+---
+
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+
+<div class="start-page-wrapper">
+
+  {/* 1. 欢迎语 (Starlight 会自动渲染 title 这里的正文作为简介) */}
+  <p class="hero-subtitle">欢迎来到关系的旷野。这里是 PolyCN 的自助导览台，旨在帮助你根据当下的处境找到最准确的信息。</p>
+
+  {/* 2. 基础价值观 (公理) */}
+  <div class="axioms-container">
+    <div class="axiom-item">
+      <span class="axiom-icon">🟢</span>
+      <div class="axiom-text">
+        <strong>知情同意</strong>
+        <small>Enthusiastic Consent</small>
+      </div>
+    </div>
+    <div class="axiom-item">
+      <span class="axiom-icon">🔵</span>
+      <div class="axiom-text">
+        <strong>诚实透明</strong>
+        <small>Radical Honesty</small>
+      </div>
+    </div>
+    <div class="axiom-item">
+      <span class="axiom-icon">🟡</span>
+      <div class="axiom-text">
+        <strong>自主自决</strong>
+        <small>Bodily Autonomy</small>
+      </div>
+    </div>
+  </div>
+
+  <blockquote class="axiom-warning">
+    没有任何人应当被迫参与开放关系。隐瞒不是开放，而是欺骗。
+  </blockquote>
+
+  {/* 3. 分流卡片 */}
+  <div class="triage-grid">
+    <a href="/start/partner-proposed" class="start-card card-panic">
+      <div class="card-content">
+        <h3>对象向我提出开放</h3>
+        <p>"我很震惊、困惑，甚至有点恐慌。我不知道该不该答应。"</p>
+        <span class="card-btn">阅读急救指南 &rarr;</span>
+      </div>
+    </a>
+
+    <a href="/start/i-want-to-open" class="start-card card-explore">
+      <div class="card-content">
+        <h3>我想试试其他类型的关系</h3>
+        <p>"我觉得传统模式不适合我。我想探索，但不想伤害任何人。"</p>
+        <span class="card-btn">查看起步建议 &rarr;</span>
+      </div>
+    </a>
+
+    <a href="/start/just-curious" class="start-card card-curious">
+      <div class="card-content">
+        <h3>我刚听说，有点好奇</h3>
+        <p>"这是什么？和出轨有什么区别？我想了解最基础的概念。"</p>
+        <span class="card-btn">进入科普通道 &rarr;</span>
+      </div>
+    </a>
+
+    <a href="/start/troubleshooting" class="start-card card-fix">
+      <div class="card-content">
+        <h3>我在实践，出现了问题</h3>
+        <p>"我们已经尝试开放了，但遇到了嫉妒、边界不清或沟通障碍。"</p>
+        <span class="card-btn">打开工具箱 &rarr;</span>
+      </div>
+    </a>
+  </div>
+
+  {/* 4. 快捷与跳过 */}
+  <div class="start-footer-nav">
+    <p><a href="/library" class="skip-btn">跳过引导，我想自己浏览全部馆藏</a></p>
+    
+<div class="quick-links">
+<p>快速查阅：<a href="/introduction#abc">非单偶制 ABC</a> · <a href="/introduction#myths">常见误区</a> · <a href="/introduction#faq">FAQ</a> · <a href="/wiki">百科索引</a></p>
+    </div>
+  </div>
+
+  <QuoteBlock 
+    content="爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。"
+    author="珀西·比希·雪莱"
+    source="https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it"
+  />
+
+</div>
+
