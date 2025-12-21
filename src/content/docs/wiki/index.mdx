@@ -1,3 +1,200 @@
 ---
-title: wiki建设中
+title: Wiki 百科
+description: 非单偶制术语与概念索引
+template: splash
+sidebar:
+  label: 🧠 Wiki 百科
+  order: 0
+# 隐藏 H1 标题
+head:
+  - tag: style
+    content: |
+      h1#_top { display: none !important; }
+      .content-panel h1 { display: none !important; }
 ---
+
+{/* ✅ 1. 修正引用路径为三级 */}
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import Footer from '../../../components/Footer.astro';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import WikiStats from '../../../components/WikiStats.astro';
+
+<div class="wiki-container">
+
+  {/* 2. Wiki Hero: 去掉 badge, 图片改 svg */}
+  <div class="wiki-hero">
+    <div class="hero-text">
+      <h1>共识的基石</h1>
+      <p>这里是 PolyCN 的术语库。我们试图定义每一个词汇，不仅为了消除歧义，更为了确立一种基于“知情同意”的共同语言。</p>
+    </div>
+    <img src="/images/wiki-hero.svg" alt="Wiki Icon" class="hero-img" />
+  </div>
+
+  <WikiStats />
+
+  {/* 3. 核心概念速查: 换成你指定的四个 */}
+  <div class="wiki-section">
+    <h2 class="section-title">入门核心词</h2>
+    <p class="section-desc">如果你刚接触这个领域，请先搞懂这几个基础概念。</p>
+    
+    <CardGrid>
+      <Card title="CNM" icon="star">
+        **非单偶制 (Consensual Non-Monogamy)**。<br/>伞状术语，涵盖所有基于知情同意的非一对一关系模式。
+        <br/><a href="/wiki/cnm" class="read-more">查看详情 &rarr;</a>
+      </Card>
+      <Card title="Polyamory" icon="heart">
+        **多边恋 / 多重伴侣**。<br/>不仅是性开放，更强调允许多段深度的情感连接与承诺同时存在。
+        <br/><a href="/wiki/polyamory" class="read-more">查看详情 &rarr;</a>
+      </Card>
+      <Card title="Relationship Anarchy" icon="random">
+        **关系安那其 / 关系无政府**。<br/>拒绝将关系分类（如朋友vs恋人），反对预设的权利等级，主张根据当下互动自定义每段关系。
+        <br/><a href="/wiki/relationship-anarchy" class="read-more">查看详情 &rarr;</a>
+      </Card>
+      <Card title="QPR" icon="puzzle">
+        **酷儿柏拉图 (Queerplatonic)**。<br/>一种超越传统“友情”与“爱情”二元对立的亲密关系，不一定包含性，但具有极高的承诺度。
+        <br/><a href="/wiki/qpr" class="read-more">查看详情 &rarr;</a>
+      </Card>
+    </CardGrid>
+  </div>
+
+{/* 4. 分类索引: 全面覆盖 8 大板块 */}
+  <div class="wiki-section">
+    <h2 class="section-title">按类别浏览</h2>
+    <CardGrid>
+      <LinkCard 
+        title="🧱 基础概念" 
+        description="单偶制 vs 非单偶制、关系结构、权利让渡、知情同意..." 
+        href="/wiki/concepts" 
+      />
+      <LinkCard 
+        title="📐 关系形式" 
+        description="开放关系、多重伴侣、层级/非层级、主/次伴侣..." 
+        href="/wiki/forms" 
+      />
+      <LinkCard 
+        title="🛠️ 关系实践" 
+        description="规则制定、雷达盘点 (RADAR)、时间管理、信息共享..." 
+        href="/wiki/practices" 
+      />
+      <LinkCard 
+        title="🧠 情绪与心理" 
+        description="嫉妒处理、安全感重建、羞耻感、依恋类型..." 
+        href="/wiki/psychology" 
+      />
+      <LinkCard 
+        title="💬 沟通与冲突" 
+        description="非暴力沟通、边界冲突、权力不对等、需求表达..." 
+        href="/wiki/communication" 
+      />
+      <LinkCard 
+        title="🍓 性与身体" 
+        description="性健康 (STI/HIV)、安全性行为、体液交换协议、性边界..." 
+        href="/wiki/sexuality" 
+      />
+      <LinkCard 
+        title="🌏 社会与处境" 
+        description="出柜策略、中国语境、法律风险、异地关系、生育..." 
+        href="/wiki/society" 
+      />
+      <LinkCard 
+        title="🚩 风险与退出" 
+        description="关系失衡、煤气灯效应、分手/退出机制、创伤修复..." 
+        href="/wiki/risks" 
+      />
+    </CardGrid>
+  </div>
+
+  {/* 5. 引用区: 维特根斯坦原话 */}
+  <div style="margin: 4rem 0;">
+    <QuoteBlock 
+      content="语言的边界即是世界的边界。"
+      author="路德维希·维特根斯坦"
+    />
+  </div>
+
+  <Footer />
+
+</div>
+
+<style>{`
+  .wiki-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* --- Hero 区域 --- */
+  .wiki-hero {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 1rem 2rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .wiki-hero {
+      flex-direction: row;
+      text-align: left;
+      justify-content: space-between;
+      padding: 5rem 0 3rem;
+    }
+  }
+
+  .hero-text {
+    flex: 1;
+  }
+
+  .wiki-hero h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--sl-color-white);
+  }
+
+  .wiki-hero p {
+    font-size: 1.1rem;
+    color: var(--sl-color-gray-3);
+    line-height: 1.6;
+  }
+
+  .hero-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    /* 给 SVG 加一点点发光效果，更有科技感 */
+    filter: drop-shadow(0 0 20px rgba(var(--sl-color-accent-rgb), 0.2));
+  }
+
+  /* --- 分区样式 --- */
+  .wiki-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--sl-color-white);
+  }
+
+  .section-desc {
+    color: var(--sl-color-gray-3);
+    margin-bottom: 1.5rem;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--sl-color-accent);
+  }
+  
+  .read-more:hover {
+    text-decoration: underline;
+  }
+`}</style>

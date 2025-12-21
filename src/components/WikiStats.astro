@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+
+// 1. 筛选出 wiki 目录下的所有文档
+const wikiDocs = allDocs.filter(d => d.id.startsWith('wiki/') && !d.id.endsWith('index.mdx'));
+
+// 2. 统计词条总数
+const totalEntries = wikiDocs.length;
+
+// 3. (可选) 统计最近更新的词条数（比如 30 天内）
+const oneMonthAgo = new Date();
+oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+const newEntries = wikiDocs.filter(d => {
+  const docDate = (d.data as any).date;
+  return docDate && new Date(docDate) > oneMonthAgo;
+}).length;
+---
+
+<div class="wiki-stats-container">
+  <div class="stat-box">
+    <div class="stat-number">{totalEntries}</div>
+    <div class="stat-label">收录词条</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-box">
+    <div class="stat-number">{newEntries}</div>
+    <div class="stat-label">本月更新</div>
+  </div>
+</div>
+
+<style>
+  .wiki-stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+
+  .stat-box {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--sl-color-accent); /* Wiki 可以用主题色，也可以换个颜色 */
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--sl-color-gray-5);
+  }
+</style>
