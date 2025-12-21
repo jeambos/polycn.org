@@ -5,7 +5,7 @@ template: splash
 editUrl: false
 lastUpdated: true
 sidebar:
-  order: 3
+  hidden: true
 ---
 
 ## 在开始之前

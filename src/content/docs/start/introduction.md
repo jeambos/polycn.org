@@ -5,7 +5,7 @@ template: splash
 editUrl: false
 lastUpdated: true
 sidebar:
-  order: 1
+  hidden: true
 ---
 
 欢迎来到合意非单偶制（Consensual Non-Monogamy, CNM）的世界。

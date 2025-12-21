@@ -5,7 +5,7 @@ template: splash
 editUrl: false
 lastUpdated: true
 sidebar:
-  order: 2
+  hidden: true
 ---
 
 当我们谈论非单偶制（Consensual Non-Monogamy）时，无论是从主流文化的视角，还是从初次接触者的期待出发，都很容易产生一些特定的想象。
