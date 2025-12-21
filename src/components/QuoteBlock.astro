@@ -1,0 +1,108 @@
+---
+interface Props {
+  content: string; // 金句内容
+  author: string;  // 作者 (必填)
+  source?: string; // 出处链接 (可选)
+}
+
+const { content, author, source } = Astro.props;
+---
+
+<div class="visual-footer-quote">
+  {/* 上方装饰线 (D2: Ornamental) */}
+  <div class="quote-divider-top">
+    <span class="divider-line"></span>
+    <span class="divider-ornament">§</span>
+    <span class="divider-line"></span>
+  </div>
+
+  {/* 金句正文 */}
+  <p class="quote-text">
+    {content}
+  </p>
+  
+  {/* 作者 (根据是否有链接渲染不同结构，同时保留样式类) */}
+  <p class="quote-author">
+    {source ? (
+      <a href={source} target="_blank" rel="noopener noreferrer">{author}</a>
+    ) : (
+      author
+    )}
+  </p>
+</div>
+
+<style>
+  /* ====================================================== */
+  /* 视觉注脚 (Book Style) - 组件内封装样式                  */
+  /* ====================================================== */
+
+  .visual-footer-quote {
+    text-align: center;
+    padding: 4rem 1rem 2rem 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* --- 金句正文 --- */
+  .quote-text {
+    /* 强制使用宋体 */
+    font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+    font-weight: 700 !important;
+    font-style: normal !important;
+    font-size: 1.35rem; 
+    color: var(--sl-color-text);
+    line-height: 1.8;
+    margin-top: 4rem !important;
+    text-shadow: 0 0 1px rgba(0,0,0,0.1); 
+  }
+
+  /* --- 作者名 --- */
+  .quote-author {
+    font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;  
+    font-size: 1.2rem;  
+    color: var(--sl-color-gray-4);  
+    font-style: italic;
+    font-weight: 500;  
+    margin-bottom: 2rem !important;
+    letter-spacing: 1px;
+    text-align: center !important;
+    text-indent: 0 !important;
+  }
+
+  /* --- 作者名链接 (隐藏式彩蛋) --- */
+  .quote-author a {
+    color: inherit !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  .quote-author a:hover {
+    color: var(--sl-color-accent) !important;
+    border-bottom-color: var(--sl-color-accent);
+  }
+
+  /* --- D2: 上方装饰线 --- */
+  .quote-divider-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+
+  .quote-divider-top .divider-line {
+    height: 1px;
+    width: 60px;
+    background: var(--sl-color-gray-4);
+  }
+
+  .quote-divider-top .divider-ornament {
+    font-family: serif;
+    font-size: 1.2rem;
+    color: var(--sl-color-accent);
+    font-weight: bold;
+  }
+</style>

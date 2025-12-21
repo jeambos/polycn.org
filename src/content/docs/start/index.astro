@@ -1,0 +1,181 @@
+---
+// src/pages/start/index.astro
+import Layout from '../../layouts/Layout.astro';
+import QuoteBlock from '../../components/QuoteBlock.astro'; // 假设你已经创建了金句组件
+// 如果有 Footer 组件，也可以在这里导入，或者包含在 Layout 中
+
+const pageTitle = "开始探索 | PolyCN";
+const pageDescription = "PolyCN 自助导览台：根据你的当前状态，找到适合的阅读路径。";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <main class="start-container">
+    
+    <section class="hero">
+      <h1>欢迎来到旷野</h1>
+      <p class="subtitle">PolyCN 自助知识文库 / 探索亲密关系的另一种可能</p>
+    </section>
+
+    <section class="axioms">
+      <div class="axiom-item">
+        <span class="icon">🟢</span>
+        <strong>知情同意</strong>
+        <span class="desc">Enthusiastic Consent</span>
+      </div>
+      <div class="axiom-item">
+        <span class="icon">🔵</span>
+        <strong>诚实透明</strong>
+        <span class="desc">Radical Honesty</span>
+      </div>
+      <div class="axiom-item">
+        <span class="icon">🟡</span>
+        <strong>自主自决</strong>
+        <span class="desc">Bodily Autonomy</span>
+      </div>
+      <p class="axiom-note">没有任何人应当被迫参与开放关系。隐瞒不是开放，是欺骗。</p>
+    </section>
+
+    <section class="triage-grid">
+      <h2 class="section-title">你现在的情况是？</h2>
+      
+      <div class="cards-container">
+        <a href="/start/partner-proposed" class="card panic">
+          <h3>对象向我提出开放</h3>
+          <p class="user-voice">"我很震惊、困惑，甚至有点恐慌。我不知道该不该答应，也不确定这对我们的关系意味着什么。"</p>
+          <span class="action-text">阅读急救指南 &rarr;</span>
+        </a>
+
+        <a href="/start/i-want-to-open" class="card explore">
+          <h3>我想试试其他类型的关系</h3>
+          <p class="user-voice">"我觉得传统的单一伴侣模式不完全适合我。我有兴趣探索，但不想伤害任何人，也不想踩坑。"</p>
+          <span class="action-text">查看起步建议 &rarr;</span>
+        </a>
+
+        <a href="/start/just-curious" class="card curious">
+          <h3>我刚听说，有点好奇</h3>
+          <p class="user-voice">"我只是路过，或者看到了相关新闻。这是什么？这和出轨有什么区别？我想了解基本概念。"</p>
+          <span class="action-text">进入科普通道 &rarr;</span>
+        </a>
+
+        <a href="/start/troubleshooting" class="card fix">
+          <h3>我在实践，出现了问题</h3>
+          <p class="user-voice">"我们已经尝试开放了，但遇到了嫉妒、边界不清或沟通障碍。我需要具体的解决工具。"</p>
+          <span class="action-text">打开工具箱 &rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="skip-link">
+      <a href="/library">跳过引导，我想自己浏览全部馆藏</a>
+    </section>
+
+    <section class="quick-links">
+      <h3>快速查阅</h3>
+      <div class="links-row">
+        <a href="/introduction#abc">非单偶制 ABC</a>
+        <span class="divider">/</span>
+        <a href="/introduction#myths">常见误区粉碎</a>
+        <span class="divider">/</span>
+        <a href="/introduction#faq">FAQ 问答</a>
+        <span class="divider">/</span>
+        <a href="/wiki">百科索引 (Glossary)</a>
+      </div>
+    </section>
+
+    <QuoteBlock 
+      text="爱不是有限的资源，而是像知识一样，分享得越多，拥有的就越多。"
+      author="Janet W. Hardy, The Ethical Slut"
+    />
+
+  </main>
+</Layout>
+
+<style>
+  /* 简单的 CSS 样式示例，你可以根据自己的设计系统调整 */
+  .start-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: sans-serif; /* 建议使用你配置好的全局字体 */
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .subtitle { color: #666; font-size: 1.1rem; }
+
+  /* Axioms */
+  .axioms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    background: #f9f9f9; /* 浅灰色背景 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .axiom-item { display: flex; flex-direction: column; align-items: center; }
+  .axiom-item .icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .axiom-note { width: 100%; margin-top: 1rem; font-size: 0.9rem; color: #888; }
+
+  /* Cards Grid */
+  .section-title { text-align: center; margin-bottom: 2rem; }
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 响应式 Grid */
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .card {
+    display: block;
+    padding: 2rem;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: white;
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #ddd;
+  }
+
+  .card h3 { margin-top: 0; color: #333; }
+  .user-voice { 
+    font-style: italic; 
+    color: #555; 
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .action-text { 
+    font-weight: bold; 
+    color: #000; /* 或者你的主色调 */
+    font-size: 0.9rem;
+  }
+
+  /* Skip Link */
+  .skip-link { text-align: center; margin-bottom: 4rem; }
+  .skip-link a { color: #888; text-decoration: underline; font-size: 0.9rem; }
+
+  /* Quick Links */
+  .quick-links { text-align: center; margin-bottom: 4rem; border-top: 1px solid #eee; padding-top: 2rem; }
+  .quick-links h3 { font-size: 1rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+  .links-row { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+  .links-row a { font-weight: bold; color: #333; text-decoration: none; border-bottom: 2px solid transparent; }
+  .links-row a:hover { border-bottom-color: #333; }
+  .divider { color: #ccc; }
+
+  /* Mobile Tweaks */
+  @media (max-width: 600px) {
+    .cards-container { grid-template-columns: 1fr; } /* 手机端强制单列 */
+  }
+</style>

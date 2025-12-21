@@ -21,7 +21,7 @@ hero:
 import { Card, CardGrid, LinkButton } from '@astrojs/starlight/components';
 import BookShelf from '../../components/BookShelf.astro';
 import RecentUpdates from '../../components/RecentUpdates.astro';
-import DailyQuote from '../../components/DailyQuote.astro';
+import QuoteBlock from '../../components/QuoteBlock.astro';
 
 {/* 使用 class 代替 inline style */}
 <div class="hero-spacer"></div>
@@ -177,25 +177,11 @@ import DailyQuote from '../../components/DailyQuote.astro';
 </div>
 
 {/* === 6. 视觉注脚 (Book-style Quote) === */}
-<div class="visual-footer-quote">
-  {/* 上方装饰线 (D2: Ornamental) */}
-  <div class="quote-divider-top">
-    <span class="divider-line"></span>
-    <span class="divider-ornament">§</span>
-    <span class="divider-line"></span>
-  </div>
-
-  {/* 金句正文 */}
-  <p class="quote-text">
-    爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。
-  </p>
-  
-  {/* 作者 */}
-  <p class="quote-author"><a href="https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it" target="_blank">珀西·比希·雪莱</a></p>
-
-  {/* 下方装饰线 (D3: Calligraphic) 
-  <div class="quote-divider-bottom"></div>*/}
-</div>
+<QuoteBlock 
+  content="爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。"
+  author="珀西·比希·雪莱"
+  source="https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it"
+/>
 
 {/* === 7. 真正的页脚 (版权与链接) === */}
 <div class="home-footer">

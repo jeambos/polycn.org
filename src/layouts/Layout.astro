@@ -1,0 +1,62 @@
+---
+// 引入刚才写的 Footer 组件
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "PolyCN - 探索亲密关系的另一种可能" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+        </head>
+	<body>
+        <slot />
+        
+        <Footer />
+	</body>
+</html>
+
+<style is:global>
+    /* 全局 CSS 变量和重置样式 */
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+        --bg-color: #ffffff;
+        --text-color: #1a1a1a;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+	}
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    /* 让 slot 占据剩余空间，把 footer 挤到底部 */
+    slot {
+        flex: 1;
+    }
+	code {
+		font-family: monospace;
+	}
+    a {
+        color: inherit;
+    }
+</style>

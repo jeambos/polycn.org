@@ -1,0 +1,46 @@
+---
+const today = new Date();
+---
+
+<footer>
+  <div class="footer-content">
+    <div class="copyright">
+      &copy; {today.getFullYear()} PolyCN.org <span class="divider">|</span> 开源与多元之爱
+    </div>
+    
+    <div class="social-links">
+      <a href="mailto:hi@polycn.org" target="_blank">Email</a>
+      <a href="/rss.xml" target="_blank">RSS</a>
+      <a href="https://github.com/your-repo" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: 2em 1em 4em 1em;
+    background: #f4f4f4; /* 浅灰色背景，区别于正文 */
+    color: #666;
+    text-align: center;
+    margin-top: 4rem; /* 保证页脚和正文有距离 */
+  }
+  .footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  .social-links a {
+    margin: 0 0.5rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px dashed #999;
+  }
+  .social-links a:hover {
+    color: #000;
+    border-bottom-style: solid;
+  }
+  .divider { color: #ccc; margin: 0 0.5em; }
+</style>
