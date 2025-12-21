@@ -2,18 +2,27 @@
 /* src/components/RecentUpdates.astro */
 import { getCollection } from 'astro:content';
 
+interface Props {
+  /** * 可选：路径前缀过滤
+   * 例如传入 'library/books/' 则只显示图书类的更新
+   */
+  idPrefix?: string;
+}
+
+const { idPrefix = '' } = Astro.props;
+
 const allDocs = await getCollection('docs');
 
 const recentDocs = allDocs
   .filter((doc) => !doc.id.startsWith('index'))
-  // ✅ 1. 严格保留逻辑：必须有 date 字段才显示
+  // 1. 必须有 date 字段
   .filter((doc) => (doc.data as any).date)
-  // 2. 排序
+  // 2. ✅ 新增逻辑：如果传入了前缀，只保留匹配该前缀的文档
+  .filter((doc) => idPrefix ? doc.id.startsWith(idPrefix) : true)
+  // 3. 排序 (新 -> 旧)
   .sort((a, b) => {
-    const aData = a.data as any;
-    const bData = b.data as any;
-    const dateA = new Date(aData.date).valueOf();
-    const dateB = new Date(bData.date).valueOf();
+    const dateA = new Date((a.data as any).date).valueOf();
+    const dateB = new Date((b.data as any).date).valueOf();
     return dateB - dateA;
   })
   .slice(0, 5); // 取前5篇
@@ -22,7 +31,8 @@ const recentDocs = allDocs
 <div class="updates-card-container">
   <div class="updates-header">
     <h3>✨ 最近更新</h3>
-    <a href="/timeline" class="view-all-link">查看历史 &rarr;</a>
+    {/* 只有在显示全部更新时，才显示查看历史的链接，分区的历史比较少见 */}
+    {!idPrefix && <a href="/timeline" class="view-all-link">查看历史 &rarr;</a>}
   </div>
   
   <div class="updates-list">
@@ -31,12 +41,12 @@ const recentDocs = allDocs
     ) : (
       recentDocs.map((doc) => {
         const data = doc.data as any;
-        // 日期格式化：只显示 MM-DD，更短更省空间
         const dateStr = new Date(data.date).toLocaleDateString('zh-CN', { 
           month: '2-digit', 
           day: '2-digit' 
         });
         
+        // 移除文件后缀生成链接
         const href = `/${doc.id.replace(/\.(md|mdx)$/, '')}/`;
 
         return (
@@ -51,27 +61,28 @@ const recentDocs = allDocs
 </div>
 
 <style>
-  /* 容器：圆角卡片 */
+  /* 样式保持不变，复用你之前的 CSS */
   .updates-card-container {
     background: var(--sl-color-gray-6);
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 16px;
-    padding: 1.2rem; /* 稍微减小容器内边距 */
-    margin-top: 4rem;
+    padding: 1.2rem;
+    height: 100%; /* ✅ 新增：为了在 Grid 布局中自动撑满高度 */
+    display: flex;
+    flex-direction: column;
   }
 
-  /* 头部：标题 + 链接 */
   .updates-header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* 垂直居中对齐 */
-    margin-bottom: 0.8rem; /* 减小标题下方的留白 */
+    align-items: center;
+    margin-bottom: 0.8rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--sl-color-gray-5);
   }
 
   .updates-header h3 {
-    font-size: 1.2rem; /* 标题稍微改小一点点 */
+    font-size: 1.1rem;
     margin: 0;
     color: var(--sl-color-white);
   }
@@ -83,22 +94,17 @@ const recentDocs = allDocs
   }
   .view-all-link:hover { color: var(--sl-color-accent); }
 
-  /* 列表容器 */
   .updates-list {
     display: flex;
     flex-direction: column;
-    gap: 2px; /* ✅ 极度紧凑：项目之间的间距几乎为0 */
+    gap: 2px;
   }
 
-  /* 单行文章项 */
   .compact-update-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    /* ✅ 核心修改：极小的内边距，实现高密度 */
-    padding: 0.35rem 0.5rem; 
-    
+    padding: 0.35rem 0.5rem;
     text-decoration: none;
     color: var(--sl-color-gray-2);
     border-radius: 6px;
@@ -108,21 +114,19 @@ const recentDocs = allDocs
   .compact-update-item:hover {
     background: var(--sl-color-black);
     color: var(--sl-color-accent);
-    padding-left: 0.8rem; /* 悬停时稍微移动一点点 */
+    padding-left: 0.8rem;
   }
 
-  /* 标题文字 */
   .update-title {
-    font-size: 0.95rem; /* 字号适中 */
+    font-size: 0.95rem;
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* 超长省略 */
+    text-overflow: ellipsis;
     max-width: 75%; 
-    line-height: 1.2; /* 紧凑的行高 */
+    line-height: 1.2;
   }
 
-  /* 日期文字 */
   .update-date {
     font-size: 0.8rem;
     color: var(--sl-color-gray-4);
@@ -137,29 +141,9 @@ const recentDocs = allDocs
     font-size: 0.9rem;
   }
 
-
-
-/* ========================================= */
-/* ✨ 特别高亮：列表中的第一篇文章 (最新)      */
-/* ========================================= */
-
-/* 1. 让第一篇文章的标题变橙、变粗 */
-.updates-list a:first-child .update-title {
-  color: var(--sl-color-accent); /* 橙色高亮 */
-  font-weight: bold;             /* 加粗 */
-  font-size: 1.05rem;            /* 字号微调大一丢丢 */
-}
-
-/* 2. (可选) 让第一篇文章的日期也带一点橙色调，保持协调 */
-.updates-list a:first-child .update-date {
-  color: var(--sl-color-accent);
-  opacity: 0.8; /* 稍微淡一点，不要抢标题风头 */
-}
-
-/* 3. (可选) 给第一篇文章加一个极其微弱的背景色，增加尊贵感 
-.updates-list a:first-child {
-  background: rgba(230, 149, 37, 0.05); 
-}*/
-
-
+  /* 第一篇文章高亮 */
+  .updates-list a:first-child .update-title {
+    color: var(--sl-color-accent);
+    font-weight: bold;
+  }
 </style>

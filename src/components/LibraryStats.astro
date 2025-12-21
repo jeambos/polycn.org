@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+
+// 1. 计算总页面数 (Total Pages)
+// 排除掉 index 页面，只计算实际内容页
+const totalPages = allDocs.filter(d => !d.id.endsWith('index.md') && !d.id.endsWith('index.mdx')).length;
+
+// 2. 计算图书册数 (Total Books)
+// 逻辑：找到所有 id 以 library/books/ 开头的文档，提取其下一级目录名，去重
+const bookFolders = new Set();
+
+allDocs.forEach(doc => {
+  if (doc.id.startsWith('library/books/')) {
+    // 路径示例: library/books/moral-slut/chapter1.md
+    // 分割后: ['library', 'books', 'moral-slut', 'chapter1.md']
+    const parts = doc.id.split('/');
+    if (parts.length >= 3) {
+      // parts[2] 就是书名文件夹 (moral-slut)
+      bookFolders.add(parts[2]);
+    }
+  }
+});
+
+const totalBooks = bookFolders.size;
+---
+
+<div class="stats-container">
+  <div class="stat-item">
+    <div class="stat-value">{totalBooks}</div>
+    <div class="stat-label">馆藏图书 (册)</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-value">{totalPages}</div>
+    <div class="stat-label">文献总数 (页)</div>
+  </div>
+</div>
+
+<style>
+  .stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem 0;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--sl-color-text-accent);
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background-color: var(--sl-color-gray-5);
+  }
+</style>

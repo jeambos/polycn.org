@@ -1,0 +1,115 @@
+---
+import RecentUpdates from './RecentUpdates.astro';
+
+interface Props {
+  title: string;          // 版块标题，如 "📚 图书"
+  idPrefix: string;       // 传给 RecentUpdates 的过滤前缀
+  featured: {             // 特色推荐卡片的数据
+    title: string;
+    description: string;
+    link: string;
+    tag?: string;
+  };
+}
+
+const { title, idPrefix, featured } = Astro.props;
+---
+
+<div class="category-section">
+  <h2 class="section-title">{title}</h2>
+  
+  <div class="section-grid">
+    {/* 左侧：特色推荐卡片 */}
+    <a href={featured.link} class="featured-card">
+      <div class="featured-tag">{featured.tag || '编辑推荐'}</div>
+      <h3 class="featured-title">{featured.title}</h3>
+      <p class="featured-desc">{featured.description}</p>
+      <div class="featured-footer">立即阅读 &rarr;</div>
+    </a>
+
+    {/* 右侧：该分类下的最近更新 */}
+    <div class="updates-wrapper">
+      <RecentUpdates idPrefix={idPrefix} />
+    </div>
+  </div>
+</div>
+
+<style>
+  .category-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--sl-color-accent);
+    padding-left: 1rem;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 移动端默认一列 */
+    gap: 1.5rem;
+  }
+
+  /* 桌面端：左右两列 */
+  @media (min-width: 768px) {
+    .section-grid {
+      grid-template-columns: 1.2fr 1fr; /* 左边稍微宽一点 */
+    }
+  }
+
+  /* --- 特色卡片样式 --- */
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--sl-color-gray-6) 0%, var(--sl-color-black) 100%);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 16px;
+    padding: 2rem;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    min-height: 220px; /* 保证卡片有一定高度 */
+  }
+
+  .featured-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--sl-color-accent);
+  }
+
+  .featured-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(var(--sl-color-accent-rgb), 0.15);
+    color: var(--sl-color-accent);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    font-weight: bold;
+  }
+
+  .featured-title {
+    font-size: 1.6rem !important; /* 覆盖默认h3 */
+    margin: 0 0 1rem 0 !important;
+    color: var(--sl-color-white);
+    line-height: 1.2;
+  }
+
+  .featured-desc {
+    color: var(--sl-color-gray-3);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* 把底部箭头推下去 */
+  }
+
+  .featured-footer {
+    color: var(--sl-color-accent);
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+</style>
