@@ -16,62 +16,68 @@ import CategorySection from '../../../components/CategorySection.astro';
 
   {/* 1. Hero 区域 */}
   <div class="library-hero">
-    <h1>全站馆藏</h1>
-    <p>这里存放着关于非单偶制的一切：从理论巨著到实操手册，从深度解析到真人故事。</p>
+    <img src="/images/lib-hero.svg" alt="Library Icon" class="hero-icon" />
+    <div class="hero-content">
+      <h1>知识库</h1>
+      <p>这里存放着关于非单偶制的一切：从理论巨著到实操手册，从深度解析到真人故事。</p>
+    </div>
   </div>
 
   {/* 2. 数据统计 */}
   <LibraryStats />
 
-  {/* 3. 分类展示区 - 图书 */}
+  {/* 3. 分类展示区 - 图书 (占位符) */}
   <CategorySection 
     title="📚 图书"
     idPrefix="library/books/"
     featured={{
-      title: "道德浪女",
-      description: "非单偶制的圣经。它不仅是一本关于开放关系的书，更是一本关于如何掌握自己身体与情感主权的指南。",
-      link: "/library/books/moral-slut/intro",
-      tag: "必读经典"
+      title: "[ 待录入推荐书籍 ]",
+      description: "此处为书籍简介占位符。待相关书籍资料整理入库后，将在此处展示本月推荐的经典著作及其摘要信息。",
+      link: "/library/books", 
+      tag: "虚位以待",
+      image: "https://placehold.co/600x800/2a2a2a/e69525?text=Book+Cover"
     }}
   />
 
-  {/* 4. 分类展示区 - 实操指南 */}
+  {/* 4. 分类展示区 - 实操指南 (占位符) */}
   <CategorySection 
     title="🧭 实操指南"
     idPrefix="library/guides/"
     featured={{
-      title: "嫉妒处理手册",
-      description: "嫉妒不是怪兽，而是信使。本指南将带你拆解嫉妒背后的恐惧、匮乏与不安全感，并提供急救工具箱。",
-      link: "/library/guides/jealousy-handbook",
-      tag: "热门工具"
+      title: "[ 待录入实操手册 ]",
+      description: "此处为指南简介占位符。未来将展示关于嫉妒处理、时间管理或沟通技巧的具体操作手册推荐。",
+      link: "/library/guides",
+      tag: "虚位以待",
+      image: "https://placehold.co/600x800/2a2a2a/e69525?text=Guide+Cover"
     }}
   />
 
-  {/* 5. 分类展示区 - 深度文章 */}
+  {/* 5. 分类展示区 - 深度文章 (占位符) */}
   <CategorySection 
     title="📰 深度文章"
     idPrefix="library/articles/"
     featured={{
-      title: "关系无政府主义宣言",
-      description: "为什么爱必须分级？为什么朋友不能比恋人重要？Andie Nordgren 的这篇短文彻底重构了我们对关系的想象。",
-      link: "/library/articles/ra-manifesto",
-      tag: "深度思考"
+      title: "[ 待录入深度好文 ]",
+      description: "此处为文章摘要占位符。将精选社区内关于关系理论、社会学分析或哲学思考的高质量长文。",
+      link: "/library/articles",
+      tag: "虚位以待",
+      image: "https://placehold.co/600x800/2a2a2a/e69525?text=Article+Cover"
     }}
   />
 
-  {/* 6. 分类展示区 - 真人故事 */}
+  {/* 6. 分类展示区 - 真人故事 (占位符) */}
   <CategorySection 
     title="🎤 真人故事"
     idPrefix="stories/"
     featured={{
-      title: "我的十年开放之路",
-      description: "这不是童话，而是真实的生活。记录了一对伴侣从尝试、踩坑、崩溃到最终找到平衡的十年历程。",
-      link: "/stories/ten-years-journey",
-      tag: "社区投稿"
+      title: "[ 待录入真人故事 ]",
+      description: "此处为故事摘要占位符。用于展示社区投稿的真实经历，记录那些鲜活的、有血有肉的人生片段。",
+      link: "/stories",
+      tag: "虚位以待",
+      image: "https://placehold.co/600x800/2a2a2a/e69525?text=Story+Cover"
     }}
   />
 
-  {/* 7. 金句引用 */}
   <div style="margin: 4rem 0;">
     <QuoteBlock 
       content="我不仅想要被爱，我想要被了解。如果为了被爱而必须隐藏一部分真实的自己，那么这份爱就是有瑕疵的。"
@@ -79,37 +85,87 @@ import CategorySection from '../../../components/CategorySection.astro';
     />
   </div>
 
-  {/* 8. Footer */}
   <Footer />
 
 </div>
 
 <style>{`
+  /* --- 1. 隐藏自动生成的 H1 标题 --- */
+  :global(.content-panel h1), :global(main > h1) {
+    display: none !important;
+  }
+
   .library-container {
-    max-width: 1080px; /* 比标准文档页稍微宽一点，更有气势 */
+    max-width: 1080px;
     margin: 0 auto;
     padding: 0 1rem;
   }
 
+  /* --- 2. Hero 区域调整：顶部增加空地 --- */
   .library-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 3rem 1rem 1rem;
-    margin-bottom: 1rem;
+    padding: 6rem 1rem 3rem; /* 顶部 padding 从 3rem 增加到 6rem */
+    gap: 1.5rem;
   }
-  
-  .library-hero h1 {
+
+  @media (min-width: 768px) {
+    .library-hero {
+      flex-direction: row;
+      text-align: left;
+      justify-content: center;
+      gap: 3rem;
+    }
+  }
+
+  .hero-icon {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(var(--sl-color-accent-rgb), 0.3));
+  }
+
+  .hero-content h1 {
     font-size: 3rem;
     font-weight: 900;
     margin-bottom: 1rem;
+    /* 强制显示这里的 H1 */
+    display: block !important; 
     background: -webkit-linear-gradient(315deg, var(--sl-color-white) 25%, var(--sl-color-accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1.1;
   }
 
-  .library-hero p {
-    font-size: 1.2rem;
+  .hero-content p {
+    font-size: 1.1rem;
     color: var(--sl-color-gray-3);
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 500px;
   }
+
+/* --- 3. 标题强制左对齐 (忽略) --- */
+
+
+  /* --- 4. 修正统计区域高度不一致问题 --- */
+  /* 强制统计容器垂直居中 */
+  :global(.stats-container) {
+    align-items: center !important;
+    padding: 3rem 0 !important; /* 增加上下空间 */
+  }
+  
+  /* 调整分割线高度，使其与文字块视觉平衡 */
+  :global(.stat-divider) {
+    height: 50px !important; 
+    margin-top: 5px; /* 微调垂直位置 */
+  }
+  
+  /* 确保每个统计项内部对齐 */
+  :global(.stat-item) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
 `}</style>
