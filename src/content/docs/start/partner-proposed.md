@@ -106,8 +106,8 @@ sidebar:
 
 **基础认知**
 * [非单偶制简介](/introduction) - 了解定义与光谱
-* [常见误区 (Myths)](/introduction/myths) - 针对常见偏见的解析
-* [FAQ 常见问题](/introduction/faq) - 新手常见疑问解答
+* [常见误区 (Myths)](/myths) - 针对常见偏见的解析
+* [FAQ 常见问题](/faq) - 新手常见疑问解答
 * [自我评估](/assessment) - 准备度检查工具
 
 **深入阅读**

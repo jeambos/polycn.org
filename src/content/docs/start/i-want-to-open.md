@@ -108,8 +108,8 @@ sidebar:
 
 **基础认知**
 * [非单偶制简介](/introduction) - 了解定义与光谱
-* [常见误区 (Myths)](/introduction/myths) - 帮你澄清概念
-* [FAQ 常见问题](/introduction/faq) - 解答新手疑惑
+* [常见误区 (Myths)](/myths) - 帮你澄清概念
+* [FAQ 常见问题](/faq) - 解答新手疑惑
 * [自我评估](/assessment) - 再次检查动机
 
 **深入阅读**

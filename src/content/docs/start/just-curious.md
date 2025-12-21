@@ -91,8 +91,8 @@ PolyCN Archives 是一个非营利性的公共档案馆。
 
 **基础认知**
 * [非单偶制简介](/introduction) - 详细的定义与光谱分类
-* [常见误区 (Myths)](/introduction/myths) - 针对偏见的深度解析
-* [FAQ 常见问题](/introduction/faq) - 更多疑问解答
+* [常见误区 (Myths)](/myths) - 针对偏见的深度解析
+* [FAQ 常见问题](/faq) - 更多疑问解答
 
 **深入阅读**
 * [Wiki 百科索引](/wiki) - 查阅术语表
