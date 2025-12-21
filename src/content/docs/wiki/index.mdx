@@ -10,7 +10,7 @@ head:
   - tag: style
     content: |
       h1#_top { display: none !important; }
-      .content-panel h1 { display: none !important; }
+
 ---
 
 {/* ✅ 1. 修正引用路径为三级 */}
@@ -24,8 +24,9 @@ import WikiStats from '../../../components/WikiStats.astro';
   {/* 2. Wiki Hero: 去掉 badge, 图片改 svg */}
   <div class="wiki-hero">
     <div class="hero-text">
-      <h1>共识的基石</h1>
-      <p>这里是 PolyCN 的术语库。我们试图定义每一个词汇，不仅为了消除歧义，更为了确立一种基于“知情同意”的共同语言。</p>
+      <h1>中文多元关系百科</h1>
+      <p>这里是 PolyCN 的 Wiki 页面。消除歧义，建立共识。</p>
+      <p>我们可能需要很长时间把这里建设好，欢迎您<a href="https://t.me/polycn">参与建设。</a></p>
     </div>
     <img src="/images/wiki-hero.svg" alt="Wiki Icon" class="hero-img" />
   </div>
