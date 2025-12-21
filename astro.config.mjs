@@ -52,6 +52,7 @@ export default defineConfig({
         {
           label: '关于我们',
           autogenerate: { directory: 'about' },
+          collapsed: true, 
         }
       ],
 
