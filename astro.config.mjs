@@ -10,14 +10,29 @@ export default defineConfig({
  integrations: [starlight({
     title: 'PolyCN',
     
-    // ✅ 修复点：将 url 改为 href
-    social: [
-      {
-        label: 'GitHub',
-        href: 'https://github.com/jeambos/polycn.org', 
-        icon: 'github',
-      },
-    ],
+// ✅ 社交图标配置区 (v0.33+ 数组格式)
+      social: [
+        {
+          label: 'RSS',
+          href: '/rss.xml',
+          icon: 'rss',
+        },
+        {
+          label: 'X',
+          href: 'https://x.com/polycn_org',
+          icon: 'x.com',
+        },
+        {
+          label: 'Telegram',
+          href: 'https://t.me/polycn_org',
+          icon: 'telegram',
+        },
+        {
+          label: 'Email',
+          href: 'mailto:hi@polycn.org',
+          icon: 'email',
+        },
+      ],
 
 
     sidebar: [
