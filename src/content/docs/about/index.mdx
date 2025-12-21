@@ -1,7 +1,11 @@
 ---
 title: 关于我们
 description: 了解 PolyCN Archives 的愿景、使命与幕后故事。
+prev: false       # 隐藏上一篇
+next: false       # 隐藏下一篇
 ---
+import Footer from '../../../components/Footer.astro';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
 
 ## 我们的使命
 
@@ -44,6 +48,12 @@ PolyCN 目前是一个纯粹的**“用爱发电”**项目。
 
 ---
 
-> "The opposite of love is not hate, it's indifference."  
-> 爱的对立面不是恨，而是冷漠。  
-> —— Elie Wiesel
+  <QuoteBlock 
+    content="爱是这样一种状态：另一个人的快乐，是你自身快乐的必要条件。"
+    author="罗伯特·海因莱因"
+    source="https://www.goodreads.com/quotes/4964-love-is-that-condition-in-which-the-happiness-of-another"
+  />
+
+
+  {/* 6. Footer */}
+  <Footer />
