@@ -1,101 +1,228 @@
 ---
-title: 从这里开始
-description: PolyCN 关系导航：根据你的当前状态，找到适合的阅读路径。
+title: 开始探索
+description: PolyCN Archives 导览页面
 template: splash
-editUrl: false
-lastUpdated: false
-prev: false
-next: false
-sidebar:
-  order: 1
-  label: 从这里开始
 ---
 
-import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+import QuoteBlock from '../../../components/QuoteBlock.astro'; // 假设你的 QuoteBlock 路径
 
-<div class="start-page-wrapper">
+<div class="start-page-container">
 
-  {/* 1. 欢迎语 (Starlight 会自动渲染 title 这里的正文作为简介) */}
-  <p class="hero-subtitle">欢迎来到关系的旷野。这里是 PolyCN 的自助导览台，旨在帮助你根据当下的处境找到最准确的信息。</p>
+  {/* 1. Start Hero 区域 */}
+  <div class="start-hero">
+    <img src="/images/start-hero.svg" alt="Start Icon" class="hero-icon"/>
+    <h1 class="hero-title">开始探索</h1>
+    <p class="hero-subtitle">欢迎您探索关系的一万种可能性。这里是 PolyCN 的自助导览页，您可以根据导引寻找自己需要的信息。</p>
+  </div>
 
-  {/* 2. 基础价值观 (公理) */}
-  <div class="axioms-container">
-    <div class="axiom-item">
-      <span class="axiom-icon">🟢</span>
-      <div class="axiom-text">
-        <strong>知情同意</strong>
-        <small>Enthusiastic Consent</small>
-      </div>
-    </div>
-    <div class="axiom-item">
-      <span class="axiom-icon">🔵</span>
-      <div class="axiom-text">
-        <strong>诚实透明</strong>
-        <small>Radical Honesty</small>
-      </div>
-    </div>
-    <div class="axiom-item">
-      <span class="axiom-icon">🟡</span>
-      <div class="axiom-text">
-        <strong>自主自决</strong>
-        <small>Bodily Autonomy</small>
-      </div>
+  {/* 2. 核心价值观展示区 */}
+  <div class="core-values-section">
+    <div class="axiom">
+      <p>我们的基本价值观：知情同意，诚实透明，自主自决。</p>
     </div>
   </div>
 
-  <blockquote class="axiom-warning">
-    没有任何人应当被迫参与开放关系。隐瞒不是开放，而是欺骗。
-  </blockquote>
-
-  {/* 3. 分流卡片 */}
-  <div class="triage-grid">
-    <a href="/start/partner-proposed" class="start-card card-panic">
-      <div class="card-content">
-        <h3>对象向我提出开放</h3>
-        <p>"我很震惊、困惑，甚至有点恐慌。我不知道该不该答应。"</p>
-        <span class="card-btn">阅读急救指南 &rarr;</span>
-      </div>
-    </a>
-
-    <a href="/start/i-want-to-open" class="start-card card-explore">
-      <div class="card-content">
-        <h3>我想试试其他类型的关系</h3>
-        <p>"我觉得传统模式不适合我。我想探索，但不想伤害任何人。"</p>
-        <span class="card-btn">查看起步建议 &rarr;</span>
-      </div>
-    </a>
-
-    <a href="/start/just-curious" class="start-card card-curious">
-      <div class="card-content">
-        <h3>我刚听说，有点好奇</h3>
-        <p>"这是什么？和出轨有什么区别？我想了解最基础的概念。"</p>
-        <span class="card-btn">进入科普通道 &rarr;</span>
-      </div>
-    </a>
-
-    <a href="/start/troubleshooting" class="start-card card-fix">
-      <div class="card-content">
-        <h3>我在实践，出现了问题</h3>
-        <p>"我们已经尝试开放了，但遇到了嫉妒、边界不清或沟通障碍。"</p>
-        <span class="card-btn">打开工具箱 &rarr;</span>
-      </div>
-    </a>
-  </div>
-
-  {/* 4. 快捷与跳过 */}
-  <div class="start-footer-nav">
-    <p><a href="/library" class="skip-btn">跳过引导，我想自己浏览全部馆藏</a></p>
+  {/* 3. 分流区 */}
+  <div class="triage-section">
+    <h2 class="section-title">请从这里开始……</h2>
     
-<div class="quick-links">
-<p>快速查阅：<a href="/introduction#abc">非单偶制 ABC</a> · <a href="/introduction#myths">常见误区</a> · <a href="/introduction#faq">FAQ</a> · <a href="/wiki">百科索引</a></p>
+    {/* 你的原始内容及结构 */}
+    <div class="triage-grid">
+      <a href="/start/partner-proposed" class="start-card card-panic">
+        <div class="card-content">
+          <h3>对象向我提出开放</h3>
+          <p>“我很震惊、困惑，甚至有点恐慌。我不知道该不该答应。”</p>
+          <span class="card-btn">阅读 &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/start/i-want-to-open" class="start-card card-explore">
+        <div class="card-content">
+          <h3>我想探索多元的关系类型</h3>
+          <p>“我觉得传统模式不适合我。想试试别的，但是不知道该怎么办。”</p>
+          <span class="card-btn">查看起步建议 &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/start/just-curious" class="start-card card-curious">
+        <div class="card-content">
+          <h3>我刚听说，有点好奇</h3>
+          <p>“这真的不是乱搞吗？和出轨有什么不一样？给我简单讲下你们是怎么一回事。”</p>
+          <span class="card-btn">进入科普通道 &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/start/troubleshooting" class="start-card card-fix">
+        <div class="card-content">
+          <h3>我在实践，出现了问题</h3>
+          <p>“我们已经开放了，但经营得并不顺利，开放并没有让我们更开心。”</p>
+          <span class="card-btn">打开工具箱 &rarr;</span>
+        </div>
+      </a>
     </div>
   </div>
 
+  {/* 4. 自助浏览引导区 */}
+  <div class="self-service-section">
+    <div class="link-line">跳过引导，直接 <a href="/library">浏览全站馆藏 &rarr;</a></div>
+        <div class="link-line">
+      <p>或者查阅介绍文章： </p><p><a href="/introduction#abc">非单偶制 ABC</a> · <a href="/introduction#myths">常见误区</a> · <a href="/introduction#faq">FAQ</a> · <a href="/wiki">百科索引</a>      </p>
+    </div>
+  </div>
+
+
+
+  {/* 5. 全站统一 QuoteBlock */}
   <QuoteBlock 
     content="爱在束缚中凋零，只因其本质即自由；它与服从、嫉妒或恐惧，断难相容。"
     author="珀西·比希·雪莱"
     source="https://www.goodreads.com/quotes/642361-love-withers-under-constraints-its-very-essence-is-liberty-it"
   />
 
+
+  {/* 6. Footer */}
+  <Footer />
+
 </div>
 
+{/* 本页专用样式 */}
+<style>{`
+
+/* --- 0. 全局修正 --- */
+  /* 隐藏 Starlight 自动生成的 H1 标题 (针对本页) */
+  :global(.content-panel h1), :global(main > h1) {
+    display: none !important;
+  }
+
+  /* 容器调整 */
+  .start-page-container {
+    max-width: 960px; /* 限制最大宽度，防止在大屏上太散 */
+    margin: 0 auto;
+  }
+
+  /* --- 1. Start Hero --- */
+  .start-hero {
+    text-align: center;
+    padding: 1rem 1rem; /* 比全站首页稍微窄一点，但保留呼吸感 */
+    background: linear-gradient(180deg, rgba(var(--sl-color-accent-rgb), 0.1) 0%, transparent 100%);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+  .hero-icon {
+    width: 25%;
+    height: 25%;
+    min-height: 180px;
+    min-width: 180px;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--sl-color-gray-2);
+  }
+
+  /* --- 2. 核心价值观 --- */
+  .core-values-section {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 0 1rem 0rem 0rem;
+  }
+  .axiom {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--sl-color-text-accent);
+  }
+
+
+  /* --- 3. 分流区 (Grid 布局) --- */
+  .triage-section {
+    margin-bottom: 4rem;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+/* 修正：这里之前的类名 card-grid 改为了 triage-grid 以匹配 HTML */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+    /* 默认移动端：1列 */
+    grid-template-columns: 1fr;
+  }
+  
+  /* 电脑端 (平板及以上)：2列 */
+  @media (min-width: 768px) {
+    .card-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .triage-card {
+    display: block;
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-black); /* 或根据主题调整 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    /* 强制长条形视觉 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .triage-card:hover {
+    border-color: var(--sl-color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .triage-card h3 {
+    margin: 0 0 0.5rem 0 !important; /* 强制覆盖 Markdown h3 样式 */
+    font-size: 1.2rem;
+    color: var(--sl-color-white);
+  }
+  
+  .triage-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  /* --- 4. 自助浏览引导区 --- */
+  .self-service-section {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .link-line {
+    margin: 0.5rem 0;
+  }
+  .link-line a {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--sl-color-text-accent);
+  }
+  .link-line a:hover {
+    text-decoration: underline;
+  }
+
+  /* 修正：强制 link-line 内部的 p 标签行内显示，解决居中和换行问题 */
+  .link-line p {
+    display: inline; 
+    margin: 0;
+    color: var(--sl-color-gray-3); /* 让非链接文字稍微淡一点 */
+  }
+
+  }
+`}</style>

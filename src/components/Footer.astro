@@ -1,49 +1,39 @@
 ---
-// 获取当前年份，避免手动修改
-const currentYear = new Date().getFullYear();
+// src/components/Footer.astro
+const year = new Date().getFullYear();
 ---
 
-<footer class="home-footer">
-  <hr class="home-hr" />
-  <p>
-    © {currentYear} PolyCN Archives. 
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener noreferrer">
-      CC-BY-NC-SA 4.0
-    </a>
-  </p>
+<div class="home-footer">
+  <hr class="home-hr"/>
+  <p>© {year} PolyCN Archives. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">CC-BY-NC-SA 4.0</a></p>
   <p>
     <a href="/about">关于我们</a> | 
     <a href="/about/legal">免责声明</a> | 
     <a href="/about/guidelines">投稿指南</a>
   </p>
-</footer>
+</div>
 
 <style>
-  /* --- 底部版权页脚 --- */
+  /* Footer 样式，如果你有全局 CSS 可以移进去 */
   .home-footer {
     text-align: center;
-    font-size: 0.85rem;
-    color: var(--sl-color-gray-3);
-    padding-bottom: 3rem; /* 底部留白，防止贴底 */
-    margin-top: 4rem;    /* 增加与上方内容的间距 */
+    padding: 2rem 0;
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-3); /* 适配 Starlight/Astro 主题色 */
   }
-
-  .home-hr {
-    border: 0;
-    border-top: 1px dashed var(--sl-color-gray-5); /* 虚线分割更轻盈 */
-    margin: 1rem auto 2rem auto; /* 上下间距 */
-    max-width: 200px; /* 分割线不要太长，精致一点 */
-  }
-
   .home-footer a {
-    color: var(--sl-color-gray-3);
-    margin: 0 0.5rem;
+    color: inherit;
     text-decoration: none;
     transition: color 0.2s;
   }
-
   .home-footer a:hover {
-    color: var(--sl-color-accent); /* 悬停变橙色，继承自 Starlight 变量 */
+    text-decoration: underline;
+    color: var(--sl-color-text-accent);
+  }
+  .home-hr {
+    border: 0;
+    border-top: 1px solid var(--sl-color-gray-5);
+    margin-bottom: 1.5rem;
   }
 
   /* 适配移动端：在小屏幕上取消 | 符号的视觉挤压（可选） */

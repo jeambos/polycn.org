@@ -813,73 +813,77 @@ body:not([data-slug]) .sl-container {
   line-height: 1.6;
 }
 
-/* --- 3. Triage Grid 分流卡片 (对齐主页 Bento Grid) --- */
-.start-page-wrapper .triage-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 卡片最小宽度加大 */
-  gap: 2rem; /* 间距加大 */
-  margin: 3rem 0 5rem 0;
-  width: 100%;
-}
+/* --- 3. 分流区 (Grid 布局) --- */
+  .triage-section {
+    margin-bottom: 4rem;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
 
-.start-page-wrapper .start-card {
-  text-decoration: none !important;
-  color: inherit !important;
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 1rem; /* 圆角加大 */
-  padding: 2rem; /* 内边距加大，更透气 */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--sl-color-gray-6);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 260px; /* 最小高度增加 */
-}
+  .triage-grid {
+    display: grid;
+    gap: 1.5rem;
+    /* 移动端默认：1列，长条形 */
+    grid-template-columns: 1fr;
+  }
 
-/* 卡片内容区 */
-.start-page-wrapper .card-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
+  /* 电脑端 (平板及以上)：2列，自动形成两行 */
+  @media (min-width: 768px) {
+    .triage-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
-.start-page-wrapper .start-card:hover {
-  border-color: var(--sl-color-accent);
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-  background: var(--sl-color-bg);
-}
+  .start-card {
+    display: block; /* 让链接变成块级元素 */
+    text-decoration: none; /* 去掉默认下划线 */
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-black); /* 适配主题背景 */
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* 卡片标题：对齐主页 Bento 小卡片标题 */
-.start-page-wrapper .start-card h3 {
-  margin-top: 0 !important;
-  margin-bottom: 1.25rem !important;
-  color: var(--sl-color-white) !important;
-  font-size: 1.5rem !important; /* 放大到 27px */
-  line-height: 1.3;
-  border: none !important;
-  font-weight: bold !important;
-}
+  .start-card:hover {
+    border-color: var(--sl-color-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
 
-/* 卡片正文：对齐主页 Bento 小卡片正文 (1.125rem) */
-.start-page-wrapper .start-card p {
-  font-size: 1.15rem; /* 放大！ */
-  font-style: italic; /* 保持斜体，代表用户心声 */
-  color: var(--sl-color-gray-2); /* 颜色加深一点，提高对比度 */
-  margin-bottom: 2rem !important;
-  line-height: 1.7; /* 行高增加，更易读 */
-  flex-grow: 1;
-}
+  .card-content h3 {
+    margin: 0 0 0.5rem 0 !important;
+    font-size: 1.4rem;
+    color: var(--sl-color-white);
+    font-weight: 700;
+  }
 
-/* 按钮文字 */
-.start-page-wrapper .card-btn {
-  display: inline-block;
-  font-size: 1rem; /* 放大到 16px */
-  font-weight: 700;
-  color: var(--sl-color-accent);
-  margin-top: auto;
-  letter-spacing: 0.5px;
-}
+  .card-content p {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: var(--sl-color-gray-3);
+    line-height: 1.5;
+  }
+
+  .card-btn {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: right;
+    color: var(--sl-color-accent);
+    display: inline-block;
+  }
+  
+  /* 鼠标悬停时，箭头有一个小的移动动画 */
+  .start-card:hover .card-btn {
+    text-decoration: underline;
+  }
+  
+  /* (可选) 如果你想给 card-panic 等不同类型加上不同的微量边框色，可以在这里加 */
+  /* .card-panic { border-left: 4px solid #e65a5a; } */
 
 /* --- 4. Start Footer 底部导航 --- */
 .start-page-wrapper .start-footer-nav {
@@ -890,7 +894,7 @@ body:not([data-slug]) .sl-container {
 }
 
 .start-page-wrapper .skip-btn {
-  font-size: 1.1rem; /* 放大 */
+  font-size: 1.5rem; /* 放大 */
   color: var(--sl-color-gray-3) !important;
   text-decoration: underline !important;
   transition: color 0.2s;
