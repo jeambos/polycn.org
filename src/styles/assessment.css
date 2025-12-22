@@ -575,8 +575,8 @@
   transform: translateY(-2px);
 }
 
-.t-name { font-weight: bold; margin-bottom: 0.5rem; display: block; }
-.t-desc { font-size: 0.85rem; color: #6b7280; }
+.t-name { font-weight: bold; margin-bottom: 0.5rem; display: block; font-size: 1.25rem ; }
+.t-desc { font-size: 1rem; color: #6b7280; }
 
 .mini-nav {
   display: flex;
@@ -900,4 +900,119 @@
 }
 :root[data-theme='dark'] .more-link:hover {
   color: #fb923c;
+}
+
+
+/* =========================================
+   Assessment 首页专用样式 (移自 index.mdx)
+   ========================================= */
+
+/* 1. 顶部统计条 */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0 4rem;
+  text-align: center;
+  color: var(--sl-color-gray-3);
+}
+.stat-item strong {
+  display: block;
+  font-size: 2rem;
+  color: #f97316; /* 品牌橙 */
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+/* 移动端适配统计条 */
+@media (max-width: 640px) {
+  .stats-bar { gap: 1.5rem; }
+  .stat-item strong { font-size: 1.5rem; }
+}
+
+/* 2. 王牌测试推荐卡片 */
+.featured-section {
+  margin-bottom: 4rem;
+}
+.featured-label {
+  display: inline-block;
+  background: linear-gradient(135deg, #f76c0a 0%, #e68a08 100%);;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.25rem 1.5rem;
+  border-radius: 99px;
+  margin-bottom: 1rem;
+}
+.featured-card {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(45deg, #171127 0%, #010100 100%); /* 深色高级感 */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  text-decoration: none !important;
+  transition: transform 0.3s ease;
+  border: 1px solid #374151;
+}
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(249, 115, 22, 0.2);
+  border-color: #f97316;
+}
+
+/* 内容布局 */
+.feat-content {
+  padding: 2.5rem;
+  text-align: center;
+  color: white;
+}
+.feat-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: white !important;
+}
+
+.morequiz-label {
+  display: inline-block;
+  background: linear-gradient(135deg, #1b0e06 0%, #463e32 100%)!important;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.25rem 1.5rem;
+  border-radius: 99px;
+  margin-bottom: 0rem;
+}
+
+
+/* ✅ 修复1：正文颜色 (移除逗号，移入全局) */
+.feat-desc {
+  color: #d1d5db !important; /* 强制浅灰 */
+  font-size: 1.1rem;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ✅ 修复2：按钮样式 (针对性覆盖 a 标签颜色) */
+.feat-btn {
+  display: inline-block;
+  background: #f97316;
+  padding: 0.75rem 2rem;
+  border-radius: 50px; /* 圆角更大 */
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+
+/* 强制按钮内的链接文字为白色，且无下划线 */
+.feat-btn a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: block; /* 让链接撑满按钮区域 */
+}
+
+.feat-btn:hover {
+  background: #c2410c; /* 悬停变深 */
 }

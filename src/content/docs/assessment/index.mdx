@@ -1,0 +1,189 @@
+---
+title: 测试大厅
+description: PolyCN 自我测评中心。探索你的依恋类型、嫉妒模式、关系形态倾向以及多元关系适应能力。
+template: splash
+# 隐藏默认的 H1 标题，使用自定义 Hero
+head:
+  - tag: style
+    content: |
+      h1#_top { display: none !important; }
+---
+
+import MoreTests from '../../../components/MoreTests.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+<div class="asm-container">
+
+  {/* 1. Hero 区域 (参考 Wiki 风格) */}
+  <div class="asm-hero">
+    <div class="hero-text">
+      <h1>测试大厅</h1>
+      <p class="hero-tagline">每一个问题，都是通向真实自我的钥匙。</p>
+
+    </div>
+    <div class="hero-icon-wrapper">
+      <img src="/images/asm-hero.svg" alt="Wiki Icon" class="hero-img"/>
+    </div>
+  </div>
+
+
+
+  {/* 3. 特色推荐 (王牌测试) */}
+  <div id="featured-quiz" class="featured-section">
+    <div style="text-align: center; margin-bottom: 1rem; padding: 4rem 1rem 0rem 1rem;">
+      <span class="featured-label">✨ 编辑精选 / Editor's Choice</span>
+    </div>
+    
+    <div class="featured-card">
+      <div class="feat-content">
+        <h3 class="feat-title">关系形态倾向自测</h3>
+        <p class="feat-desc">
+          你是天生的“一对一”守护者，还是渴望更广阔连接的“多边”探索者？<br/>
+          这是 PolyCN 最经典的入门测试，基于 6 大核心维度，助你厘清内心对排他性、承诺与自由的真实需求。
+        </p>
+        <span class="feat-btn"><a href="/assessment/orientation" >开始探索 &rarr;</a></span>
+      </div>
+
+  </div>
+
+  {/* 4. 全部测试列表 (调用组件 - 索引模式) */}
+  <div id="all-quizzes" class="list-section">
+    <div style="text-align: center; margin-bottom: 1rem; padding: 4rem 1rem 0rem 1rem;">
+      <span class="morequiz-label">更多测试 / More Quizzes</span>
+    </div>
+    {/* 不传 currentId，组件会自动进入“索引模式”，显示所有卡片 */}
+    <MoreTests client:visible />
+  </div>
+
+  {/* 2. 免责声明 (Disclaimer) */}
+  <div class="disclaimer-box" >
+    
+     <p style="margin-bottom: 0em;"> <strong>非医疗诊断声明：</strong> 本板块所有测试，均参考了心理学与社会学理论（如依恋理论、非暴力沟通等）编制，旨在促进自我探索、反思与关系沟通。测试结果仅供参考，属于“教育性/辅导性工具”，<b>不能替代</b>专业的心理咨询或临床诊断。</p>
+    
+  </div>
+
+
+{/* 5. 引用块 */}
+  <div style="margin: 4rem 0;">
+    <QuoteBlock 
+      content="直到你将潜意识意识化，否则它会一直主导你的人生，而你称之为命运。"
+      author="卡尔·荣格"
+      source="https://zh.wikipedia.org/wiki/%E5%8D%A1%E5%B0%94%C2%B7%E8%8D%A3%E6%A0%BC"
+    />
+  </div>
+
+  </div>
+
+
+  {/* 6. 页脚 */}
+  <Footer />
+
+</div>
+
+{/* === 页面专用样式 === */}
+<style>{`
+  .asm-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* --- Hero 区域 --- */
+  .asm-hero {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 1rem 3rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .asm-hero {
+      flex-direction: row;
+      text-align: left;
+      justify-content: space-between;
+      padding: 5rem 0 4rem;
+    }
+  }
+
+  .hero-text { 
+    flex: 1; 
+    padding-left: 2em;
+    padding-right: 2em;
+    }
+
+  .asm-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-tagline {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left !important;
+    text-indent: 0px !important;
+    color: var(--sl-color-white);
+    margin-bottom: 0.5rem;
+    margin-top: 1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .hero-icon-wrapper {
+    width: 270px;
+    height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-svg {
+    width: 100%;
+    height: 100%;
+    color: #f97316;
+    filter: drop-shadow(0 0 30px rgba(249, 115, 22, 0.3));
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  /* --- 免责声明 --- */
+  .disclaimer-box {
+    background: rgba(251, 191, 36, 0.1); /* 淡琥珀色背景 */
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 4rem;
+    margin-top: 8rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.6;
+  }
+
+.more-tests-section {
+  margin-top: 0rem !important;
+  border-top: 0px solid #e5e7eb !important;
+  padding-top: 1rem !important;
+}
+
+
+`}</style>
