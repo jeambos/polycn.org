@@ -145,6 +145,24 @@ const WelcomeScreen = ({ onStart }) => (
         开始评估
       </button>
     </div>
+
+          <div className="more-tests-section">
+        <h4 className="more-title">更多测试</h4>
+        <div className="test-grid">
+          <a href="/assessment/orientation" className="test-card active">
+            <span className="t-name" style={{color: '#f97316'}}>关系形态倾向自测</span>
+            <span className="t-desc">你的倾向于接受什么样的关系？</span>
+          </a>
+          <div className="test-card future">
+            <span className="t-name">嫉妒类型图谱 (Dev)</span>
+            <span className="t-desc">防御型嫉妒 vs 竞争型嫉妒</span>
+          </div>
+          <div className="test-card future">
+            <span className="t-name">依恋类型自测 (Dev)</span>
+            <span className="t-desc">依恋风格如何影响多边关系</span>
+          </div>
+        </div>
+      </div>
   </div>
 );
 

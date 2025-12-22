@@ -197,6 +197,10 @@ sidebar:
 
 如需进一步了解相关信息，可参考以下资源：
 
+**详细的自测题（互动）**
+* [关系形态倾向自测（我想要的是什么？）](/assessment/orientation)
+* [多元关系适应能力自测（我适合吗？）](//assessment/adaption)
+
 **基础认知**
 * [非单偶制简介](/start/introduction) - 了解定义与光谱
 * [常见误区 (Myths)](/start/myths) - 针对常见偏见的解析
