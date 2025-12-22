@@ -68,11 +68,24 @@ import QuoteBlock from '../../components/QuoteBlock.astro';
 
   {/* 右列：保持不变，垂直排列的三个小卡片 */}
   <div class="bento-col-right">
+
+  {/* 右2变右1：关系形态测试 (替换了原 Wiki) */}
+    <a href="/assessment/orientation" class="bento-card small-card link-card">
+      <div class="card-header">
+        {/* 图标：指南针/探索 */}
+        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+        </svg>
+        <h3 style="color: #c2410c;">测试关系形态倾向</h3>
+      </div>
+      <p class="compact-text">你更适合哪种关系模式？来测一测吧！</p>
+    </a>
     
-    {/* 右1：馆藏一瞥 */}
+    {/* 右1变右2：猜你像读 */}
     <div class="bento-card small-card">
       <div class="card-header">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16"/></svg>
+        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
         <h3>猜你想读</h3>
       </div>
       <div class="topic-cloud compact">
@@ -84,14 +97,6 @@ import QuoteBlock from '../../components/QuoteBlock.astro';
       </div>
     </div>
 
-    {/* 右2：百科 Wiki*/}
-    <a href="/wiki" class="bento-card small-card link-card">
-      <div class="card-header">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
-        <h3>百科 Wiki （建设中）</h3>
-      </div>
-      <p class="compact-text">遇到不熟悉的术语？请随时查阅我们的 Wiki。</p>
-    </a>
 
     {/* 右3：加入社区 */}
     <a href="https://t.me/polycn" target="_blank" class="bento-card small-card link-card">
