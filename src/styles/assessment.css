@@ -793,3 +793,111 @@
     padding-bottom: 0.5rem;
   }
 }
+
+
+
+/* =========================================
+   MoreTests 组件样式 & 夜间模式适配
+   ========================================= */
+
+/* --- 1. 基础样式 (Light Mode 默认) --- */
+
+/* 当前页卡片 (Welcome页状态) */
+.test-card.current {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  opacity: 0.8;
+  cursor: default;
+}
+.test-card.current .t-name {
+  color: #6b7280;
+}
+
+/* "您已在此" 徽章 */
+.t-status.current-badge {
+  background-color: #e5e7eb;
+  color: #4b5563;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+/* 底部链接 */
+.more-link-wrapper {
+  text-align: center; 
+  margin-top: 2rem;
+}
+.more-link {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+}
+.more-link:hover {
+  color: #f97316;
+}
+
+/* --- 2. 🌙 夜间模式适配 (Dark Mode) --- */
+
+/* 通用：所有卡片在夜间变深 */
+:root[data-theme='dark'] .test-card.active {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+:root[data-theme='dark'] .test-card.active:hover {
+  border-color: #f97316;
+  background-color: #111827;
+}
+:root[data-theme='dark'] .test-card.future {
+  background-color: #111827; /* 深黑 */
+  border-color: #374151;
+}
+
+/* 文字颜色适配 */
+:root[data-theme='dark'] .test-card .t-name {
+  color: #e5e7eb; /* 浅灰白 */
+}
+:root[data-theme='dark'] .test-card.active .t-name {
+  color: #fb923c; /* 亮橙色 */
+}
+:root[data-theme='dark'] .test-card .t-desc {
+  color: #9ca3af; /* 中灰 */
+}
+
+/* "当前页"卡片 (夜间) */
+:root[data-theme='dark'] .test-card.current {
+  background-color: #111827;
+  border-color: #374151;
+  opacity: 0.6;
+}
+:root[data-theme='dark'] .test-card.current .t-name {
+  color: #6b7280; /* 暗淡文字 */
+}
+:root[data-theme='dark'] .t-status.current-badge {
+  background-color: #374151;
+  color: #9ca3af;
+}
+
+/* "已完成"卡片 (夜间) */
+:root[data-theme='dark'] .test-card.completed {
+  background-color: rgba(6, 78, 59, 0.4); /* 深墨绿，带透明度 */
+  border-color: #065f46;
+}
+:root[data-theme='dark'] .test-card.completed .t-name {
+  color: #34d399; /* 荧光绿 */
+}
+:root[data-theme='dark'] .test-card.completed .t-status {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #34d399;
+}
+
+/* 底部链接 (夜间) */
+:root[data-theme='dark'] .more-link {
+  color: #6b7280;
+}
+:root[data-theme='dark'] .more-link:hover {
+  color: #fb923c;
+}

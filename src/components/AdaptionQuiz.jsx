@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import '../styles/Assessment.css'; // 复用 Assessment.css 样式
+import MoreTests from './MoreTests';
 
 // =====================================================================
 // 1. 数据定义
@@ -130,7 +131,7 @@ const PAGE_BREAKS = [8, 16, 24, 32, 40]; // 8题/页
 const WelcomeScreen = ({ onStart }) => (
   <div className="quiz-container animate-fade-in">
     <div className="welcome-card">
-      <h1 className="welcome-title">关系适应性评估</h1>
+      <h1 className="welcome-title">复杂关系适应能力评估</h1>
       
       <div className="intro-box">
         <ul className="intro-list">
@@ -146,23 +147,9 @@ const WelcomeScreen = ({ onStart }) => (
       </button>
     </div>
 
-          <div className="more-tests-section">
-        <h4 className="more-title">更多测试</h4>
-        <div className="test-grid">
-          <a href="/assessment/orientation" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系形态倾向自测</span>
-            <span className="t-desc">你的倾向于接受什么样的关系？</span>
-          </a>
-          <div className="test-card future">
-            <span className="t-name">嫉妒类型图谱 (Dev)</span>
-            <span className="t-desc">防御型嫉妒 vs 竞争型嫉妒</span>
-          </div>
-          <div className="test-card future">
-            <span className="t-name">依恋类型自测 (Dev)</span>
-            <span className="t-desc">依恋风格如何影响多边关系</span>
-          </div>
-        </div>
-      </div>
+<MoreTests currentId="adaption" status="welcome" />
+
+
   </div>
 );
 
@@ -435,20 +422,7 @@ const ResultScreen = ({ answers, onRetry }) => {
         </div>
       </div>
 
-      {/* 5. More Tests Loop */}
-      <div className="more-tests-section">
-        <h4 className="more-title">更多测试</h4>
-        <div className="test-grid">
-          <div className="test-card completed">
-            <span className="t-name">关系适应性评估</span>
-            <span className="t-status">✅ 已完成</span>
-          </div>
-          <a href="/assessment/orientation" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系形态倾向自测</span>
-            <span className="t-desc">你是单偶还是多边？</span>
-          </a>
-        </div>
-      </div>
+      <MoreTests currentId="adaption" status="result" />
 
       {/* 6. Mini Nav */}
       <div className="mini-nav">

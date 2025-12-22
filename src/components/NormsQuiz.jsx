@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import '../styles/Assessment.css'; // 复用 Assessment.css 的所有样式
+import MoreTests from './MoreTests';
 
 // =====================================================================
 // 1. 维度与文案定义
@@ -16,16 +17,63 @@ const DIMENSIONS = {
   exclusivity: { name: "绝对排他", desc: "身心绑定 vs 流动接受度" }
 };
 
-// 结果页文案 (高分评价 - 即受规训程度高)
-const HIGH_SCORE_TEXTS = {
-  enmeshment: "你倾向于追求一种‘你中有我，我中有你’的高浓度融合感。这种紧密连接能带来极大的安全感，但同时，这也意味着你的个人边界相对模糊，可能会让你在关系中难以区分‘我的情绪’和‘对方的情绪’。",
-  one_only: "你对伴侣寄予了非常高的厚望，希望他/她能同时满足你从情感、生活到精神层面的大部分需求。这反映了你对完美连接的向往，但客观上，这可能会给对方带来较大的心理负荷，也可能让你更容易感到失望。",
-  gender: "你的恋爱观在一定程度上保留了传统的性别分工模式（如男主外女主内、男刚女柔）。这种明确的脚本能减少相处中的不确定性，但它也可能在无形中限制了你或伴侣展现更丰富、更多元的个性特质。",
-  family: "你非常看重恋爱关系与原生家庭的融合，认为获得长辈认可和家庭和谐是幸福的重要基石。这种观念体现了你的责任感，但当个人意愿与家庭期待发生冲突时，你可能会面临比常人更艰难的抉择。",
-  institution: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径变得很清晰，做完‘规定动作’就好，但你也许会容易忽视自己的独特需求、感受不到关系在当下带给你的真实体验。",
-  jealousy: "你倾向于将嫉妒心和占有欲解读为‘在乎’和‘爱’的证明。这种逻辑是社会常见的，但你可能会忽视了，嫉妒背后可能是缺乏安全感或者其他被亏欠的需求，从而失去了深入探索自我的机会。",
-  sex_love: "你倾向于认为性行为必须以深厚的情感或承诺为前提，赋予性较高的道德意义。这种观念能保护你在性关系中的安全感，但这可能让你错过了很多探索生理快感和身体可能性的机会。",
-  exclusivity: "你认为身心的绝对排他是维护关系信任的基石，甚至对‘精神上的游离’也保持高度警惕。这为你构建了纯粹的爱情理想。但你可能忽视了，每个人都是独立自主的个体，不应成为被人控制的财产。而且，对他人的心动往往是某种本能反应，并非只是世风日下的影响，当你遭遇这种事时可能会心情很不好受。"
+// =====================================================================
+// 1. 文案定义 (分段反馈)
+// =====================================================================
+
+// 根据分数段获取评语
+const getFeedback = (dimKey, score) => {
+  // 阈值设定：
+  // 1.0 - 2.6 : Low (自主/反思型)
+  // 2.7 - 3.6 : Mid (平衡/温和型)
+  // 3.7 - 5.0 : High (传统/规训型)
+  
+  if (score >= 3.7) return RESULT_FEEDBACK[dimKey].high;
+  if (score <= 2.6) return RESULT_FEEDBACK[dimKey].low;
+  return RESULT_FEEDBACK[dimKey].mid;
+};
+
+const RESULT_FEEDBACK = {
+  enmeshment: {
+    high: "你倾向于追求一种‘你中有我，我中有你’的高浓度融合感。这种紧密连接能带来极大的安全感，但同时也意味着你的个人边界相对模糊。",
+    mid: "你在‘亲密无间’和‘保持自我’之间维持着一种微妙的平衡。你享受依赖，但也懂得在关键时刻保留私人空间。",
+    low: "你非常看重关系中的独立性，认为健康的亲密关系是‘两个完整个体的相遇’，而非彼此消融。你拥有清晰的个人边界。"
+  },
+  one_only: {
+    high: "你对伴侣寄予了非常高的厚望，希望他/她能同时满足你从情感、生活到精神层面的大部分需求。这反映了你对完美连接的向往。",
+    mid: "你希望伴侣是你的主要支持者，但也接受他/她不是万能的。你开始意识到某些需求（如特定兴趣）也许可以由朋友来满足。",
+    low: "你拥有多元的支持系统（朋友、社群），并不认为伴侣必须满足你的一切。这种‘去中心化’的期待让你的关系更轻松。"
+  },
+  gender: {
+    high: "你的恋爱观在一定程度上保留了传统的性别分工模式。这种明确的脚本能减少相处中的不确定性，但也可能限制了角色的多元性。",
+    mid: "你并不刻板地遵循传统性别规范，但在某些具体场景（如经济或性主动权）上，你可能仍习惯于顺应主流的期待。",
+    low: "你很大程度上已经跳出了性别脚本，倾向于根据个人特质而非性别来定义分工。这让你能构建更平等、流动的伙伴关系。"
+  },
+  family: {
+    high: "你非常看重恋爱关系与原生家庭的融合，认为获得长辈认可和家庭和谐是幸福的重要基石。这是一份沉甸甸的责任。",
+    mid: "你尊重家人的意见，但在核心问题上会尝试维护自己的主权。你正在学习如何温柔地划定代际边界。",
+    low: "你坚定地认为恋爱是两个人的事，能够有效地隔离原生家庭的干预。这种独立性是你维护关系自由的护城河。"
+  },
+  institution: {
+    high: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径清晰，但也可能形成束缚。",
+    mid: "你认可婚姻的价值，但也不完全否认其他形式的可能性。你可能在‘为了感情’和‘为了制度’之间寻求某种务实的妥协。",
+    low: "你对‘修成正果’有不同的定义。相比于外在的证书或仪式，你更看重关系内在的质量和真实的生命体验。"
+  },
+  jealousy: {
+    high: "你倾向于将嫉妒心和占有欲解读为‘在乎’的证明。这可能会让你忽略嫉妒背后隐藏的不安全感，错失自我成长的机会。",
+    mid: "你有时会因嫉妒而焦虑，但也能意识到这不完全是对方的错。你正在尝试学习如何处理这种复杂的情绪。",
+    low: "你不认为嫉妒是爱的必要条件，或者你已经学会了不被嫉妒所绑架。这种情感上的从容非常难得。"
+  },
+  sex_love: {
+    high: "你倾向于认为性行为必须以深厚的情感或承诺为前提。这种观念能保护你的安全感，但也可能限制了探索身体快乐的机会。",
+    mid: "你大体上认同‘灵肉合一’，但在特定情境下也能接受性与爱的一定分离，或者开始对身体自主权有了新的思考。",
+    low: "你将性视为一种独立的、美好的身体体验，不一定非要承载沉重的道德意义。这种开放态度让你更能享受身体的自主。"
+  },
+  exclusivity: {
+    high: "你认为身心的绝对排他是维护信任的基石。这为你构建了纯粹的爱情理想，但在面对人性的流动性时可能会遭受冲击。",
+    mid: "你坚守肉体的忠诚，但对精神层面的流动（如对他人的欣赏或心动）持有一定的包容度，明白那是人性使然。",
+    low: "你能够坦然面对甚至欣赏人性中的流动性，不再将伴侣视为私有财产。这种信任建立在深刻的理解而非控制之上。"
+  }
 };
 
 // 40道题目 (每维度5题，得分越高代表受规训越深)
@@ -103,6 +151,9 @@ const WelcomeScreen = ({ onStart }) => (
         开始检测
       </button>
     </div>
+
+    
+      <MoreTests currentId="norms" status="welcome" />
   </div>
 );
 
@@ -242,7 +293,7 @@ const ResultScreen = ({ answers, onRetry }) => {
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>检测报告</h2>
-        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>以下是您的观念成分分析，此结果只展示一次，您可截图保存。</p>
+        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>以下是您的恋爱观念成分分析，此结果只展示一次，您可截图保存。</p>
       </div>
 
       {/* 1. 总分卡片 */}
@@ -270,7 +321,7 @@ const ResultScreen = ({ answers, onRetry }) => {
           <span style={{color: '#f97316'}}>✦</span> 您的核心观念透视
         </h3>
         <p style={{marginBottom: '1.5rem', color: '#6b7280', fontSize: '0.9rem'}}>
-          以下维度是您受传统规范影响较深的领域。这并非错误，但了解它们，能帮您看清潜意识里的“默认选项”。
+          以下是根据您的回答生成的观念画像（展示您得分最高的 4 个维度）。分数越高代表受传统规范影响越深，分数越低代表越倾向于自主定义。
         </p>
         
         <div className="dim-grid">
@@ -280,10 +331,20 @@ const ResultScreen = ({ answers, onRetry }) => {
                 <span className="dim-name">{d.name}</span>
                 <span className="dim-score" style={{color: '#f97316'}}>{d.val.toFixed(1)}</span>
               </div>
+              
+              {/* 进度条：根据分数变色 */}
               <div className="dim-bar-bg">
-                <div className="dim-bar-fill fill-mid" style={{width: `${(d.val/5)*100}%`, background: '#f97316'}}></div>
+                <div 
+                  className="dim-bar-fill" 
+                  style={{
+                    width: `${(d.val/5)*100}%`, 
+                    background: d.val >= 3.7 ? '#ef4444' : d.val >= 2.7 ? '#f97316' : '#10b981' 
+                  }}
+                ></div>
               </div>
-              <p className="dim-text">{HIGH_SCORE_TEXTS[d.key]}</p>
+
+              {/* 评语：调用新函数 */}
+              <p className="dim-text">{getFeedback(d.key, d.val)}</p>
             </div>
           ))}
         </div>
@@ -304,24 +365,7 @@ const ResultScreen = ({ answers, onRetry }) => {
         </div>
       </div>
 
-      {/* 5. More Tests */}
-      <div className="more-tests-section">
-        <h4 className="more-title">更多测试</h4>
-        <div className="test-grid">
-          <div className="test-card completed">
-            <span className="t-name">“出厂设置”检测</span>
-            <span className="t-status">✅ 已完成</span>
-          </div>
-          <a href="/assessment/adaption" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系适应性评估</span>
-            <span className="t-desc">看看你的沟通与情绪能力</span>
-          </a>
-          <a href="/assessment/orientation" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系形态倾向自测</span>
-            <span className="t-desc">你是单偶还是多边？</span>
-          </a>
-        </div>
-      </div>
+     <MoreTests currentId="norms" status="result" />
 
       <div className="mini-nav">
         <a href="/" className="mini-link">回到首页</a>
@@ -329,6 +373,8 @@ const ResultScreen = ({ answers, onRetry }) => {
         <a href="/library" className="mini-link">全部馆藏</a>
       </div>
     </div>
+
+
   );
 };
 

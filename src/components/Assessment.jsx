@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import '../styles/Assessment.css';
+import MoreTests from './MoreTests';
 
 // =====================================================================
 // 1. 数据定义 (保持不变)
@@ -171,24 +172,11 @@ const WelcomeScreen = ({ onStart }) => (
         开始探索
       </button>
 
-      <div className="more-tests-section">
-        <h4 className="more-title">更多测试</h4>
-        <div className="test-grid">
-          <a href="/assessment/adaption" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>多元关系适应能力自测</span>
-            <span className="t-desc">你能否适应多元化的亲密关系模式？</span>
-          </a>
-          <div className="test-card future">
-            <span className="t-name">嫉妒类型图谱 (Dev)</span>
-            <span className="t-desc">防御型嫉妒 vs 竞争型嫉妒</span>
-          </div>
-          <div className="test-card future">
-            <span className="t-name">依恋类型自测 (Dev)</span>
-            <span className="t-desc">依恋风格如何影响多边关系</span>
-          </div>
-        </div>
-      </div>
+      
+
     </div>
+
+    <MoreTests currentId="orientation" status="welcome" />
   </div>
 );
 
@@ -313,22 +301,7 @@ const ResultScreen = ({ results, onRetry }) => {
       </div>
 
       {/* 5. More Tests */}
-      <div className="more-tests-section">
-        <h4 className="more-title">更多测试</h4>
-        <div className="test-grid">
-          <div className="test-card completed">
-            <span className="t-name">关系形态倾向自测</span>
-            <span className="t-status">✅ 已完成</span>
-          </div>
-          <a href="/assessment/adaption" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>多元关系适应能力自测</span>
-            <span className="t-desc">你能否适应多元化的亲密关系模式？</span>
-          </a>
-          <div className="test-card future">
-            <span className="t-name">嫉妒类型图谱</span>
-          </div>
-        </div>
-      </div>
+<MoreTests currentId="orientation" status="result" />
 
       {/* 6. Mini Nav */}
       <div className="mini-nav">
