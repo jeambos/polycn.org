@@ -924,3 +924,58 @@ body:not([data-slug]) .sl-container {
 
 /* 10.3 百科 (Wiki) */
 /* [预留] body[data-slug^="wiki"] ... */
+
+/* --- Bento Grid 卡片配色优化 --- */
+
+/* 1. 基础卡片样式 (重置默认背景) */
+.bento-card {
+  /* 移除系统默认的灰色边框和背景，由下面分别定义 */
+  background-color: transparent; 
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+/* 2. ☀️ 日间模式 (Light Mode) */
+:root[data-theme='light'] .bento-card {
+  /* 奶黄色背景 (Warm Off-White/Cream) */
+  background-color: #fffbf3; 
+  /* 极淡的橙色边框，增加层次感 */
+  border: 1px solid #fed7aa; 
+  /* 给予轻微的阴影，让它像卡片一样浮起来 */
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.05);
+}
+
+:root[data-theme='light'] .bento-card:hover {
+  border-color: #f97316; /* 悬停时边框变深橙色 */
+  background-color: #fff7ed; /* 悬停时背景稍微变深一点点 */
+  transform: translateY(-2px);
+}
+
+/* 专门针对卡片里的标题颜色 (替代之前的 inline style) */
+:root[data-theme='light'] .bento-card h3 {
+  color: #c2410c; /* 深橙色文字 */
+}
+
+:root[data-theme='light'] .card-icon {
+  color: #ea580c; /* 图标颜色 */
+}
+
+
+/* 3. 🌙 夜间模式 (Dark Mode) */
+:root[data-theme='dark'] .bento-card {
+  /* 深灰色背景 (Starlight 默认风格，但更纯净) */
+  background-color: #1e1e20; 
+  border: 1px solid #3f3f46;
+}
+
+:root[data-theme='dark'] .bento-card:hover {
+  background-color: #27272a;
+  border-color: #f97316; /* 夜间悬停也带一点橙色光辉 */
+}
+
+:root[data-theme='dark'] .bento-card h3 {
+  color: #fb923c; /* 夜间文字改为亮橙色，保证可读性 */
+}
+
+:root[data-theme='dark'] .card-icon {
+  color: #fb923c;
+}

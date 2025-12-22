@@ -69,18 +69,17 @@ import QuoteBlock from '../../components/QuoteBlock.astro';
   {/* 右列：保持不变，垂直排列的三个小卡片 */}
   <div class="bento-col-right">
 
-  {/* 右2变右1：关系形态测试 (替换了原 Wiki) */}
-    <a href="/assessment/orientation" class="bento-card small-card link-card">
-      <div class="card-header">
-        {/* 图标：指南针/探索 */}
-        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-        </svg>
-        <h3 style="color: #c2410c;">测试关系形态倾向</h3>
-      </div>
-      <p class="compact-text">你更适合哪种关系模式？来测一测吧！</p>
-    </a>
+{/* 右2变右1：关系形态测试 */}
+  <a href="/assessment/orientation" class="bento-card small-card link-card assessment-card">
+    <div class="card-header">
+      {/* 图标：五角星 (Star) */}
+      <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+      <h3 style="color: #c2410c;">测试关系形态倾向</h3>
+    </div>
+    <p class="compact-text">你更适合哪种关系模式？来测一测吧！</p>
+  </a>
     
     {/* 右1变右2：猜你像读 */}
     <div class="bento-card small-card">
