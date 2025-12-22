@@ -44,15 +44,47 @@ export default defineConfig({
           link: '/start' 
         },
 
-        // 2. 【馆藏大厅】必须是一个纯粹的分组
+        {
+          label: '🧪 自我测评',
+          autogenerate: { directory: 'assessment' },
+          // collapsed: true, // 如果你想默认折叠就加上这句
+        },
+
+        // 3. 【馆藏大厅】(拆解版)
         {
           label: '🏛️ 全部馆藏',
-          // ❌ 删除下面这一行：不能同时拥有 link 和 autogenerate
-          // link: '/library', 
-          
-          // ✅ 保留自动生成：它会自动把 index.mdx 作为第一项显示
-          autogenerate: { directory: 'library' },
-          collapsed: true, 
+          collapsed: true,
+          items: [
+            // 3.1 馆藏首页 (对应 library/index.mdx)
+            {
+              label: '🏛️ 馆藏大厅',
+              link: '/library', 
+            },
+            // 3.2 深度文章 (手动命名 + 自动生成内容)
+            {
+              label: '📰 深度文章',
+              autogenerate: { directory: 'library/articles' },
+              collapsed: true,
+            },
+            // 3.3 书籍推荐
+            {
+              label: '📚 书籍推荐',
+              autogenerate: { directory: 'library/books' },
+              collapsed: true,
+            },
+            // 3.4 实操指南
+            {
+              label: '🗺️ 实操指南',
+              autogenerate: { directory: 'library/guides' },
+              collapsed: true,
+            },
+            // 3.5 真人故事
+            {
+              label: '📖 真人故事',
+              autogenerate: { directory: 'library/stories' },
+              collapsed: true,
+            },
+          ]
         },
 
         // 3. 【Wiki 百科】同理
