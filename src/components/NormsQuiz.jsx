@@ -141,9 +141,9 @@ const WelcomeScreen = ({ onStart }) => (
       <div className="intro-box">
         <ul className="intro-list">
           <li className="intro-item">我们每个人的恋爱观，有多少是自己思考的结果，又有多少是社会文化潜移默化植入的“出厂设置”？</li>
-          <li className="intro-item">本测试共 40 题，涵盖 8 个核心维度，从生活细节到核心价值观，为您进行一次深度扫描。</li>
+          <li className="intro-item">本测试共 40 题，涵盖 8 个核心维度，从生活细节到价值观念，为您进行一次深度扫描。</li>
           <li className="intro-item"><b>请注意：</b>得分越高，代表您的观念越符合主流规范（受规训程度越高）。</li>
-          <li className="intro-item">这不仅仅是一个测试，更是一次“红药丸”般的觉醒体验。请诚实面对自己的第一直觉。</li>
+          <li className="intro-item">从来如此，并不一定对。在答题的过程中，您不妨慢下来想一想：我为什么会这么觉得？</li>
         </ul>
       </div>
 
