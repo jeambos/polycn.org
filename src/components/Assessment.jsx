@@ -12,7 +12,7 @@ const RESULT_TYPES = {
     summary: '你非常重视关系的稳定性与排他性。在一段专注、承诺明确的一对一关系中，你最能获得安全感与满足感。',
     advice: '寻找一位同样珍视承诺与深度的伴侣，建立共同的人生愿景。在关系中，尝试建立深层的“二人世界”仪式感。',
     risks: '可能会因为过度依赖伴侣而产生“共生”压力。调整建议：有意识地培养个人的兴趣爱好和独立朋友圈。',
-    neighbor: '区别在于你更渴望一种“永恒”的叙事，而不是连续单偶者那样更能接受关系的自然终结。'
+    neighbor: '区别在于你是追求“唯一与永恒”的，而不是像连续单偶者那样更能接受关系的自然终结。'
   },
   serial_mono: {
     id: 'serial_mono',
@@ -20,7 +20,7 @@ const RESULT_TYPES = {
     summary: '你倾向于在不同的人生阶段全心投入一段明确的一对一关系。你重视当下的承诺，但不强求一段关系必须维持一生。',
     advice: '跟随生命阶段的流动去爱。尽情投入当下，如果在成长中彼此方向不再一致，允许好聚好散。',
     risks: '容易陷入“无缝衔接”来逃避旧关系的伤痛。调整建议：在两段关系之间留出“独处空窗期”用于复盘。',
-    neighbor: '区别在于你更能接受关系的自然终结，而不是像单偶取向者那样将结束视为失败。'
+    neighbor: '区别在于你是“阶段性投入”的，而不是像单偶取向者那样将结束视为失败。'
   },
   monogamish: {
     id: 'monogamish',
@@ -28,7 +28,7 @@ const RESULT_TYPES = {
     summary: '你整体上偏向单偶关系，但在边界上较为宽松。相比于绝对的排他，你更看重核心关系的质量，允许一定程度的弹性。',
     advice: '建立稳固的核心关系，在规则上保留“透气孔”。重点在于与伴侣达成共识：什么是我们的底线。',
     risks: '容易在“弹性”和“出轨”之间模糊界限。调整建议：诚实是最高原则，任何越界行为前先沟通。',
-    neighbor: '区别在于你的重心依然是“封闭”多于“开放”，而不是像开放关系者那样主动探索外部连接。'
+    neighbor: '区别在于你是“封闭为主，开放为辅”的，而不是像开放关系者那样主动探索外部连接。'
   },
   adaptable: {
     id: 'adaptable',
@@ -44,7 +44,7 @@ const RESULT_TYPES = {
     summary: '你正处于一种“寻找”的状态。目前的某些关系模式让你感到不适（错位感），你渴望尝试新的可能性，尽管方向可能还不明确。',
     advice: '不要急于定义自己。把现在的阶段当作“试衣间”，允许自己尝试和犯错，直到找到那件合身的衣服。',
     risks: '容易因急于摆脱现状而冲动进入复杂关系。调整建议：慢下来，知识储备先行，不要把非单偶制当成救命稻草。',
-    neighbor: '区别在于你内心有一种强烈的“不适感”驱动你去改变，而不是像可适应型那样随遇而安。'
+    neighbor: '区别在于你是被内心的“不适感”驱动改变，而不是像可适应型那样随遇而安。'
   },
   open_rel: {
     id: 'open_rel',
@@ -88,44 +88,38 @@ const RESULT_TYPES = {
   }
 };
 
-// 原始核心题库 (36题，去绝对化版本)
 const CORE_QUESTIONS = [
-  // ... 维度一 ...
+  // ... 题目内容保持不变，沿用上次的“去绝对化”版本 ...
   { id: 1, text: "如果确信我是伴侣眼中‘唯一的、不可替代的’特殊存在，我在关系中会更加感到安全和满足。", weights: { monogamous: 2, serial_mono: 2, high_boundary: 1 } },
   { id: 2, text: "当我想到伴侣的内心深处还住着另一个同样重要的人，我更容易感到自我价值被稀释，或觉得关系受到了威胁。", weights: { monogamous: 2, monogamish: 1, serial_mono: 1 } },
   { id: 3, text: "成为某个人情感上的‘唯一寄托’，我知道这是一种荣幸，但是我更多地感受到这是一份责任和沉重的心理负担。", weights: { polyamorous: 2, solo_poly: 2, non_hierarchical: 1 } },
   { id: 4, text: "即使理智上尝试接受，但如果真的想象伴侣与他人发生亲密接触，我往往很难保持身心的平静，甚至会有明显的生理排斥。", weights: { monogamous: 2, serial_mono: 2 } },
   { id: 5, text: "看到伴侣因与他人的互动而快乐时，相比于嫉妒，我似乎更能从中感受到一种‘替他/她高兴’的欣慰感。", weights: { polyamorous: 2, non_hierarchical: 2, open_rel: 1 } },
   { id: 6, text: "我倾向于认为伴侣间的关注应当是专属的；如果需要去‘争取’伴侣的注意力，我通常会感到明显的不适。", weights: { monogamous: 2, monogamish: 1 } },
-  // ... 维度二 ...
   { id: 7, text: "当我投入一段严肃关系时，我更倾向于以‘长久维持’甚至‘终身相伴’为愿景；没有长久承诺的关系往往让我缺乏安全感。", weights: { monogamous: 2, serial_mono: 2, high_boundary: 1 } },
   { id: 8, text: "如果一段关系最终结束了，哪怕过程很愉快，我内心深处依然容易觉得这是一种遗憾，甚至是某种程度的‘失败’。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 9, text: "相比于关系的‘形式’（单偶或多边），我更看重两个人当下的相处质量；只要沟通顺畅，我对关系形式的变化持相对开放的态度。", weights: { adaptable: 2, solo_poly: 1 } },
   { id: 10, text: "我有时会发现自己因为‘在一起很久了’或习惯了对方，而选择留在一段不再那么滋养我的关系里。", weights: { monogamous: 1, monogamish: 1 } },
   { id: 11, text: "对于关系随着生命阶段自然改变（如从恋人变朋友，或从封闭变开放），我通常能比较安然地接受，而不太会感到恐慌。", weights: { adaptable: 2, solo_poly: 2, non_hierarchical: 1, serial_mono: 1 } },
   { id: 12, text: "如果一段关系缺乏明确的‘未来走向’（如结婚或确定结果），这种不确定性往往是我焦虑的主要来源。", weights: { monogamous: 2, high_boundary: 2 } },
-  // ... 维度三 ...
   { id: 13, text: "当我处于深爱状态时，我对其他人的浪漫兴趣通常会显著减退，我的注意力很自然地只聚焦在一个人身上。", weights: { monogamous: 2, serial_mono: 2 } },
   { id: 14, text: "我感觉自己能够同时对不同的人产生不同质感的爱意；新的爱意似乎并不会削减我对原有伴侣的感情。", weights: { polyamorous: 2, non_hierarchical: 2, open_rel: 1 } },
   { id: 15, text: "在我的体验中，应对一个人的情绪需求和生活琐事，往往就已经占据了我大部分的社交与情感能量。", weights: { monogamous: 2, open_rel: 1 } },
   { id: 16, text: "我常觉得自己情感充沛，只照顾一个伴侣似乎不足以完全释放我想要与他人建立深层连接的愿望。", weights: { polyamorous: 2, non_hierarchical: 1 } },
   { id: 17, text: "即便伴侣很好，我有时仍会觉得，仅与一个人建立深度连接，很难满足我在情感或智识上的全部需求。", weights: { polyamorous: 2, solo_poly: 1, open_rel: 1 } },
   { id: 18, text: "需要在不同的人际关系模式中来回切换（如对A温柔、对B理智），这种状态通常让我感到比较疲惫或混乱。", weights: { monogamous: 2, monogamish: 1 } },
-  // ... 维度四 ...
   { id: 19, text: "如果‘我们现在算什么关系’没有一个明确的界定，这种模糊状态更容易让我感到不安。", weights: { monogamous: 2, high_boundary: 2, serial_mono: 1 } },
   { id: 20, text: "相比于变幻莫测的当下感觉，我更倾向于信任明确的约定或承诺；出现分歧时，我习惯回归约定来解决。", weights: { high_boundary: 2, monogamous: 1, open_rel: 1 } },
   { id: 21, text: "我发现自己比较容易随着伴侣的风格调整需求：如果伴侣需要排他，我能接受；如果伴侣需要空间，我也能适应。", weights: { adaptable: 2, serial_mono: 1 } },
   { id: 22, text: "在亲密关系中，如果能知道对方大部分的行踪和想法，我会感到明显更安心；太多的秘密让我不适。", weights: { monogamous: 2, monogamish: 1, high_boundary: 1 } },
   { id: 23, text: "即使关系再亲密，我依然强烈希望保留一部分完全属于自己的私密世界。", weights: { solo_poly: 2, open_rel: 1, adaptable: 1 } },
   { id: 24, text: "当关系中出现未曾约定的灰色地带时，我的第一反应往往是担忧或恐慌，而不是好奇。", weights: { monogamous: 2, high_boundary: 2 } },
-  // ... 维度五 ...
   { id: 25, text: "我向往的理想关系，更接近于两个人高度融合，像一个整体那样去共同面对世界。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 26, text: "当个人发展与维持关系发生冲突时，我往往更愿意调整自己的人生计划，以优先保全关系。", weights: { monogamous: 2, serial_mono: 1 } },
   { id: 27, text: "如果一段关系需要我改变核心生活习惯或放弃独处，我更容易产生想要逃离的冲动，而不是选择妥协。", weights: { solo_poly: 2, non_hierarchical: 1 } },
   { id: 28, text: "在做重大人生决定时，我倾向于优先考虑对自己最有利的选项，其次才是考虑对伴侣的影响。", weights: { solo_poly: 2, non_hierarchical: 1 } },
   { id: 29, text: "那种‘生活中不能没有对方’的深度相互依赖感，通常让我感到很安全，也觉得被需要。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 30, text: "我通常比较清楚自己在感情中想要什么，所以不太容易因为外界诱惑或伴侣要求而感到迷茫。", weights: { adaptable: 1, solo_poly: 1, monogamous: 1, exploring: -2 } },
-  // ... 维度六 ...
   { id: 31, text: "我时常隐隐感到目前的亲密关系模式（无论哪种）似乎有些不合身，让我觉得别扭，哪怕我还说不清原因。", weights: { exploring: 2, adaptable: -1 } },
   { id: 32, text: "我经常感觉到一种想要尝试新关系模式的渴望，觉得那可能是我解决当前困惑的途径。", weights: { exploring: 2, open_rel: 1 } },
   { id: 33, text: "尽管传统婚姻有各种问题，但我依然倾向于认为，那是一条相对最安全、最省心的路。", weights: { monogamous: 2, monogamish: 1 } },
@@ -134,7 +128,6 @@ const CORE_QUESTIONS = [
   { id: 36, text: "正因为不确定适合什么，我愿意把尝试不同关系和可能犯的错，看作是寻找自我的必要成本。", weights: { exploring: 2, solo_poly: 2, non_hierarchical: 1, adaptable: -1 } }
 ];
 
-// 红灯题 (分散插入)
 const RED_FLAGS = [
   { id: 101, isRedFlag: true, title: "情绪反应检测", text: "我发现，即使是很小的互动（如伴侣夸赞别人一句），也往往会引发比我预想中更强烈的愤怒或恐慌。", warning: "你的安全感可能处于预警状态。建立内心的安全基地可能是当务之急。" },
   { id: 102, isRedFlag: true, title: "自我压抑检测", text: "为了维持关系和谐，我经常发现自己在压抑真实需求，有时甚至会感到有些委屈。", warning: "你可能容易在关系中失去自我。建议练习确立自己的底线。" },
@@ -142,14 +135,12 @@ const RED_FLAGS = [
   { id: 104, isRedFlag: true, title: "边界纠缠检测", text: "我比较享受被很多人同时需要的感觉，哪怕这有时会让我卷入一些复杂的情感纠葛。", warning: "“能爱很多人”与“被很多人依赖”不同。警惕这是否让你陷入了混乱的边界纠缠。" }
 ];
 
-// 构建最终题目列表
 const QUESTIONS = [...CORE_QUESTIONS];
 QUESTIONS.splice(7, 0, RED_FLAGS[0]);
 QUESTIONS.splice(17, 0, RED_FLAGS[1]);
 QUESTIONS.splice(27, 0, RED_FLAGS[2]);
 QUESTIONS.splice(37, 0, RED_FLAGS[3]);
 
-// 分页逻辑
 const PAGE_BREAKS = [6, 13, 20, 27, 34, 40]; 
 
 // =====================================================================
@@ -175,7 +166,6 @@ const WelcomeScreen = ({ onStart }) => (
         开始探索
       </button>
 
-      {/* 更多测试入口 */}
       <div className="more-tests-section">
         <h4 className="more-title">更多测试</h4>
         <div className="test-grid">
@@ -197,34 +187,47 @@ const WelcomeScreen = ({ onStart }) => (
   </div>
 );
 
-// 分享弹窗组件
-const ShareModal = ({ onClose }) => (
-  <div className="modal-overlay" onClick={onClose}>
-    <div className="modal-content" onClick={e => e.stopPropagation()}>
-      <div className="modal-title">保存结果</div>
-      <p style={{color: '#6b7280', marginBottom: '1.5rem'}}>
-        受到技术限制，请您<b>截图</b>保存此页面或分享给好友 :)
-      </p>
-      <button onClick={onClose} className="modal-btn">我知道了</button>
+// 居中 Toast 弹窗
+const ShareToast = ({ onClose }) => (
+  <div className="toast-popup">
+    <div style={{fontSize:'1.1rem', fontWeight:'bold', marginBottom:'0.5rem', color:'#111827'}}>
+      保存结果
     </div>
+    <div style={{color:'#6b7280', marginBottom:'1rem'}}>
+      受到技术限制，请您<b>截图</b>保存此页面或分享给好友 :)
+    </div>
+    <button onClick={onClose} className="toast-btn">
+      我知道了
+    </button>
   </div>
 );
 
 const ResultScreen = ({ results, onRetry }) => {
-  const [showShare, setShowShare] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  // 自动隐藏 Toast
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>测试结果</h2>
-        <p style={{color: '#6b7280'}}>以下是您的关系倾向报告，此结果只展示一次，您可截图保存。</p>
+        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>以下是您的关系倾向报告，此结果只展示一次，您可截图保存。</p>
       </div>
 
       {/* 1. Best Match */}
       {results.bestMatch ? (
         <div className="res-card best-match">
-          <h3 className="section-label" style={{color: '#9ca3af', marginTop: 0}}>Best for</h3>
+          <h3 className="res-header-label">
+            YOU ARE <span className="highlight">BEST</span> FOR
+          </h3>
           <div className="watermark">PolyCN.org</div>
+          
           <div className="res-title">
             {results.bestMatch.name}
             <span className="res-match-rate">契合度 {results.bestMatch.percent}%</span>
@@ -250,29 +253,34 @@ const ResultScreen = ({ results, onRetry }) => {
       {/* 2. OK Matches */}
       {results.okMatches.length > 0 && results.okMatches.map(type => (
         <div key={type.id} className="res-card">
-          <h3 className="section-label" style={{color: '#9ca3af', marginTop: 0}}>OK for</h3>
+          <h3 className="res-header-label">
+            YOU ARE <span className="highlight">OK</span> FOR
+          </h3>
           <div className="res-title">
             {type.name}
             <span className="res-match-rate">契合度 {type.percent}%</span>
           </div>
-          <div className="res-summary">{type.summary}</div>
-          <div style={{background: '#f9fafb', padding: '1rem', borderRadius: '8px', marginTop: '1rem'}}>
-             <span style={{fontSize:'0.8rem', fontWeight:'bold', color:'#4b5563', display:'block', marginBottom:'0.2rem'}}>建议：</span>
-             <span style={{fontSize:'0.9rem', color:'#374151'}}>{type.advice}</span>
+          <div className="res-summary">
+            {type.summary}
+            {/* 融合样式的建议块 */}
+            <div className="ok-advice-block">
+              <span className="ok-advice-label">建议：</span>
+              {type.advice}
+            </div>
           </div>
         </div>
       ))}
 
-      {/* 3. Red Flags */}
+      {/* 3. Red Flags (Dark Mode Style) */}
       {results.redFlags.length > 0 && (
         <div className="res-card red-flag">
-          <div className="res-title">⚠️ 需关注的深层信号</div>
-          <p style={{marginBottom: '1.5rem', color: '#b91c1c'}}>在您的回答中，我们监测到了一些可能影响关系质量的信号：</p>
-          <div style={{display: 'grid', gap: '1rem'}}>
+          <div className="res-title" style={{color: '#fecaca'}}>⚠️ 需关注的深层信号</div>
+          <p className="red-flag-intro">在您的回答中，我们监测到了一些可能影响关系质量的深层信号：</p>
+          <div>
             {results.redFlags.map(q => (
-              <div key={q.id} style={{background: 'white', padding: '1rem', borderRadius: '8px', borderLeft: '4px solid #ef4444'}}>
-                <div style={{fontWeight: 'bold', color: '#991b1b', marginBottom: '0.2rem'}}>{q.title}</div>
-                <div style={{fontSize: '0.9rem', color: '#b91c1c'}}>{q.warning}</div>
+              <div key={q.id} className="red-flag-item">
+                <div className="red-flag-title-text">{q.title}</div>
+                <div className="red-flag-warning">{q.warning}</div>
               </div>
             ))}
           </div>
@@ -281,11 +289,11 @@ const ResultScreen = ({ results, onRetry }) => {
 
       {/* 4. Actions */}
       <div className="result-actions">
-        <button onClick={() => setShowShare(true)} className="btn-share">分享结果</button>
+        <button onClick={() => setShowToast(true)} className="btn-share">分享结果</button>
         <button onClick={onRetry} className="btn-retry">重新测试</button>
       </div>
 
-      {showShare && <ShareModal onClose={() => setShowShare(false)} />}
+      {showToast && <ShareToast onClose={() => setShowToast(false)} />}
 
       {/* 5. More Tests */}
       <div className="more-tests-section">
@@ -327,14 +335,12 @@ const Assessment = () => {
   const [showResult, setShowResult] = useState(false);
   const [shakeBtn, setShakeBtn] = useState(false);
 
-  // 计算当前页的题目范围
   const currentQuestions = useMemo(() => {
     const start = pageIndex === 0 ? 0 : PAGE_BREAKS[pageIndex - 1];
     const end = PAGE_BREAKS[pageIndex];
     return QUESTIONS.slice(start, end);
   }, [pageIndex]);
 
-  // 找到当前页第一个未答的题目 ID
   const firstUnansweredId = useMemo(() => {
     const first = currentQuestions.find(q => answers[q.id] === undefined);
     return first ? first.id : null;
@@ -375,7 +381,6 @@ const Assessment = () => {
     window.scrollTo(0, 0);
   };
 
-  // 结果计算
   const results = useMemo(() => {
     if (!showResult) return null;
     
@@ -434,21 +439,18 @@ const Assessment = () => {
           >
             <div className="question-text">{q.text}</div>
             
-            {/* 5点交互选项 (XL-L-M-L-XL) */}
             <div className="options-dots">
               {[1, 2, 3, 4, 5].map((val) => (
                 <button
                   key={val}
                   onClick={() => setAnswers(prev => ({ ...prev, [q.id]: val }))}
                   className={`dot-btn ${answers[q.id] === val ? 'selected' : ''}`}
-                  title={val === 1 ? "非常不符合" : val === 5 ? "非常符合" : ""}
                 >
                   <div className={`dot-circle dot-size-${val} dot-color-${val}`}></div>
                 </button>
               ))}
             </div>
 
-            {/* 仅在当前第一个未答题显示文字标签 */}
             {q.id === firstUnansweredId && (
               <div className="dots-labels-container">
                 <span className="dots-label-item">完全<br/>不符合</span>

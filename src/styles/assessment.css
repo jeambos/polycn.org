@@ -6,12 +6,17 @@
   margin: 2rem auto;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #333;
-  position: relative; /* 为弹窗定位 */
+  position: relative;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 @keyframes shake {
@@ -94,7 +99,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f59e0b, #7c3aed); /* 黄到紫 */
+  background: linear-gradient(90deg, #f59e0b, #7c3aed);
   transition: width 0.5s ease-out;
   border-radius: 99px;
 }
@@ -122,15 +127,15 @@
   color: #1f2937;
 }
 
-/* --- 5点选项交互 (重点修改) --- */
+/* --- 5点选项交互 --- */
 .options-dots {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 确保垂直居中对齐 */
+  align-items: center;
   padding: 0 1rem;
   max-width: 500px;
   margin: 0 auto;
-  height: 60px; /* 固定高度，防止标签出现时跳动 */
+  height: 60px;
   position: relative;
 }
 
@@ -143,7 +148,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  width: 48px; /* 增大点击热区 */
+  width: 48px;
   height: 48px;
   position: relative;
 }
@@ -156,33 +161,26 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 尺寸定义 (XL-L-M-L-XL) */
-.dot-size-1 { width: 24px; height: 24px; } /* XL */
-.dot-size-2 { width: 18px; height: 18px; } /* L */
-.dot-size-3 { width: 14px; height: 14px; } /* M */
-.dot-size-4 { width: 18px; height: 18px; } /* L */
-.dot-size-5 { width: 24px; height: 24px; } /* XL */
+.dot-size-1 { width: 24px; height: 24px; }
+.dot-size-2 { width: 18px; height: 18px; }
+.dot-size-3 { width: 14px; height: 14px; }
+.dot-size-4 { width: 18px; height: 18px; }
+.dot-size-5 { width: 24px; height: 24px; }
 
-/* 颜色定义 (芒果黄 -> 葡萄紫) */
-.dot-color-1 { border-color: #fbbf24; } /* Mango */
-.dot-color-2 { border-color: #fb923c; } /* Orange */
-.dot-color-3 { border-color: #f472b6; } /* Pink */
-.dot-color-4 { border-color: #a78bfa; } /* Light Purple */
-.dot-color-5 { border-color: #7c3aed; } /* Grape */
+.dot-color-1 { border-color: #fbbf24; }
+.dot-color-2 { border-color: #fb923c; }
+.dot-color-3 { border-color: #f472b6; }
+.dot-color-4 { border-color: #a78bfa; }
+.dot-color-5 { border-color: #7c3aed; }
 
-/* 选中或悬停状态 */
-.dot-btn:hover .dot-circle {
-  transform: scale(1.15);
-}
+.dot-btn:hover .dot-circle { transform: scale(1.15); }
 
-/* 选中后填色 */
 .dot-btn.selected .dot-color-1 { background-color: #fbbf24; }
 .dot-btn.selected .dot-color-2 { background-color: #fb923c; }
 .dot-btn.selected .dot-color-3 { background-color: #f472b6; }
 .dot-btn.selected .dot-color-4 { background-color: #a78bfa; }
 .dot-btn.selected .dot-color-5 { background-color: #7c3aed; }
 
-/* 动态标签文字 */
 .dots-labels-container {
   display: flex;
   justify-content: space-between;
@@ -195,12 +193,8 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-.dots-label-item {
-  width: 20%; /* 5等分 */
-  text-align: center;
-}
+.dots-label-item { width: 20%; text-align: center; }
 
-/* 移动端优化 */
 @media (max-width: 640px) {
   .options-dots { padding: 0; }
   .dots-labels-container { font-size: 0.65rem; }
@@ -226,10 +220,7 @@
   transition: all 0.2s;
 }
 
-.btn-prev:hover {
-  border-color: #d1d5db;
-  color: #374151;
-}
+.btn-prev:hover { border-color: #d1d5db; color: #374151; }
 
 .btn-next, .btn-primary {
   background-color: #ea580c;
@@ -266,9 +257,9 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-/* Best Match: 黑色高级感 */
+/* Best Match */
 .res-card.best-match {
-  background: #111827; /* 纯黑背景 */
+  background: #111827;
   border-color: #374151;
   color: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -286,23 +277,37 @@
   letter-spacing: 0.05em;
 }
 
+/* YOU ARE BEST FOR 标题 */
+.res-header-label {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.res-header-label .highlight { color: #fb923c; } /* Orange highlight for BEST */
+.res-card:not(.best-match) .res-header-label .highlight { color: #ea580c; } /* Darker Orange for OK */
+
 .res-title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  line-height: 1.2;
 }
 .best-match .res-title { color: white; }
 .res-card:not(.best-match) .res-title { color: #1f2937; }
-
 
 .res-match-rate {
   font-size: 0.9rem;
   padding: 4px 12px;
   border-radius: 99px;
   font-weight: 600;
+  white-space: nowrap;
 }
 .best-match .res-match-rate { background: #374151; color: #fb923c; }
 .res-card:not(.best-match) .res-match-rate { background: #f3f4f6; color: #4b5563; }
@@ -315,8 +320,21 @@
 .best-match .res-summary { color: #d1d5db; }
 .res-card:not(.best-match) .res-summary { color: #374151; }
 
+/* OK Card 内嵌建议 - 融合样式 */
+.ok-advice-block {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e5e7eb;
+  font-size: 1.05rem; /* 微小一点 */
+  color: #4b5563;
+}
+.ok-advice-label {
+  font-weight: bold;
+  color: #ea580c;
+  margin-right: 0.5rem;
+}
 
-/* 文本标签颜色 - 在深色卡片中需要调整 */
+/* Best Match 内部标签 */
 .section-label {
   display: block;
   font-size: 0.85rem;
@@ -326,25 +344,47 @@
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
 }
-
-/* Best Match 内部颜色 */
-.best-match .label-advice { color: #fb923c; } /* 橙色 */
-.best-match .label-risk { color: #f87171; }   /* 红色 */
-.best-match .label-diff { color: #60a5fa; }   /* 蓝色 */
+.best-match .label-advice { color: #fb923c; }
+.best-match .label-risk { color: #f87171; }
+.best-match .label-diff { color: #60a5fa; }
 .best-match .section-text { color: #9ca3af; font-size: 1rem; line-height: 1.6; }
 
-/* 普通卡片内部颜色 */
-.res-card:not(.best-match) .label-advice { color: #ea580c; }
-.res-card:not(.best-match) .section-text { color: #4b5563; }
-
-/* 红灯卡片 */
+/* --- 红灯卡片 (深红背景) --- */
 .res-card.red-flag {
-  background: #fef2f2;
-  border-color: #fecaca;
+  background: #450a0a; /* 深红/勃艮第 */
+  border: 1px solid #7f1d1d;
+  color: #fecaca; /* 浅粉红文字 */
 }
-.red-flag .res-title { color: #b91c1c; }
 
-/* 导流按钮组 (等宽) */
+.red-flag-intro {
+  font-size: 0.95rem; /* 要求: 0.95rem */
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.red-flag-item {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #ef4444;
+  margin-bottom: 1rem;
+}
+
+.red-flag-title-text {
+  font-size: 1.25rem; /* 要求: 1.25rem */
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.red-flag-warning {
+  font-size: 0.95rem;
+  color: #fca5a5;
+  line-height: 1.5;
+}
+
+/* --- 导流按钮组 (等宽) --- */
 .result-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -355,65 +395,47 @@
 
 .btn-share, .btn-retry {
   width: 100%;
-  padding: 1rem;
+  height: 56px; /* 强制等高 */
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  text-align: center;
-  transition: transform 0.1s;
-}
-
-.btn-share {
-  background: #111827;
-  color: white;
-  border: none;
-}
-.btn-retry {
-  background: white;
-  border: 1px solid #d1d5db;
-  color: #374151;
-}
-.btn-share:active, .btn-retry:active { transform: scale(0.98); }
-
-/* --- 自定义弹窗 --- */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.2s ease-out;
+  transition: transform 0.1s;
 }
 
-.modal-content {
+.btn-share { background: #111827; color: white; border: none; }
+.btn-retry { background: white; border: 1px solid #d1d5db; color: #374151; }
+.btn-share:active, .btn-retry:active { transform: scale(0.98); }
+
+/* --- 屏幕居中 Toast 弹窗 --- */
+.toast-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: white;
-  padding: 2rem;
+  padding: 2rem 3rem;
   border-radius: 12px;
-  max-width: 90%;
-  width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  z-index: 2000;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #e5e7eb;
 }
 
-.modal-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #1f2937;
-}
-
-.modal-btn {
+.toast-btn {
   background: #ea580c;
   color: white;
   border: none;
-  padding: 0.75rem 2rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 50px;
   margin-top: 1.5rem;
   cursor: pointer;
   font-weight: bold;
+  font-size: 0.9rem;
 }
 
 /* --- 更多测试 --- */
