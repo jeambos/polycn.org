@@ -1016,3 +1016,17 @@
 .feat-btn:hover {
   background: #c2410c; /* 悬停变深 */
 }
+
+
+/* --- 索引页特殊布局：每行两个 --- */
+.test-grid.cols-2 {
+  /* 强制两列，平分宽度 */
+  grid-template-columns: repeat(2, 1fr); 
+}
+
+/* 移动端适配：手机上还是单列比较好看，如果手机也要双列，可以把下面这段删掉 */
+@media (max-width: 640px) {
+  .test-grid.cols-2 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -59,7 +59,7 @@ const MoreTests = ({ currentId, status = 'welcome' }) => {
       {/* 仅在非索引模式下显示小标题，索引页通常有自己的大标题 */}
       {!isIndexMode && <h4 className="more-title">更多测试</h4>}
       
-      <div className="test-grid">
+      <div className={`test-grid ${isIndexMode ? 'cols-2' : ''}`}>
         {displayList.map(test => {
           const isCurrent = test.id === currentId;
 
