@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import '../styles/Assessment.css';
 
 // =====================================================================
-// 1. 数据定义
+// 1. 数据定义 (保持不变)
 // =====================================================================
 
 const RESULT_TYPES = {
@@ -89,37 +89,42 @@ const RESULT_TYPES = {
 };
 
 const CORE_QUESTIONS = [
-  // ... 题目内容保持不变，沿用上次的“去绝对化”版本 ...
+  // 维度一
   { id: 1, text: "如果确信我是伴侣眼中‘唯一的、不可替代的’特殊存在，我在关系中会更加感到安全和满足。", weights: { monogamous: 2, serial_mono: 2, high_boundary: 1 } },
   { id: 2, text: "当我想到伴侣的内心深处还住着另一个同样重要的人，我更容易感到自我价值被稀释，或觉得关系受到了威胁。", weights: { monogamous: 2, monogamish: 1, serial_mono: 1 } },
   { id: 3, text: "成为某个人情感上的‘唯一寄托’，我知道这是一种荣幸，但是我更多地感受到这是一份责任和沉重的心理负担。", weights: { polyamorous: 2, solo_poly: 2, non_hierarchical: 1 } },
   { id: 4, text: "即使理智上尝试接受，但如果真的想象伴侣与他人发生亲密接触，我往往很难保持身心的平静，甚至会有明显的生理排斥。", weights: { monogamous: 2, serial_mono: 2 } },
   { id: 5, text: "看到伴侣因与他人的互动而快乐时，相比于嫉妒，我似乎更能从中感受到一种‘替他/她高兴’的欣慰感。", weights: { polyamorous: 2, non_hierarchical: 2, open_rel: 1 } },
   { id: 6, text: "我倾向于认为伴侣间的关注应当是专属的；如果需要去‘争取’伴侣的注意力，我通常会感到明显的不适。", weights: { monogamous: 2, monogamish: 1 } },
+  // 维度二
   { id: 7, text: "当我投入一段严肃关系时，我更倾向于以‘长久维持’甚至‘终身相伴’为愿景；没有长久承诺的关系往往让我缺乏安全感。", weights: { monogamous: 2, serial_mono: 2, high_boundary: 1 } },
   { id: 8, text: "如果一段关系最终结束了，哪怕过程很愉快，我内心深处依然容易觉得这是一种遗憾，甚至是某种程度的‘失败’。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 9, text: "相比于关系的‘形式’（单偶或多边），我更看重两个人当下的相处质量；只要沟通顺畅，我对关系形式的变化持相对开放的态度。", weights: { adaptable: 2, solo_poly: 1 } },
   { id: 10, text: "我有时会发现自己因为‘在一起很久了’或习惯了对方，而选择留在一段不再那么滋养我的关系里。", weights: { monogamous: 1, monogamish: 1 } },
   { id: 11, text: "对于关系随着生命阶段自然改变（如从恋人变朋友，或从封闭变开放），我通常能比较安然地接受，而不太会感到恐慌。", weights: { adaptable: 2, solo_poly: 2, non_hierarchical: 1, serial_mono: 1 } },
   { id: 12, text: "如果一段关系缺乏明确的‘未来走向’（如结婚或确定结果），这种不确定性往往是我焦虑的主要来源。", weights: { monogamous: 2, high_boundary: 2 } },
+  // 维度三
   { id: 13, text: "当我处于深爱状态时，我对其他人的浪漫兴趣通常会显著减退，我的注意力很自然地只聚焦在一个人身上。", weights: { monogamous: 2, serial_mono: 2 } },
   { id: 14, text: "我感觉自己能够同时对不同的人产生不同质感的爱意；新的爱意似乎并不会削减我对原有伴侣的感情。", weights: { polyamorous: 2, non_hierarchical: 2, open_rel: 1 } },
   { id: 15, text: "在我的体验中，应对一个人的情绪需求和生活琐事，往往就已经占据了我大部分的社交与情感能量。", weights: { monogamous: 2, open_rel: 1 } },
   { id: 16, text: "我常觉得自己情感充沛，只照顾一个伴侣似乎不足以完全释放我想要与他人建立深层连接的愿望。", weights: { polyamorous: 2, non_hierarchical: 1 } },
   { id: 17, text: "即便伴侣很好，我有时仍会觉得，仅与一个人建立深度连接，很难满足我在情感或智识上的全部需求。", weights: { polyamorous: 2, solo_poly: 1, open_rel: 1 } },
   { id: 18, text: "需要在不同的人际关系模式中来回切换（如对A温柔、对B理智），这种状态通常让我感到比较疲惫或混乱。", weights: { monogamous: 2, monogamish: 1 } },
+  // 维度四
   { id: 19, text: "如果‘我们现在算什么关系’没有一个明确的界定，这种模糊状态更容易让我感到不安。", weights: { monogamous: 2, high_boundary: 2, serial_mono: 1 } },
   { id: 20, text: "相比于变幻莫测的当下感觉，我更倾向于信任明确的约定或承诺；出现分歧时，我习惯回归约定来解决。", weights: { high_boundary: 2, monogamous: 1, open_rel: 1 } },
   { id: 21, text: "我发现自己比较容易随着伴侣的风格调整需求：如果伴侣需要排他，我能接受；如果伴侣需要空间，我也能适应。", weights: { adaptable: 2, serial_mono: 1 } },
   { id: 22, text: "在亲密关系中，如果能知道对方大部分的行踪和想法，我会感到明显更安心；太多的秘密让我不适。", weights: { monogamous: 2, monogamish: 1, high_boundary: 1 } },
   { id: 23, text: "即使关系再亲密，我依然强烈希望保留一部分完全属于自己的私密世界。", weights: { solo_poly: 2, open_rel: 1, adaptable: 1 } },
   { id: 24, text: "当关系中出现未曾约定的灰色地带时，我的第一反应往往是担忧或恐慌，而不是好奇。", weights: { monogamous: 2, high_boundary: 2 } },
+  // 维度五
   { id: 25, text: "我向往的理想关系，更接近于两个人高度融合，像一个整体那样去共同面对世界。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 26, text: "当个人发展与维持关系发生冲突时，我往往更愿意调整自己的人生计划，以优先保全关系。", weights: { monogamous: 2, serial_mono: 1 } },
   { id: 27, text: "如果一段关系需要我改变核心生活习惯或放弃独处，我更容易产生想要逃离的冲动，而不是选择妥协。", weights: { solo_poly: 2, non_hierarchical: 1 } },
   { id: 28, text: "在做重大人生决定时，我倾向于优先考虑对自己最有利的选项，其次才是考虑对伴侣的影响。", weights: { solo_poly: 2, non_hierarchical: 1 } },
   { id: 29, text: "那种‘生活中不能没有对方’的深度相互依赖感，通常让我感到很安全，也觉得被需要。", weights: { monogamous: 2, monogamish: 1 } },
   { id: 30, text: "我通常比较清楚自己在感情中想要什么，所以不太容易因为外界诱惑或伴侣要求而感到迷茫。", weights: { adaptable: 1, solo_poly: 1, monogamous: 1, exploring: -2 } },
+  // 维度六
   { id: 31, text: "我时常隐隐感到目前的亲密关系模式（无论哪种）似乎有些不合身，让我觉得别扭，哪怕我还说不清原因。", weights: { exploring: 2, adaptable: -1 } },
   { id: 32, text: "我经常感觉到一种想要尝试新关系模式的渴望，觉得那可能是我解决当前困惑的途径。", weights: { exploring: 2, open_rel: 1 } },
   { id: 33, text: "尽管传统婚姻有各种问题，但我依然倾向于认为，那是一条相对最安全、最省心的路。", weights: { monogamous: 2, monogamish: 1 } },
@@ -187,31 +192,28 @@ const WelcomeScreen = ({ onStart }) => (
   </div>
 );
 
-// 居中 Toast 弹窗
-const ShareToast = ({ onClose }) => (
-  <div className="toast-popup">
-    <div style={{fontSize:'1.1rem', fontWeight:'bold', marginBottom:'0.5rem', color:'#111827'}}>
-      保存结果
+// 气泡提示
+const SharePopover = ({ onClose }) => (
+  <div className="share-popover">
+    <div className="popover-text">
+      受到技术限制，请您<b>截图</b>保存此页面，手动分享给好友 :)
     </div>
-    <div style={{color:'#6b7280', marginBottom:'1rem'}}>
-      受到技术限制，请您<b>截图</b>保存此页面或分享给好友 :)
-    </div>
-    <button onClick={onClose} className="toast-btn">
+    <button onClick={onClose} className="popover-close">
       我知道了
     </button>
   </div>
 );
 
 const ResultScreen = ({ results, onRetry }) => {
-  const [showToast, setShowToast] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
-  // 自动隐藏 Toast
+  // 3秒后自动关闭气泡
   useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => setShowToast(false), 3000);
+    if (showShare) {
+      const timer = setTimeout(() => setShowShare(false), 4000);
       return () => clearTimeout(timer);
     }
-  }, [showToast]);
+  }, [showShare]);
 
   return (
     <div className="quiz-container animate-fade-in">
@@ -262,7 +264,6 @@ const ResultScreen = ({ results, onRetry }) => {
           </div>
           <div className="res-summary">
             {type.summary}
-            {/* 融合样式的建议块 */}
             <div className="ok-advice-block">
               <span className="ok-advice-label">建议：</span>
               {type.advice}
@@ -271,7 +272,7 @@ const ResultScreen = ({ results, onRetry }) => {
         </div>
       ))}
 
-      {/* 3. Red Flags (Dark Mode Style) */}
+      {/* 3. Red Flags */}
       {results.redFlags.length > 0 && (
         <div className="res-card red-flag">
           <div className="res-title" style={{color: '#fecaca'}}>⚠️ 需关注的深层信号</div>
@@ -287,13 +288,29 @@ const ResultScreen = ({ results, onRetry }) => {
         </div>
       )}
 
-      {/* 4. Actions */}
+      {/* 4. Actions (Grid布局) */}
       <div className="result-actions">
-        <button onClick={() => setShowToast(true)} className="btn-share">分享结果</button>
-        <button onClick={onRetry} className="btn-retry">重新测试</button>
-      </div>
+        {/* Share Button with Popover */}
+        <div style={{position: 'relative', width: '100%'}}>
+          {showShare && <SharePopover onClose={() => setShowShare(false)} />}
+          <div 
+            onClick={() => setShowShare(true)} 
+            className="action-card-btn btn-share-style"
+          >
+            <strong>分享结果</strong>
+            {/*<span style={{fontSize:'0.85rem', color:'#6b7280'}}>生成截图</span>*/}
+          </div>
+        </div>
 
-      {showToast && <ShareToast onClose={() => setShowToast(false)} />}
+        {/* Retry Button */}
+        <div 
+          onClick={onRetry} 
+          className="action-card-btn btn-retry-style"
+        >
+          <strong>重新测试</strong>
+          {/*<span style={{fontSize:'0.85rem', color:'#9ca3af'}}>清空记录</span>*/}
+        </div>
+      </div>
 
       {/* 5. More Tests */}
       <div className="more-tests-section">
@@ -325,7 +342,7 @@ const ResultScreen = ({ results, onRetry }) => {
 };
 
 // =====================================================================
-// 3. 主控制组件
+// 3. 主控制组件 (保持不变)
 // =====================================================================
 
 const Assessment = () => {

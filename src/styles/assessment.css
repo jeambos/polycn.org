@@ -7,6 +7,16 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #333;
   position: relative;
+
+  /* ✅ 新增：清除 Starlight 的自动垂直间距干扰 */
+  --sl-content-gap-y: 0px !important; 
+  margin-top: 0 !important;
+}
+
+/* ✅ 新增：强制去除组件内部所有元素的顶部默认间距，防止漏网之鱼 */
+.quiz-container * {
+  margin-top: 0;
+
 }
 
 @keyframes fadeIn {
@@ -14,9 +24,9 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes popIn {
-  0% { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@keyframes popUp {
+  from { opacity: 0; transform: translate(-50%, 10px) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
 @keyframes shake {
@@ -127,7 +137,7 @@
   color: #1f2937;
 }
 
-/* --- 5点选项交互 --- */
+/* --- 5点选项交互 (尺寸加大版) --- */
 .options-dots {
   display: flex;
   justify-content: space-between;
@@ -135,7 +145,7 @@
   padding: 0 1rem;
   max-width: 500px;
   margin: 0 auto;
-  height: 60px;
+  height: 70px; /* 高度增加以容纳更大的点 */
   position: relative;
 }
 
@@ -148,8 +158,8 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  width: 48px;
-  height: 48px;
+  width: 60px; /* 点击热区加大 */
+  height: 60px;
   position: relative;
 }
 
@@ -161,11 +171,12 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dot-size-1 { width: 24px; height: 24px; }
-.dot-size-2 { width: 18px; height: 18px; }
-.dot-size-3 { width: 14px; height: 14px; }
-.dot-size-4 { width: 18px; height: 18px; }
-.dot-size-5 { width: 24px; height: 24px; }
+/* 尺寸定义 (加大版: 32-24-20-24-32) */
+.dot-size-1 { width: 32px; height: 32px; border-width: 3px; } /* XL */
+.dot-size-2 { width: 24px; height: 24px; border-width: 3px; } /* L */
+.dot-size-3 { width: 20px; height: 20px; border-width: 2px; } /* M - 现在的 M 相当于之前的 L */
+.dot-size-4 { width: 24px; height: 24px; border-width: 3px; } /* L */
+.dot-size-5 { width: 32px; height: 32px; border-width: 3px; } /* XL */
 
 .dot-color-1 { border-color: #fbbf24; }
 .dot-color-2 { border-color: #fb923c; }
@@ -277,7 +288,6 @@
   letter-spacing: 0.05em;
 }
 
-/* YOU ARE BEST FOR 标题 */
 .res-header-label {
   font-size: 1.25rem;
   font-weight: 900;
@@ -287,8 +297,8 @@
   color: #9ca3af;
 }
 
-.res-header-label .highlight { color: #fb923c; } /* Orange highlight for BEST */
-.res-card:not(.best-match) .res-header-label .highlight { color: #ea580c; } /* Darker Orange for OK */
+.res-header-label .highlight { color: #fb923c; }
+.res-card:not(.best-match) .res-header-label .highlight { color: #ea580c; }
 
 .res-title {
   font-size: 2rem;
@@ -320,12 +330,11 @@
 .best-match .res-summary { color: #d1d5db; }
 .res-card:not(.best-match) .res-summary { color: #374151; }
 
-/* OK Card 内嵌建议 - 融合样式 */
 .ok-advice-block {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px dashed #e5e7eb;
-  font-size: 1.05rem; /* 微小一点 */
+  font-size: 1.05rem;
   color: #4b5563;
 }
 .ok-advice-label {
@@ -334,7 +343,6 @@
   margin-right: 0.5rem;
 }
 
-/* Best Match 内部标签 */
 .section-label {
   display: block;
   font-size: 0.85rem;
@@ -349,15 +357,15 @@
 .best-match .label-diff { color: #60a5fa; }
 .best-match .section-text { color: #9ca3af; font-size: 1rem; line-height: 1.6; }
 
-/* --- 红灯卡片 (深红背景) --- */
+/* 红灯卡片 */
 .res-card.red-flag {
-  background: #450a0a; /* 深红/勃艮第 */
+  background: #450a0a;
   border: 1px solid #7f1d1d;
-  color: #fecaca; /* 浅粉红文字 */
+  color: #fecaca;
 }
 
 .red-flag-intro {
-  font-size: 0.95rem; /* 要求: 0.95rem */
+  font-size: 0.95rem;
   margin-bottom: 2rem;
   opacity: 0.9;
   line-height: 1.6;
@@ -372,7 +380,7 @@
 }
 
 .red-flag-title-text {
-  font-size: 1.25rem; /* 要求: 1.25rem */
+  font-size: 1.25rem;
   font-weight: bold;
   color: white;
   margin-bottom: 0.5rem;
@@ -384,59 +392,106 @@
   line-height: 1.5;
 }
 
-/* --- 导流按钮组 (等宽) --- */
+/* --- 导流按钮组 (Grid卡片样式对齐) --- */
 .result-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  max-width: 600px;
   margin: 3rem auto;
+  position: relative; /* 为弹窗定位提供锚点 */
 }
 
-.btn-share, .btn-retry {
-  width: 100%;
-  height: 56px; /* 强制等高 */
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+/* 统一卡片式按钮样式 */
+.action-card-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem 1rem; /* 增加内边距，使其看起来像卡片 */
+  text-align: center;
   cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s;
+  min-height: 100px;
 }
 
-.btn-share { background: #111827; color: white; border: none; }
-.btn-retry { background: white; border: 1px solid #d1d5db; color: #374151; }
-.btn-share:active, .btn-retry:active { transform: scale(0.98); }
-
-/* --- 屏幕居中 Toast 弹窗 --- */
-.toast-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 2rem 3rem;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  z-index: 2000;
-  text-align: center;
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid #e5e7eb;
+.action-card-btn:hover {
+  border-color: #fdba74;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.toast-btn {
-  background: #ea580c;
+/* 区分颜色 */
+.btn-share-style {
+  color: #1f2937;
+}
+.btn-share-style strong {
+  color: #ea580c;
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.btn-retry-style {
+  color: #4b5563;
+}
+.btn-retry-style strong {
+  color: #374151;
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* --- 分享提示气泡 (Popover) --- */
+.share-popover {
+  position: absolute;
+  bottom: 100%; /* 在按钮上方 */
+  left: 25%; /* 左侧按钮中心 (grid 1fr 1fr, so center of first is 25%) */
+  transform: translateX(-50%);
+  background: #1f2937;
   color: white;
-  border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 50px;
-  margin-top: 1.5rem;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 0.9rem;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 100;
+  margin-bottom: 15px; /* 留出箭头空间 */
+  width: 280px;
+  text-align: center;
+  animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* 气泡小箭头 */
+.share-popover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #1f2937 transparent transparent transparent;
+}
+
+.popover-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.popover-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.popover-close:hover { background: rgba(255,255,255,0.3); }
+
 
 /* --- 更多测试 --- */
 .more-tests-section {
@@ -467,14 +522,42 @@
   text-decoration: none;
   transition: transform 0.2s;
   display: block;
+  position: relative; /* 为了背景图定位 */
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+/* 已完成卡片 (SVG背景版) */
 .test-card.completed {
   background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
+  overflow: hidden; /* 防止图片溢出 */
+  /* SVG 对勾背景 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dcfce7'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 120% 50%; /* 稍微靠右偏移 */
+  background-size: 60%; /* 巨大图标 */
 }
-.test-card.completed .t-name { color: #166534; }
-.test-card.completed .t-status { color: #166534; font-size: 0.75rem; font-weight: bold; background: #dcfce7; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 0.5rem; }
+
+.test-card.completed .t-name { 
+  color: #15803d; 
+  position: relative; 
+  z-index: 2; 
+}
+.test-card.completed .t-status { 
+  color: #166534; 
+  font-size: 0.75rem; 
+  font-weight: bold; 
+  background: rgba(255,255,255,0); /* 半透明背景增加可读性 */
+  padding: 2px 8px; 
+  border-radius: 4px; 
+  display: inline-block; 
+  margin-top: 0.5rem; 
+  position: relative; 
+  z-index: 2;
+}
 
 .test-card.future {
   background-color: #f9fafb;
