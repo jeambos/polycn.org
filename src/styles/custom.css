@@ -934,6 +934,7 @@ body:not([data-slug]) .sl-container {
 /* 1. 定义受影响的卡片类名集合 */
 /* 以后有新卡片，只需把类名加到这个列表里即可 */
 .bento-card,
+.updates-card-container,  
 .wiki-card,
 .join-section,
 .sl-markdown-content .card /* .card 是 RecentUpdates 等组件生成的默认类名 */
@@ -947,25 +948,27 @@ body:not([data-slug]) .sl-container {
 
 /* 2. ☀️ 日间模式：统一奶黄色皮肤 */
 :root[data-theme='light'] .bento-card,
+:root[data-theme='light'] .updates-card-container,
 :root[data-theme='light'] .wiki-card,
 :root[data-theme='light'] .join-section,
 :root[data-theme='light'] .sl-markdown-content .card 
 {
   /* 核心：奶黄背景 */
-  background-color: #fff9f0; 
+  background-color: #fffefb; 
   /* 极淡橙色描边 */
-  border: 1px solid #fed7aa; 
+  border: 1px solid #ca8c46; 
   /* 统一的轻微阴影 */
   box-shadow: 0 2px 8px rgba(249, 115, 22, 0.05);
 }
 
 /* 统一标题颜色 (深橙色) */
 :root[data-theme='light'] .bento-card h3,
+:root[data-theme='light'] .updates-card-container h3,
 :root[data-theme='light'] .wiki-card h3,
 :root[data-theme='light'] .join-section h2,
 :root[data-theme='light'] .sl-markdown-content .card .card-title
 {
-  color: #c2410c; 
+  color: #1f1400; 
 }
 
 /* 统一图标颜色 */
@@ -976,6 +979,7 @@ body:not([data-slug]) .sl-container {
 
 /* 3. 🌙 夜间模式：统一深灰皮肤 */
 :root[data-theme='dark'] .bento-card,
+:root[data-theme='dark'] .updates-card-container,
 :root[data-theme='dark'] .wiki-card,
 :root[data-theme='dark'] .join-section,
 :root[data-theme='dark'] .sl-markdown-content .card
@@ -987,6 +991,7 @@ body:not([data-slug]) .sl-container {
 
 /* 统一标题颜色 (亮橙色) */
 :root[data-theme='dark'] .bento-card h3,
+:root[data-theme='dark'] .updates-card-container,
 :root[data-theme='dark'] .wiki-card h3,
 :root[data-theme='dark'] .join-section h2,
 :root[data-theme='dark'] .sl-markdown-content .card .card-title
@@ -1003,6 +1008,7 @@ body:not([data-slug]) .sl-container {
 /* 注意：join-section 这种纯展示区域不需要上浮效果，所以这里只针对 a 标签或特定类 */
 
 :root[data-theme='light'] a.bento-card:hover,
+:root[data-theme='light'] a.updates-card-container:hover,
 :root[data-theme='light'] a.wiki-card:hover,
 :root[data-theme='light'] .sl-markdown-content a.card:hover
 {
@@ -1012,6 +1018,7 @@ body:not([data-slug]) .sl-container {
 }
 
 :root[data-theme='dark'] a.bento-card:hover,
+:root[data-theme='dark'] a.updates-card-container:hover,
 :root[data-theme='dark'] a.wiki-card:hover,
 :root[data-theme='dark'] .sl-markdown-content a.card:hover
 {
