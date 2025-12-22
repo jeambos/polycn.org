@@ -1,49 +1,33 @@
-# Starlight Starter Kit: Basics
+# PolyCN 中文多元关系文库
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+PolyCN 是一个专注于多元亲密关系资料（Non-Monogamy）的中文知识库。
 
-```
-npm create astro@latest -- --template starlight
-```
+## 📖 项目简介 (Project Introduction)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**PolyCN 是一个面向中文用户的多元亲密关系（Consensual Non-Monogamy, CNM）开源知识库。**
 
-## 🚀 Project Structure
+本项目旨在解决非单偶制在中文语境下**理论匮乏**与**实践无序**的问题。通过结构化的整理与编译，我们将西方成熟的非单偶制文献（如《The Ethical Slut》等）和本土故事和思考集合在一起，构建一套真正能帮助到中国非单偶制实践者和探索者的知识网络。
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+### 核心模块
+* **理论框架**：收录多边恋（Polyamory）、开放式关系（Open Relationship）、关系安那其（RA）等核心概念的定义辨析与伦理规范。
+* **实操指南**：提供基于依恋理论与非暴力沟通（NVC）的生存工具，涵盖嫉妒管理、界限协商、性健康与法律风险规避。
+* **测评矩阵**：基于心理学量表开发的本土化自测工具（关系形态倾向、嫉妒类型、适应性评估），辅助用户进行自我量化与决策。
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+  （这段是 Gemini 写的，不是很准确，但是我没空改了）
+  
+### 项目目标
+1.  **消除信息不对称**：打破语言壁垒，引入国际前沿的亲密关系研究成果。
+2.  **建立社群共识**：确立以“知情同意”为核心的伦理基准，对抗刻板印象与污名化。
+3.  **工具化赋能**：将抽象的价值观转化为可执行的方法论，降低探索者的试错成本。
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+## 🛠️ 技术栈
+本项目基于 [Starlight](https://starlight.astro.build/) (Astro) 构建。
+- **框架**: Astro + React
+- **部署**: Cloudflare Pages
+- **样式**: Native CSS (原生 CSS) + Starlight Theme
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## 🤝 参与贡献
+这是一个开源的公益项目，欢迎提交 PR 参与建设，或者联系我们协助搜集资料。
 
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+## 📄 协议
+除非另有说明，本项目内容采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans) 协议。
