@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import '../styles/Assessment.css'; // 需确保同目录下有该 CSS 文件
 
 // =====================================================================
 // 1. 数据定义区域
 // =====================================================================
 
-// 结果类型定义
+// 结果类型定义 (包含详细文案)
 const RESULT_TYPES = {
   monogamous: {
     id: 'monogamous',
@@ -88,9 +89,11 @@ const RESULT_TYPES = {
   }
 };
 
-// 题目数据 (包含 36 道核心题 + 4 道红灯题，已混排)
+// 题目数据 (40道题，已线性排列)
+// 维护者注：原逻辑为 6个维度 + 4个红灯题。
+// 为了用户体验，红灯题被插在中间位置。
 const RAW_QUESTIONS = [
-  // --- 维度一：排他 (Exclusivity) ---
+  // --- Page 1: 维度一 排他 (1-6) ---
   {
     id: 1,
     text: "只有当确信我是伴侣眼中‘唯一的、不可替代的’特殊存在时，我才能在关系中感到安全和满足。",
@@ -121,17 +124,17 @@ const RAW_QUESTIONS = [
     text: "我认为伴侣之间的时间和关注应当默认是专属彼此的，我很难接受需要去‘争取’伴侣的注意力。",
     weights: { monogamous: 2, monogamish: 1 }
   },
-  // --- 维度二：稳定 (Stability) ---
+
+  // --- Page 2: 维度二 稳定 + 红灯1 (7-12 + 101) ---
   {
     id: 7,
     text: "当我投入一段严肃关系时，我是以‘长久维持’甚至‘终身相伴’为目标开始的，不以长久为目的的关系让我缺乏安全感。",
     weights: { monogamous: 2, serial_mono: 2, high_boundary: 1 }
   },
-  // 🔥 红灯题 1：病理性嫉妒 (插入)
   {
-    id: 101,
+    id: 101, // 🔴 红灯: 病理性嫉妒
     isRedFlag: true,
-    title: "病理性嫉妒",
+    title: "深层情绪检测",
     text: "即使是很小的互动（如伴侣夸赞别人一句），也会引发我强烈的愤怒，或者产生被抛弃的极度恐慌。",
     warning: "你的安全感可能处于高度预警状态。无论选择何种关系，建立内心的安全基地可能是当务之急。"
   },
@@ -141,7 +144,7 @@ const RAW_QUESTIONS = [
     weights: { monogamous: 2, monogamish: 1 }
   },
   {
-    id: 9, // [适应型核心题]
+    id: 9, 
     text: "对我来说，关系的‘形式’（是单偶还是多边）并不重要，重要的是两个人当下的相处质量。只要沟通顺畅，我不介意形式发生变化。",
     weights: { adaptable: 2, solo_poly: 1 }
   },
@@ -160,7 +163,8 @@ const RAW_QUESTIONS = [
     text: "如果不知道一段关系‘未来会怎样’（例如是否结婚、是否有明确结果），当下的不确定性会让我感到强烈的焦虑。",
     weights: { monogamous: 2, high_boundary: 2 }
   },
-  // --- 维度三：容量 (Capacity) ---
+
+  // --- Page 3: 维度三 容量 + 红灯2 (13-18 + 102) ---
   {
     id: 13,
     text: "处于热恋或深爱状态时，我对其他人会完全失去浪漫或性方面的兴趣，注意力只集中在一个人身上。",
@@ -174,13 +178,12 @@ const RAW_QUESTIONS = [
   {
     id: 15,
     text: "应对一个人的情绪需求和生活琐事，就已经耗尽了我所有的社交与情感能量。",
-    weights: { monogamous: 2, open_rel: 1 } // open_rel 偏肉体
+    weights: { monogamous: 2, open_rel: 1 } 
   },
-  // 🔥 红灯题 2：过度讨好 (插入)
   {
-    id: 102,
+    id: 102, // 🔴 红灯: 过度讨好
     isRedFlag: true,
-    title: "过度讨好",
+    title: "深层情绪检测",
     text: "为了维持关系和谐，我常常无底线地压抑自己的真实需求，甚至到了委曲求全的地步。",
     warning: "你可能容易在关系中失去自我。在探索多边关系前，请先试着练习确立自己的底线。"
   },
@@ -199,7 +202,8 @@ const RAW_QUESTIONS = [
     text: "需要在不同的人际关系模式中来回切换（例如对A温柔、与B理智），这让我感到非常疲惫和混乱。",
     weights: { monogamous: 2, monogamish: 1 }
   },
-  // --- 维度四：边界 (Boundaries) ---
+
+  // --- Page 4: 维度四 边界 (19-24) ---
   {
     id: 19,
     text: "如果不明确界定‘我们现在算什么关系’（例如是朋友还是恋人），这种定义不清的状态会让我感到不安。",
@@ -211,7 +215,7 @@ const RAW_QUESTIONS = [
     weights: { high_boundary: 2, monogamous: 1, open_rel: 1 }
   },
   {
-    id: 21, // [适应型核心题 - 变色龙]
+    id: 21, 
     text: "在关系中，如果伴侣需要排他，我能接受；如果伴侣需要空间，我也能接受。我自己的需求会随着伴侣的风格而灵活调整。",
     weights: { adaptable: 2, serial_mono: 1 }
   },
@@ -230,17 +234,17 @@ const RAW_QUESTIONS = [
     text: "当关系中出现一些未曾约定的灰色地带时，我的第一反应是恐慌，而不是好奇或开放地去探索。",
     weights: { monogamous: 2, high_boundary: 2 }
   },
-  // --- 维度五：优先序 (Priority) ---
+
+  // --- Page 5: 维度五 优先序 + 红灯3 (25-30 + 103) ---
   {
     id: 25,
     text: "我认为理想的爱，意味着两个人高度融合，不分你我，共同作为一个整体面对世界。",
     weights: { monogamous: 2, monogamish: 1 }
   },
-  // 🔥 红灯题 3：双重标准 (插入)
   {
-    id: 103,
+    id: 103, // 🔴 红灯: 双重标准
     isRedFlag: true,
-    title: "双重标准",
+    title: "价值观检测",
     text: "坦白说，我希望自己拥有更多自由去探索外部世界，但同时希望我的伴侣对我保持绝对的排他与忠诚。",
     warning: "这种不对等的期待通常是关系冲突的根源。请思考一下，这种需求是源于对自由的渴望，还是源于对他人的控制欲？"
   },
@@ -265,18 +269,19 @@ const RAW_QUESTIONS = [
     weights: { monogamous: 2, monogamish: 1 }
   },
   {
-    id: 30, // [成熟度区分题 - 反向]
+    id: 30, 
     text: "我很清楚自己在感情中想要什么、不要什么，所以我不会因为外界的诱惑或伴侣的要求而感到迷茫。",
-    weights: { adaptable: 1, solo_poly: 1, monogamous: 1, exploring: -2 } // 探索型因为迷茫，此题通常低分
+    weights: { adaptable: 1, solo_poly: 1, monogamous: 1, exploring: -2 } 
   },
-  // --- 维度六：探索 (Exploration) ---
+
+  // --- Page 6: 维度六 探索 + 红灯4 (31-36 + 104) ---
   {
-    id: 31, // [探索型核心题 - 错位感]
+    id: 31, 
     text: "我常感到目前的亲密关系模式（无论现在是哪种）让我觉得不适或别扭，但我还不确定什么样的模式才真正适合我。",
     weights: { exploring: 2, adaptable: -1 }
   },
   {
-    id: 32, // [探索型核心题 - 迫切]
+    id: 32, 
     text: "我对于尝试新的关系模式（如开放关系）有一种迫切的渴望，觉得那可能是我解决当前困惑的途径。",
     weights: { exploring: 2, open_rel: 1 }
   },
@@ -290,11 +295,10 @@ const RAW_QUESTIONS = [
     text: "如果探索新关系意味着要经历嫉妒的煎熬或复杂的沟通，我宁愿选择平淡但安稳的生活。",
     weights: { monogamous: 2, adaptable: 1 }
   },
-  // 🔥 红灯题 4：救世主情结 (插入)
   {
-    id: 104,
+    id: 104, // 🔴 红灯: 救世主
     isRedFlag: true,
-    title: "救世主情结",
+    title: "深层情绪检测",
     text: "我享受被很多人同时需要的感觉，这往往让我卷入复杂的情感纠葛，导致局面失控或让他人受伤。",
     warning: "“能爱很多人”与“需要被很多人依赖”是不同的。请警惕这种倾向是否让你陷入了混乱的边界纠缠。"
   },
@@ -304,95 +308,261 @@ const RAW_QUESTIONS = [
     weights: { monogamous: 2, high_boundary: 1 }
   },
   {
-    id: 36, // [探索型核心题 - 试错]
+    id: 36, 
     text: "我不确定自己到底适合什么，所以我愿意承担风险去尝试不同的关系，把犯错看作是寻找自我的必要成本。",
     weights: { exploring: 2, solo_poly: 2, non_hierarchical: 1, adaptable: -1 }
   }
 ];
 
+// 预留的后续问卷链接 (Placeholder)
+const FUTURE_QUIZZES = [
+  { id: 'adaptability', name: '关系适应性评估', desc: '测试你的沟通模式与冲突解决风格', status: 'coming' },
+  { id: 'jealousy', name: '嫉妒类型图谱', desc: '你是防御型嫉妒还是竞争型嫉妒？', status: 'coming' },
+  { id: 'style', name: '依恋类型自测', desc: '你的依恋风格如何影响多边关系', status: 'coming' },
+];
+
 // =====================================================================
-// 2. 辅助组件
+// 2. 子组件区域
 // =====================================================================
 
+/**
+ * 欢迎页面组件
+ */
 const WelcomeScreen = ({ onStart }) => (
-  <div className="flex flex-col gap-6 animate-fade-in">
-    <div className="bg-orange-50/50 border-l-4 border-orange-500 p-6 rounded-r-lg">
-      <h3 className="text-xl font-bold text-gray-900 mb-4">🔴 测前必读</h3>
-      <ul className="space-y-3 text-gray-700 leading-relaxed">
-        <li>
-          <strong>1. 关于目的：</strong> 本问卷并非推销非单偶制，而是作为一面镜子，帮助您厘清自己的关系倾向。诚实面对自己比得到特定结果更重要。
+  <div className="quiz-container animate-fade-in">
+    {/* 标题区 */}
+    <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+      <h1 className="result-title" style={{ border: 'none', marginBottom: '0.5rem' }}>
+        关系倾向自测问卷
+      </h1>
+      <p style={{ color: '#6b7280' }}>
+        探索内心，而非定义未来
+      </p>
+    </div>
+
+    {/* 必读说明 */}
+    <div className="welcome-box">
+      <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', color: '#c2410c' }}>
+        🔴 测前必读
+      </h3>
+      <ul style={{ lineHeight: '1.8', color: '#374151' }}>
+        <li style={{ marginBottom: '0.8rem' }}>
+          <strong>1. 关于目的：</strong> 本问卷主旨并非推销非单偶制，而是作为一面镜子，帮助您厘清自己的关系倾向。在探索过程中，诚实地面对自己比得到某个特定的结果更重要。
+        </li>
+        <li style={{ marginBottom: '0.8rem' }}>
+          <strong>2. 关于心态：</strong> 请暂时放下单偶制的社会规训（例如“正常的恋爱应该是怎样的”），也不要评判自己的想法是否“正确”。请仅依据您内心最真实的直觉作答。
         </li>
         <li>
-          <strong>2. 关于心态：</strong> 请暂时放下外界标准（“正常的恋爱应该怎样”），也不要评判自己的想法是否“道德”。请仅依据内心最真实的直觉作答。
-        </li>
-        <li>
-          <strong>3. 关于隐私：</strong> 本问卷全程在您的本地浏览器运行，不会上传至任何服务器。即使断网，您也可以安全完成测试。
+          <strong>3. 关于隐私：</strong> 本问卷的所有代码与计算过程全程在您的本地浏览器运行，不会上传至任何服务器。即使断网，您也可以安全、完整地完成测试。
         </li>
       </ul>
     </div>
-    <div className="text-center mt-4">
-      <button 
-        onClick={onStart}
-        className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-full shadow-lg transition-transform hover:scale-105"
-      >
+
+    {/* 开始按钮 */}
+    <div className="welcome-btn-wrapper" style={{ marginTop: '2.5rem', marginBottom: '3rem' }}>
+      <button onClick={onStart} className="btn-primary">
         开始自我探索
       </button>
+    </div>
+
+    {/* 更多问卷预留区 */}
+    <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '2rem' }}>
+      <h4 style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>
+        更多测试 (Coming Soon)
+      </h4>
+      <div className="ok-match-grid">
+        {FUTURE_QUIZZES.map(quiz => (
+          <div key={quiz.id} className="ok-card" style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+            <div style={{ fontWeight: 'bold', color: '#374151', marginBottom: '0.2rem' }}>{quiz.name}</div>
+            <div style={{ fontSize: '0.8rem', color: '#9ca3af' }}>{quiz.desc}</div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
 
+/**
+ * 结果展示组件
+ */
+const ResultScreen = ({ results, onRetry }) => {
+  return (
+    <div className="quiz-container animate-fade-in">
+      {/* 1. 红灯警示区 */}
+      {results.redFlags.length > 0 && (
+        <div className="red-flag-box">
+          <h3 className="red-flag-title">
+            ⚠️ 探索前的温柔提醒
+          </h3>
+          <p style={{ fontSize: '0.9rem', color: '#b91c1c', marginBottom: '1rem' }}>
+            在您的回答中，我们监测到了一些可能影响关系质量的深层信号。这些不是指责，而是保护。
+          </p>
+          <div>
+            {results.redFlags.map(q => (
+              <div key={q.id} className="red-flag-item">
+                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#1f2937' }}>{q.title}</div>
+                <div style={{ fontSize: '0.8rem', fontStyle: 'italic', color: '#666', marginBottom: '8px' }}>
+                  "{q.text}" (您选择了符合)
+                </div>
+                <div style={{ color: '#dc2626', fontSize: '0.9rem' }}>{q.warning}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 2. Best Match */}
+      <div className="result-card">
+        <div className="result-watermark">?</div>
+        <h2 className="result-label">You are best for</h2>
+
+        {results.bestMatch ? (
+          <>
+            <h1 className="result-title">{results.bestMatch.name}</h1>
+            <div style={{ lineHeight: '1.7', color: '#d1d5db' }}>
+              <p style={{ fontSize: '1.1rem', color: 'white', marginBottom: '1.5rem', fontWeight: '500' }}>
+                {results.bestMatch.summary}
+              </p>
+              <div className="result-advice-box">
+                <span className="result-tag text-orange">💡 人生规划建议</span>
+                {results.bestMatch.advice}
+              </div>
+              <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
+                <div className="result-advice-box">
+                  <span className="result-tag text-red">🚩 潜在风险与调整</span>
+                  {results.bestMatch.risks}
+                </div>
+                <div className="result-advice-box">
+                  <span className="result-tag text-blue">🔗 相似辨析</span>
+                  {results.bestMatch.neighbor}
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white' }}>复合型 / 流动型</h1>
+            <p style={{ color: '#d1d5db', lineHeight: '1.6' }}>
+              您的关系倾向呈现出高度的流动性或复合特征，没有单一的标签能完全定义您（最高匹配度未达 80%）。
+              <br />这通常意味着您拥有极强的适应力，或者正处于观念重塑的阶段。
+              <br />请参考下方的“潜在适合”选项，那里可能有您的答案。
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* 3. OK Matches */}
+      {results.okMatches.length > 0 && (
+        <div style={{ marginTop: '2.5rem' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1.5rem', borderLeft: '4px solid #9ca3af', paddingLeft: '0.75rem', color: '#1f2937' }}>
+            You are OK for (潜在适合)
+          </h2>
+          <div className="ok-match-grid">
+            {results.okMatches.map(type => (
+              <div key={type.id} className="ok-card">
+                <div className="ok-header">
+                  <h3 style={{ fontWeight: 'bold', color: '#111827' }}>{type.name}</h3>
+                  <span className="ok-badge">匹配度: {type.percent}%</span>
+                </div>
+                <p style={{ fontSize: '0.9rem', color: '#4b5563', marginBottom: '0.75rem', lineHeight: '1.5' }}>{type.summary}</p>
+                <div style={{ fontSize: '0.85rem', color: '#4b5563', backgroundColor: '#f9fafb', padding: '0.75rem', borderRadius: '6px' }}>
+                  <strong>💡 建议：</strong> {type.advice}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 4. 底部操作栏 */}
+      <div style={{ marginTop: '3rem', borderTop: '1px solid #e5e7eb', paddingTop: '2rem' }}>
+        <div className="footer-nav">
+          <a href="/start" className="footer-link">🚀 开始探索</a>
+          <a href="/start/faq" className="footer-link">❓ 常见问题</a>
+          <a href="/start/myths" className="footer-link">🚫 常见误区</a>
+          <a href="/library" className="footer-link">📚 馆藏大厅</a>
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          <button onClick={onRetry} style={{ background: 'none', border: 'none', color: '#f97316', cursor: 'pointer', textDecoration: 'underline' }}>
+            🔄 重新测试
+          </button>
+          <a href="/" style={{ color: '#9ca3af', textDecoration: 'none' }}>
+            🏠 返回首页
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // =====================================================================
-// 3. 主组件逻辑
+// 3. 主控制组件
 // =====================================================================
 
 const Assessment = () => {
   const [started, setStarted] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [pageIndex, setPageIndex] = useState(0); // 当前页码 (0-based)
   const [answers, setAnswers] = useState({}); // { [questionId]: score }
   const [showResult, setShowResult] = useState(false);
 
-  // 处理答题
-  const handleAnswer = (score) => {
-    // 延迟一点点翻页，增加交互感
-    setAnswers(prev => ({ ...prev, [RAW_QUESTIONS[currentStep].id]: score }));
-    
-    if (currentStep < RAW_QUESTIONS.length - 1) {
-      setTimeout(() => {
-        setCurrentStep(prev => prev + 1);
-        // 自动滚动到顶部，防止移动端体验不佳
-        // document.getElementById('quiz-container')?.scrollIntoView({ behavior: 'smooth' });
-      }, 250);
+  // 分页设置：每页6题
+  const QUESTIONS_PER_PAGE = 6;
+  const totalPages = Math.ceil(RAW_QUESTIONS.length / QUESTIONS_PER_PAGE);
+
+  // 获取当前页的题目
+  const currentQuestions = useMemo(() => {
+    const start = pageIndex * QUESTIONS_PER_PAGE;
+    return RAW_QUESTIONS.slice(start, start + QUESTIONS_PER_PAGE);
+  }, [pageIndex]);
+
+  // 处理单题选择
+  const handleSelectOption = (questionId, val) => {
+    setAnswers(prev => ({ ...prev, [questionId]: val }));
+  };
+
+  // 处理“下一页”
+  const handleNextPage = () => {
+    // 简单校验：必须答完本页所有题
+    const allAnswered = currentQuestions.every(q => answers[q.id] !== undefined);
+    if (!allAnswered) {
+      alert("请完成本页所有题目后再继续 :)");
+      return;
+    }
+
+    if (pageIndex < totalPages - 1) {
+      setPageIndex(prev => prev + 1);
+      // 滚动回顶部
+      document.getElementById('quiz-container')?.scrollIntoView({ behavior: 'smooth' });
     } else {
       setShowResult(true);
+      document.getElementById('quiz-container')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // 计算结果
+  // 重新开始
+  const handleRetry = () => {
+    setStarted(false);
+    setPageIndex(0);
+    setAnswers({});
+    setShowResult(false);
+  };
+
+  // 计算结果 (Memoized)
   const results = useMemo(() => {
     if (!showResult) return null;
 
-    // 初始化分数
     const scores = {};
     Object.keys(RESULT_TYPES).forEach(k => scores[k] = 0);
     const redFlags = [];
 
-    // 遍历答案
     Object.entries(answers).forEach(([qId, scoreStr]) => {
-      const score = parseInt(scoreStr); // 1-5
+      const score = parseInt(scoreStr);
       const q = RAW_QUESTIONS.find(i => i.id === parseInt(qId));
-      
       if (!q) return;
 
       if (q.isRedFlag) {
-        // 红灯题逻辑：>=4 分触发
-        if (score >= 4) {
-          redFlags.push(q);
-        }
+        if (score >= 4) redFlags.push(q);
       } else {
-        // 普通题逻辑：加权计算
-        // 算法：(用户分 - 3) * 权重
-        // 5分 -> +2倍权重; 4分 -> +1倍; 3分 -> 0; 2分 -> -1倍; 1分 -> -2倍
-        // 这样不仅选符合加分，选不符合还能减分，增加区分度
         const multiplier = score - 3;
         if (multiplier !== 0 && q.weights) {
           Object.entries(q.weights).forEach(([typeKey, weightValue]) => {
@@ -402,23 +572,13 @@ const Assessment = () => {
       }
     });
 
-    // 转换为数组并排序
-    // 计算每种类型的理论最大分不太容易（因为权重不同），这里用相对分数排序
     const sortedTypes = Object.entries(scores)
       .sort(([, scoreA], [, scoreB]) => scoreB - scoreA)
       .map(([key, score]) => {
-        // 归一化：为了显示百分比，我们做一个近似处理
-        // 假设平均每种类型相关题目约 10-15 道，满分约 20-30 分
-        // 我们把分数映射到 0-100% (仅供参考)
-        // 简单映射：score / 20 * 100，最大限制 99%
         let percent = Math.round((score / 25) * 100); 
         if (percent > 99) percent = 99;
         if (percent < 0) percent = 0;
-        return { 
-          ...RESULT_TYPES[key], 
-          score,
-          percent 
-        };
+        return { ...RESULT_TYPES[key], score, percent };
       });
 
     const bestMatch = sortedTypes[0].percent >= 80 ? sortedTypes[0] : null;
@@ -427,160 +587,63 @@ const Assessment = () => {
     return { bestMatch, okMatches, redFlags };
   }, [showResult, answers]);
 
+
+  // 渲染逻辑分支
   if (!started) {
     return <WelcomeScreen onStart={() => setStarted(true)} />;
   }
 
   if (showResult && results) {
-    return (
-      <div className="flex flex-col gap-8 animate-fade-in">
-        {/* 1. 红灯警示区 */}
-        {results.redFlags.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h3 className="text-lg font-bold text-red-700 mb-4 flex items-center gap-2">
-              ⚠️ 探索前的温柔提醒
-            </h3>
-            <p className="text-sm text-red-600 mb-4">
-              在您的回答中，我们监测到了一些可能影响关系质量的深层信号。
-              这些不是指责，而是保护。建议在深入探索关系形式前，先关注这些内心的呼救：
-            </p>
-            <div className="grid gap-4">
-              {results.redFlags.map(q => (
-                <div key={q.id} className="bg-white p-4 rounded border-l-4 border-red-400 shadow-sm">
-                  <div className="font-bold text-gray-800 text-sm mb-1">{q.title}</div>
-                  <div className="text-gray-600 text-xs italic mb-2">"{q.text}" (您选择了符合)</div>
-                  <div className="text-red-600 text-sm font-medium">{q.warning}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* 2. Best Match */}
-        <div className="bg-gray-900 text-white rounded-xl p-8 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10 text-9xl font-black">?</div>
-          <h2 className="text-xl text-orange-400 font-bold tracking-wider uppercase mb-2">You are best for</h2>
-          
-          {results.bestMatch ? (
-            <>
-              <h1 className="text-3xl md:text-4xl font-black mb-6 border-b border-gray-700 pb-4">
-                {results.bestMatch.name}
-              </h1>
-              <div className="space-y-6 text-gray-300 leading-relaxed">
-                <p className="text-lg font-medium text-white">
-                  {results.bestMatch.summary}
-                </p>
-                <div className="bg-gray-800/50 p-4 rounded-lg">
-                  <span className="block text-orange-400 text-sm font-bold mb-1">💡 人生建议</span>
-                  {results.bestMatch.advice}
-                </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-gray-800/50 p-4 rounded-lg">
-                    <span className="block text-red-400 text-sm font-bold mb-1">🚩 潜在风险</span>
-                    {results.bestMatch.risks}
-                  </div>
-                  <div className="bg-gray-800/50 p-4 rounded-lg">
-                    <span className="block text-blue-400 text-sm font-bold mb-1">🔗 相似辨析</span>
-                    {results.bestMatch.neighbor}
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="py-8 text-center">
-              <h1 className="text-2xl font-bold mb-4">复合型 / 流动型</h1>
-              <p className="text-gray-400">
-                您的关系倾向呈现出高度的流动性或复合特征，没有单一的标签能完全定义您（最高匹配度未达 80%）。
-                <br/>这通常意味着您拥有极强的适应力，或者正处于观念重塑的阶段。
-                <br/>请参考下方的“潜在适合”选项，那里可能有您的答案。
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* 3. OK Matches */}
-        {results.okMatches.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-gray-800 border-l-4 border-gray-400 pl-3">
-              You are OK for (潜在适合)
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2"> {/* 此时不强制 3 列，看内容量 */}
-              {results.okMatches.map(type => (
-                <div key={type.id} className="bg-white border border-gray-200 p-5 rounded-lg hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-bold text-lg text-gray-900">{type.name}</h3>
-                    <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
-                      匹配度: {type.percent}%
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-3">{type.summary}</p>
-                  <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded">
-                    <strong>💡 建议：</strong> {type.advice}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* 4. 底部导航 */}
-        <div className="border-t border-gray-200 pt-8 mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
-          <a href="/start" className="p-3 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 font-medium">🚀 开始探索</a>
-          <a href="/start/faq" className="p-3 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 font-medium">❓ 常见问题</a>
-          <a href="/start/myths" className="p-3 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 font-medium">🚫 常见误区</a>
-          <a href="/library" className="p-3 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 font-medium">📚 馆藏大厅</a>
-        </div>
-        <div className="text-center">
-             <a href="/" className="text-gray-400 hover:text-orange-500 text-sm">🏠 返回首页</a>
-        </div>
-      </div>
-    );
+    return <ResultScreen results={results} onRetry={handleRetry} />;
   }
 
-  // 答题界面
-  const q = RAW_QUESTIONS[currentStep];
-  const progress = ((currentStep) / RAW_QUESTIONS.length) * 100;
+  // 答题中界面
+  const progress = ((pageIndex) / totalPages) * 100;
 
   return (
-    <div id="quiz-container" className="max-w-2xl mx-auto my-8">
+    <div id="quiz-container" className="quiz-container animate-fade-in">
       {/* 进度条 */}
-      <div className="h-1 bg-gray-100 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-orange-500 transition-all duration-300" style={{ width: `${progress}%` }}></div>
+      <div className="progress-track">
+        <div className="progress-fill" style={{ width: `${progress + (100/totalPages)}%` }}></div>
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 min-h-[300px] flex flex-col justify-between">
-        <div>
-          <div className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-4">
-            Question {currentStep + 1} / {RAW_QUESTIONS.length}
-          </div>
-          <h2 className="text-xl md:text-2xl font-medium text-gray-800 leading-relaxed mb-8">
-            {q.text}
-          </h2>
-        </div>
+      <div style={{ marginBottom: '2rem' }}>
+        {currentQuestions.map((q, index) => (
+          <div key={q.id} className="quiz-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="question-meta">
+              Question {(pageIndex * QUESTIONS_PER_PAGE) + index + 1} / {RAW_QUESTIONS.length}
+            </div>
+            <h2 className="question-text">
+              {q.text}
+            </h2>
 
-        <div className="grid gap-3">
-          {[1, 2, 3, 4, 5].map((val) => (
-            <button
-              key={val}
-              onClick={() => handleAnswer(val)}
-              className="group flex items-center w-full p-3 rounded-lg border border-gray-200 hover:border-orange-500 hover:bg-orange-50 transition-all text-left"
-            >
-              <span className={`
-                flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold mr-4 transition-colors
-                ${answers[q.id] === val ? 'bg-orange-500 text-white' : 'bg-gray-100 text-gray-500 group-hover:bg-white'}
-              `}>
-                {val}
-              </span>
-              <span className="text-gray-700 group-hover:text-orange-700">
-                {val === 1 && "非常不符合"}
-                {val === 2 && "比较不符合"}
-                {val === 3 && "中立 / 说不清"}
-                {val === 4 && "比较符合"}
-                {val === 5 && "非常符合"}
-              </span>
-            </button>
-          ))}
-        </div>
+            <div className="option-list">
+              {[1, 2, 3, 4, 5].map((val) => (
+                <button
+                  key={val}
+                  onClick={() => handleSelectOption(q.id, val)}
+                  className={`option-btn ${answers[q.id] === val ? 'selected' : ''}`}
+                >
+                  <span className="option-number">{val}</span>
+                  <span style={{ color: answers[q.id] === val ? '#c2410c' : '#374151' }}>
+                    {val === 1 && "非常不符合"}
+                    {val === 2 && "比较不符合"}
+                    {val === 3 && "中立 / 说不清"}
+                    {val === 4 && "比较符合"}
+                    {val === 5 && "非常符合"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 翻页按钮 */}
+      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <button onClick={handleNextPage} className="btn-primary">
+          {pageIndex < totalPages - 1 ? "下一页" : "查看结果"}
+        </button>
       </div>
     </div>
   );
