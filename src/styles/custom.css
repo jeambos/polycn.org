@@ -473,9 +473,10 @@
 }
 
 /* --- 左侧文本区 (保持不变) --- */
-.join-text-area { flex: 3; }
+.join-text-area { flex: 3;  }
 .join-text-area h2 { font-size: 1.5rem !important; margin-bottom: 1rem !important; color: var(--sl-color-white); }
-.join-content-slim { color: var(--sl-color-gray-3); font-size: 1.125rem; line-height: 1.6; }
+.join-content-slim { color: var(--sl-color-gray-3); font-size: 1.125rem; line-height: 1.6;  }
+.join-content-slim p { margin-bottom: 0.5rem; }
 .join-content-slim strong { color: var(--sl-color-white); font-weight: 600; }
 .join-content-slim .highlight { color: var(--sl-color-accent); font-size: 0.9rem; }
 
@@ -484,6 +485,7 @@
   flex: 1;
   display: flex;
   flex-direction: column; /* 桌面端竖排 */
+  margin-top: 0px;
   gap: 1rem;
   align-items: center; /* 确保图标在区域内居中 */
 }
