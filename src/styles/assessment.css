@@ -947,7 +947,7 @@
 .featured-card {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(45deg, #171127 0%, #010100 100%); /* 深色高级感 */
+  background: linear-gradient(45deg, #252216 0%, #010100 100%); /* 深色高级感 */
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
