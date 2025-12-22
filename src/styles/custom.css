@@ -226,8 +226,9 @@
 /* 小卡片正文 (Compact Text) */
 .small-card .compact-text {
   font-size: 1.125rem !important;
-  line-height: 1.6 !important;
+  line-height: 2 !important;
   color: var(--sl-color-gray-3);
+  
   margin: 0 !important;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
@@ -238,16 +239,16 @@
 }
 .topic-cloud a {
   font-size: 1.125rem; line-height: 1.4;
-  padding: 2px 8px;
-  background: var(--sl-color-gray-6); border-radius: 12px;
+  padding: 8px 8px;
+  background: var(--sl-color-gray-8); border-radius: 12px; 
   text-decoration: none; color: var(--sl-color-text);
 }
 .topic-cloud a:hover {
   background: var(--sl-color-accent); color: white;
 }
 /* 紧凑版话题云 */
-.topic-cloud.compact { margin-top: 0; gap: 0.4rem; }
-.topic-cloud.compact a { font-size: 1.125rem; padding: 1px 1px; }
+.topic-cloud.compact { line-height: 2 !important;margin-top: 0px; gap: 0.2rem; }
+.topic-cloud.compact a {line-height: 2 !important; margin-top: 0px; font-size: 1.125rem; padding: 2px 4px; }
 
 /* 5.6 标题与图标修复 (Header & Icons) */
 /* 强制修复图标大小与颜色 */
@@ -925,57 +926,95 @@ body:not([data-slug]) .sl-container {
 /* 10.3 百科 (Wiki) */
 /* [预留] body[data-slug^="wiki"] ... */
 
-/* --- Bento Grid 卡片配色优化 --- */
+/* =================================================================
+   全局卡片主题：奶黄配色系统 (Milk Yellow System)
+   覆盖范围：Bento Grid, Wiki 卡片, Join 栏目, Starlight 原生卡片(RecentUpdates)
+   ================================================================= */
 
-/* 1. 基础卡片样式 (重置默认背景) */
-.bento-card {
-  /* 移除系统默认的灰色边框和背景，由下面分别定义 */
-  background-color: transparent; 
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+/* 1. 定义受影响的卡片类名集合 */
+/* 以后有新卡片，只需把类名加到这个列表里即可 */
+.bento-card,
+.wiki-card,
+.join-section,
+.sl-markdown-content .card /* .card 是 RecentUpdates 等组件生成的默认类名 */
+{
+  /* 重置系统默认背景 */
+  background-color: transparent;
+  
+  /* 统一的平滑过渡效果 */
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
 }
 
-/* 2. ☀️ 日间模式 (Light Mode) */
-:root[data-theme='light'] .bento-card {
-  /* 奶黄色背景 (Warm Off-White/Cream) */
-  background-color: #fffbf3; 
-  /* 极淡的橙色边框，增加层次感 */
+/* 2. ☀️ 日间模式：统一奶黄色皮肤 */
+:root[data-theme='light'] .bento-card,
+:root[data-theme='light'] .wiki-card,
+:root[data-theme='light'] .join-section,
+:root[data-theme='light'] .sl-markdown-content .card 
+{
+  /* 核心：奶黄背景 */
+  background-color: #fff9f0; 
+  /* 极淡橙色描边 */
   border: 1px solid #fed7aa; 
-  /* 给予轻微的阴影，让它像卡片一样浮起来 */
+  /* 统一的轻微阴影 */
   box-shadow: 0 2px 8px rgba(249, 115, 22, 0.05);
 }
 
-:root[data-theme='light'] .bento-card:hover {
-  border-color: #f97316; /* 悬停时边框变深橙色 */
-  background-color: #fff7ed; /* 悬停时背景稍微变深一点点 */
-  transform: translateY(-2px);
+/* 统一标题颜色 (深橙色) */
+:root[data-theme='light'] .bento-card h3,
+:root[data-theme='light'] .wiki-card h3,
+:root[data-theme='light'] .join-section h2,
+:root[data-theme='light'] .sl-markdown-content .card .card-title
+{
+  color: #c2410c; 
 }
 
-/* 专门针对卡片里的标题颜色 (替代之前的 inline style) */
-:root[data-theme='light'] .bento-card h3 {
-  color: #c2410c; /* 深橙色文字 */
-}
-
+/* 统一图标颜色 */
 :root[data-theme='light'] .card-icon {
-  color: #ea580c; /* 图标颜色 */
+  color: #ea580c;
 }
 
 
-/* 3. 🌙 夜间模式 (Dark Mode) */
-:root[data-theme='dark'] .bento-card {
-  /* 深灰色背景 (Starlight 默认风格，但更纯净) */
-  background-color: #1e1e20; 
+/* 3. 🌙 夜间模式：统一深灰皮肤 */
+:root[data-theme='dark'] .bento-card,
+:root[data-theme='dark'] .wiki-card,
+:root[data-theme='dark'] .join-section,
+:root[data-theme='dark'] .sl-markdown-content .card
+{
+  background-color: #1e1e20;
   border: 1px solid #3f3f46;
+  box-shadow: none; /* 夜间去掉阴影更干净 */
 }
 
-:root[data-theme='dark'] .bento-card:hover {
-  background-color: #27272a;
-  border-color: #f97316; /* 夜间悬停也带一点橙色光辉 */
-}
-
-:root[data-theme='dark'] .bento-card h3 {
-  color: #fb923c; /* 夜间文字改为亮橙色，保证可读性 */
+/* 统一标题颜色 (亮橙色) */
+:root[data-theme='dark'] .bento-card h3,
+:root[data-theme='dark'] .wiki-card h3,
+:root[data-theme='dark'] .join-section h2,
+:root[data-theme='dark'] .sl-markdown-content .card .card-title
+{
+  color: #fb923c; 
 }
 
 :root[data-theme='dark'] .card-icon {
   color: #fb923c;
+}
+
+
+/* 4. 交互效果：仅针对可点击的元素 (Links) */
+/* 注意：join-section 这种纯展示区域不需要上浮效果，所以这里只针对 a 标签或特定类 */
+
+:root[data-theme='light'] a.bento-card:hover,
+:root[data-theme='light'] a.wiki-card:hover,
+:root[data-theme='light'] .sl-markdown-content a.card:hover
+{
+  border-color: #f97316;
+  background-color: #fff7ed; /* 悬停时稍微加深一点点 */
+  transform: translateY(-2px);
+}
+
+:root[data-theme='dark'] a.bento-card:hover,
+:root[data-theme='dark'] a.wiki-card:hover,
+:root[data-theme='dark'] .sl-markdown-content a.card:hover
+{
+  border-color: #f97316;
+  background-color: #27272a;
 }
