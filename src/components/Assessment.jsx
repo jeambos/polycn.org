@@ -175,8 +175,8 @@ const WelcomeScreen = ({ onStart }) => (
         <h4 className="more-title">更多测试</h4>
         <div className="test-grid">
           <a href="/assessment/adaption" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系适应性评估</span>
-            <span className="t-desc">测试你的沟通模式与冲突风格</span>
+            <span className="t-name" style={{color: '#f97316'}}>多元关系适应能力自测</span>
+            <span className="t-desc">你能否适应多元化的亲密关系模式？</span>
           </a>
           <div className="test-card future">
             <span className="t-name">嫉妒类型图谱 (Dev)</span>
@@ -321,8 +321,8 @@ const ResultScreen = ({ results, onRetry }) => {
             <span className="t-status">✅ 已完成</span>
           </div>
           <a href="/assessment/adaption" className="test-card active">
-            <span className="t-name" style={{color: '#f97316'}}>关系适应性评估</span>
-            <span className="t-desc">测试沟通模式与冲突风格</span>
+            <span className="t-name" style={{color: '#f97316'}}>多元关系适应能力自测</span>
+            <span className="t-desc">你能否适应多元化的亲密关系模式？</span>
           </a>
           <div className="test-card future">
             <span className="t-name">嫉妒类型图谱</span>
