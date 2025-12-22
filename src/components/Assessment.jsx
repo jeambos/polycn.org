@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import './Assessment.css';
+import React, { useState, useMemo, useEffect } from 'react';
+import '../styles/Assessment.css';
 
 // =====================================================================
 // 1. 数据定义
@@ -12,7 +12,7 @@ const RESULT_TYPES = {
     summary: '你非常重视关系的稳定性与排他性。在一段专注、承诺明确的一对一关系中，你最能获得安全感与满足感。',
     advice: '寻找一位同样珍视承诺与深度的伴侣，建立共同的人生愿景。在关系中，尝试建立深层的“二人世界”仪式感。',
     risks: '可能会因为过度依赖伴侣而产生“共生”压力。调整建议：有意识地培养个人的兴趣爱好和独立朋友圈。',
-    neighbor: '你与【连续单偶取向】很像，区别在于你更渴望一种“永恒”的叙事。'
+    neighbor: '区别在于你更渴望一种“永恒”的叙事，而不是连续单偶者那样更能接受关系的自然终结。'
   },
   serial_mono: {
     id: 'serial_mono',
@@ -20,7 +20,7 @@ const RESULT_TYPES = {
     summary: '你倾向于在不同的人生阶段全心投入一段明确的一对一关系。你重视当下的承诺，但不强求一段关系必须维持一生。',
     advice: '跟随生命阶段的流动去爱。尽情投入当下，如果在成长中彼此方向不再一致，允许好聚好散。',
     risks: '容易陷入“无缝衔接”来逃避旧关系的伤痛。调整建议：在两段关系之间留出“独处空窗期”用于复盘。',
-    neighbor: '你与【单偶取向】很像，区别在于你更能接受关系的自然终结。'
+    neighbor: '区别在于你更能接受关系的自然终结，而不是像单偶取向者那样将结束视为失败。'
   },
   monogamish: {
     id: 'monogamish',
@@ -28,7 +28,7 @@ const RESULT_TYPES = {
     summary: '你整体上偏向单偶关系，但在边界上较为宽松。相比于绝对的排他，你更看重核心关系的质量，允许一定程度的弹性。',
     advice: '建立稳固的核心关系，在规则上保留“透气孔”。重点在于与伴侣达成共识：什么是我们的底线。',
     risks: '容易在“弹性”和“出轨”之间模糊界限。调整建议：诚实是最高原则，任何越界行为前先沟通。',
-    neighbor: '你与【开放关系】很像，但你的重心依然是“封闭”多于“开放”。'
+    neighbor: '区别在于你的重心依然是“封闭”多于“开放”，而不是像开放关系者那样主动探索外部连接。'
   },
   adaptable: {
     id: 'adaptable',
@@ -36,7 +36,7 @@ const RESULT_TYPES = {
     summary: '你对关系的形式没有强烈的执念。无论是单偶还是非单偶，只要关系内部沟通顺畅、逻辑自洽，你都能从容适应。',
     advice: '你的天赋是“包容”。寻找一位人格成熟、沟通能力强的伴侣最重要。你可以构建量身定制的关系。',
     risks: '容易因为“什么都行”而逐渐失去自我。调整建议：定期自问“这真的是我想要的吗，还是为了配合对方？”',
-    neighbor: '你与【探索中】的区别在于，你是“游刃有余”的，而非“迷茫焦虑”。'
+    neighbor: '区别在于你是“游刃有余”的，而不是像探索者那样处于“迷茫焦虑”的状态。'
   },
   exploring: {
     id: 'exploring',
@@ -44,7 +44,7 @@ const RESULT_TYPES = {
     summary: '你正处于一种“寻找”的状态。目前的某些关系模式让你感到不适（错位感），你渴望尝试新的可能性，尽管方向可能还不明确。',
     advice: '不要急于定义自己。把现在的阶段当作“试衣间”，允许自己尝试和犯错，直到找到那件合身的衣服。',
     risks: '容易因急于摆脱现状而冲动进入复杂关系。调整建议：慢下来，知识储备先行，不要把非单偶制当成救命稻草。',
-    neighbor: '你与【可适应型】的区别在于，你内心有一种强烈的“不适感”驱动你去改变。'
+    neighbor: '区别在于你内心有一种强烈的“不适感”驱动你去改变，而不是像可适应型那样随遇而安。'
   },
   open_rel: {
     id: 'open_rel',
@@ -52,7 +52,7 @@ const RESULT_TYPES = {
     summary: '你适合以一段核心关系为基础，同时对外部的性或情感连接持开放态度。你重视核心伴侣的安全感，也珍视个人的自由。',
     advice: '构建“核心+外围”的结构。维护好与主要伴侣的信任基石，在此基础上探索外部世界。',
     risks: '容易忽视“次要伴侣”的感受。调整建议：时刻关注核心关系的温度，避免顾此失彼。',
-    neighbor: '你与【多重亲密】很像，区别在于你通常有明确的“主次之分”。'
+    neighbor: '区别在于你通常有明确的“主次之分”，而不是像多重亲密者那样追求平行的深度关系。'
   },
   polyamorous: {
     id: 'polyamorous',
@@ -60,7 +60,7 @@ const RESULT_TYPES = {
     summary: '你拥有充沛的情感容量，希望同时与多个人建立深度的亲密关系。你乐于见到伴侣也能获得快乐（同喜）。',
     advice: '学习高阶的时间管理。建立多段平行的深度关系，承认每个人的独特性，不要在伴侣间做比较。',
     risks: '过度承诺导致精疲力尽。调整建议：量力而行，不要为了“集邮”而建立关系。',
-    neighbor: '你与【开放关系】很像，区别在于你追求的是多段“爱”而不仅仅是“体验”。'
+    neighbor: '区别在于你追求的是多段“爱”，而不是像开放关系者那样更侧重于“体验”。'
   },
   non_hierarchical: {
     id: 'non_hierarchical',
@@ -68,7 +68,7 @@ const RESULT_TYPES = {
     summary: '你不希望将不同的关系进行人为的排序。你更在意每一段关系各自的发展节奏，尊重每段关系的独立性。',
     advice: '去中心化的生活。像经营花园一样经营关系网，依靠“日程表”而非“特权”来分配资源。',
     risks: '在资源冲突时缺乏决策机制。调整建议：设立优先级判断标准（如先约先得），避免决策瘫痪。',
-    neighbor: '你与【自主关系】很像，但你可能更愿意为了伴侣们的需求而进行协商。'
+    neighbor: '区别在于你愿意为了伴侣们的需求而进行协商，而不是像自主关系者那样完全拒绝任何形式的约束。'
   },
   solo_poly: {
     id: 'solo_poly',
@@ -76,7 +76,7 @@ const RESULT_TYPES = {
     summary: '你高度重视个人的独立与自主。你不希望亲密关系成为限制个人发展的框架，不将关系视为优先于自我选择的结构。',
     advice: '以自我为圆心构建生活。你可以拥有深厚的连接，但保持财务、居住和决策的独立。',
     risks: '过度强调独立可能演变成“回避依恋”。调整建议：区分“独立”与“孤立”，练习展示脆弱。',
-    neighbor: '你与【非层级多重】很像，区别在于你更强调“我不属于任何人”。'
+    neighbor: '区别在于你更强调“我不属于任何人”，而不是像非层级多重者那样仍处于某种关系网络中。'
   },
   high_boundary: {
     id: 'high_boundary',
@@ -84,7 +84,7 @@ const RESULT_TYPES = {
     summary: '你对非单偶关系持开放态度，但你的安全感建立在清晰的规则与约定之上。你偏好在明确的框架内探索自由。',
     advice: '“契约式”探索。在进入关系前，详细讨论并制定“关系说明书”。适合采用 DADT 或严格协议。',
     risks: '规则可能成为控制焦虑的工具。调整建议：随着信任增加，试着逐步让渡一些控制权，容忍模糊性。',
-    neighbor: '你与【单偶取向】很像，区别在于你用规则管理的是“开放”的风险。'
+    neighbor: '区别在于你用规则管理的是“开放”的风险，而不是像单偶取向者那样完全封闭。'
   }
 };
 
@@ -142,22 +142,14 @@ const RED_FLAGS = [
   { id: 104, isRedFlag: true, title: "边界纠缠检测", text: "我比较享受被很多人同时需要的感觉，哪怕这有时会让我卷入一些复杂的情感纠葛。", warning: "“能爱很多人”与“被很多人依赖”不同。警惕这是否让你陷入了混乱的边界纠缠。" }
 ];
 
-// 构建最终题目列表 (分散插入逻辑)
-// 插入位置: 第8题后(index 8), 第17题后(index 18), 第27题后(index 29), 第36题后(index 39)
+// 构建最终题目列表
 const QUESTIONS = [...CORE_QUESTIONS];
 QUESTIONS.splice(7, 0, RED_FLAGS[0]);
 QUESTIONS.splice(17, 0, RED_FLAGS[1]);
 QUESTIONS.splice(27, 0, RED_FLAGS[2]);
 QUESTIONS.splice(37, 0, RED_FLAGS[3]);
 
-// 分页逻辑: 6-7题/页 (由于插入了红灯题，但我们手动控制每一页的切分点以保持视觉平衡)
-// Total 40 items. 
-// Page 1: 0-5 (6 items)
-// Page 2: 6-12 (7 items) -> 包含 RedFlag 101
-// Page 3: 13-19 (7 items) -> 包含 RedFlag 102
-// Page 4: 20-26 (7 items)
-// Page 5: 27-33 (7 items) -> 包含 RedFlag 103
-// Page 6: 34-39 (6 items) -> 包含 RedFlag 104
+// 分页逻辑
 const PAGE_BREAKS = [6, 13, 20, 27, 34, 40]; 
 
 // =====================================================================
@@ -179,7 +171,7 @@ const WelcomeScreen = ({ onStart }) => (
         </ul>
       </div>
 
-      <button onClick={onStart} className="btn-primary">
+      <button onClick={onStart} className="btn-primary" style={{transform: 'scale(1.2)'}}>
         开始探索
       </button>
 
@@ -205,21 +197,33 @@ const WelcomeScreen = ({ onStart }) => (
   </div>
 );
 
+// 分享弹窗组件
+const ShareModal = ({ onClose }) => (
+  <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <div className="modal-title">保存结果</div>
+      <p style={{color: '#6b7280', marginBottom: '1.5rem'}}>
+        受到技术限制，请您<b>截图</b>保存此页面或分享给好友 :)
+      </p>
+      <button onClick={onClose} className="modal-btn">我知道了</button>
+    </div>
+  </div>
+);
+
 const ResultScreen = ({ results, onRetry }) => {
-  const shareResult = () => {
-    alert("受到技术限制，请您截图分享给好友 :)");
-  };
+  const [showShare, setShowShare] = useState(false);
 
   return (
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>测试结果</h2>
-        <p style={{color: '#6b7280'}}>请查收您的关系倾向报告</p>
+        <p style={{color: '#6b7280'}}>以下是您的关系倾向报告，此结果只展示一次，您可截图保存。</p>
       </div>
 
       {/* 1. Best Match */}
       {results.bestMatch ? (
         <div className="res-card best-match">
+          <h3 className="section-label" style={{color: '#9ca3af', marginTop: 0}}>Best for</h3>
           <div className="watermark">PolyCN.org</div>
           <div className="res-title">
             {results.bestMatch.name}
@@ -237,15 +241,16 @@ const ResultScreen = ({ results, onRetry }) => {
           <p className="section-text">{results.bestMatch.neighbor}</p>
         </div>
       ) : (
-        <div className="res-card" style={{background: '#1f2937', color: 'white'}}>
-          <div className="res-title" style={{color: 'white'}}>复合型 / 流动型</div>
-          <p>您的倾向呈现出高度的流动性，没有单一标签能定义您。请参考下方的潜在适合类型。</p>
+        <div className="res-card best-match">
+          <div className="res-title">复合型 / 流动型</div>
+          <p style={{color: '#d1d5db'}}>您的倾向呈现出高度的流动性，没有单一标签能定义您。请参考下方的潜在适合类型。</p>
         </div>
       )}
 
       {/* 2. OK Matches */}
       {results.okMatches.length > 0 && results.okMatches.map(type => (
         <div key={type.id} className="res-card">
+          <h3 className="section-label" style={{color: '#9ca3af', marginTop: 0}}>OK for</h3>
           <div className="res-title">
             {type.name}
             <span className="res-match-rate">契合度 {type.percent}%</span>
@@ -276,11 +281,13 @@ const ResultScreen = ({ results, onRetry }) => {
 
       {/* 4. Actions */}
       <div className="result-actions">
-        <button onClick={shareResult} className="btn-share">分享结果</button>
+        <button onClick={() => setShowShare(true)} className="btn-share">分享结果</button>
         <button onClick={onRetry} className="btn-retry">重新测试</button>
       </div>
 
-      {/* 5. More Tests (End Loop) */}
+      {showShare && <ShareModal onClose={() => setShowShare(false)} />}
+
+      {/* 5. More Tests */}
       <div className="more-tests-section">
         <h4 className="more-title">更多测试</h4>
         <div className="test-grid">
@@ -290,7 +297,7 @@ const ResultScreen = ({ results, onRetry }) => {
           </div>
           <a href="/assessment/adaption" className="test-card active">
             <span className="t-name" style={{color: '#f97316'}}>关系适应性评估</span>
-            <span className="t-desc">测试沟通模式</span>
+            <span className="t-desc">测试沟通模式与冲突风格</span>
           </a>
           <div className="test-card future">
             <span className="t-name">嫉妒类型图谱</span>
@@ -305,12 +312,6 @@ const ResultScreen = ({ results, onRetry }) => {
         <a href="/library" className="mini-link">全部馆藏</a>
         <a href="/wiki" className="mini-link">百科Wiki</a>
       </div>
-      
-      {/* 7. Quote & Footer 模拟 */}
-      <div className="quote-area">
-        <p className="quote-text">"认识你自己，是所有智慧的开端。"</p>
-        <p className="quote-author">— 苏格拉底</p>
-      </div>
     </div>
   );
 };
@@ -324,7 +325,7 @@ const Assessment = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [answers, setAnswers] = useState({}); 
   const [showResult, setShowResult] = useState(false);
-  const [shakeBtn, setShakeBtn] = useState(false); // 用于抖动动画
+  const [shakeBtn, setShakeBtn] = useState(false);
 
   // 计算当前页的题目范围
   const currentQuestions = useMemo(() => {
@@ -333,28 +334,23 @@ const Assessment = () => {
     return QUESTIONS.slice(start, end);
   }, [pageIndex]);
 
-  // 总进度
+  // 找到当前页第一个未答的题目 ID
+  const firstUnansweredId = useMemo(() => {
+    const first = currentQuestions.find(q => answers[q.id] === undefined);
+    return first ? first.id : null;
+  }, [currentQuestions, answers]);
+
   const progress = (Object.keys(answers).length / QUESTIONS.length) * 100;
 
-  // 翻页逻辑
   const handleNext = () => {
-    // 1. 校验本页是否全选
-    const firstUnanswered = currentQuestions.find(q => answers[q.id] === undefined);
-    
-    if (firstUnanswered) {
-      // 触发抖动
+    if (firstUnansweredId) {
       setShakeBtn(true);
       setTimeout(() => setShakeBtn(false), 500);
-      
-      // 滚动到第一个未答题
-      const el = document.getElementById(`q-${firstUnanswered.id}`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      const el = document.getElementById(`q-${firstUnansweredId}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
-    // 2. 翻页
     if (pageIndex < PAGE_BREAKS.length - 1) {
       setPageIndex(prev => prev + 1);
       window.scrollTo(0, 0);
@@ -438,7 +434,7 @@ const Assessment = () => {
           >
             <div className="question-text">{q.text}</div>
             
-            {/* 5点交互选项 */}
+            {/* 5点交互选项 (XL-L-M-L-XL) */}
             <div className="options-dots">
               {[1, 2, 3, 4, 5].map((val) => (
                 <button
@@ -447,13 +443,21 @@ const Assessment = () => {
                   className={`dot-btn ${answers[q.id] === val ? 'selected' : ''}`}
                   title={val === 1 ? "非常不符合" : val === 5 ? "非常符合" : ""}
                 >
-                  <div className={`dot-circle dot-${val}`}></div>
-                  <span className="dot-label">
-                    {val === 1 ? "不符合" : val === 5 ? "符合" : val}
-                  </span>
+                  <div className={`dot-circle dot-size-${val} dot-color-${val}`}></div>
                 </button>
               ))}
             </div>
+
+            {/* 仅在当前第一个未答题显示文字标签 */}
+            {q.id === firstUnansweredId && (
+              <div className="dots-labels-container">
+                <span className="dots-label-item">完全<br/>不符合</span>
+                <span className="dots-label-item">基本<br/>不符合</span>
+                <span className="dots-label-item">中立<br/>说不清</span>
+                <span className="dots-label-item">基本<br/>符合</span>
+                <span className="dots-label-item">完全<br/>符合</span>
+              </div>
+            )}
           </div>
         ))}
       </div>

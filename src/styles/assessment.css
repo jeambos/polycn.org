@@ -6,6 +6,7 @@
   margin: 2rem auto;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #333;
+  position: relative; /* 为弹窗定位 */
 }
 
 @keyframes fadeIn {
@@ -45,7 +46,7 @@
 }
 
 .intro-box {
-  border: 1px solid #e5e7eb; /* 四边封边 */
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 2rem;
   margin: 0 auto 3rem;
@@ -93,7 +94,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f97316, #fb923c);
+  background: linear-gradient(90deg, #f59e0b, #7c3aed); /* 黄到紫 */
   transition: width 0.5s ease-out;
   border-radius: 99px;
 }
@@ -108,9 +109,8 @@
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-/* 做完的题目变色 */
 .quiz-card.answered {
-  background-color: #fffbf7; /* 极浅的橙色 */
+  background-color: #fffbf7;
   border-color: #fed7aa;
 }
 
@@ -122,14 +122,16 @@
   color: #1f2937;
 }
 
-/* --- 5点选项交互 --- */
+/* --- 5点选项交互 (重点修改) --- */
 .options-dots {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* 确保垂直居中对齐 */
   padding: 0 1rem;
   max-width: 500px;
   margin: 0 auto;
+  height: 60px; /* 固定高度，防止标签出现时跳动 */
+  position: relative;
 }
 
 .dot-btn {
@@ -139,56 +141,69 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  color: #9ca3af;
-  transition: all 0.2s;
-  padding: 10px; /* 增加点击热区 */
+  justify-content: center;
+  padding: 0;
+  width: 48px; /* 增大点击热区 */
+  height: 48px;
+  position: relative;
 }
 
 .dot-circle {
   border-radius: 50%;
-  background-color: #e5e7eb;
+  background-color: transparent;
+  border-width: 2px;
+  border-style: solid;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 尺寸渐变 */
-.dot-1 { width: 12px; height: 12px; }
-.dot-2 { width: 16px; height: 16px; }
-.dot-3 { width: 20px; height: 20px; }
-.dot-4 { width: 24px; height: 24px; }
-.dot-5 { width: 28px; height: 28px; }
+/* 尺寸定义 (XL-L-M-L-XL) */
+.dot-size-1 { width: 24px; height: 24px; } /* XL */
+.dot-size-2 { width: 18px; height: 18px; } /* L */
+.dot-size-3 { width: 14px; height: 14px; } /* M */
+.dot-size-4 { width: 18px; height: 18px; } /* L */
+.dot-size-5 { width: 24px; height: 24px; } /* XL */
+
+/* 颜色定义 (芒果黄 -> 葡萄紫) */
+.dot-color-1 { border-color: #fbbf24; } /* Mango */
+.dot-color-2 { border-color: #fb923c; } /* Orange */
+.dot-color-3 { border-color: #f472b6; } /* Pink */
+.dot-color-4 { border-color: #a78bfa; } /* Light Purple */
+.dot-color-5 { border-color: #7c3aed; } /* Grape */
 
 /* 选中或悬停状态 */
 .dot-btn:hover .dot-circle {
-  background-color: #fb923c;
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
-.dot-btn.selected .dot-circle {
-  background-color: #ea580c; /* 深橙色 */
-  box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.2);
-}
+/* 选中后填色 */
+.dot-btn.selected .dot-color-1 { background-color: #fbbf24; }
+.dot-btn.selected .dot-color-2 { background-color: #fb923c; }
+.dot-btn.selected .dot-color-3 { background-color: #f472b6; }
+.dot-btn.selected .dot-color-4 { background-color: #a78bfa; }
+.dot-btn.selected .dot-color-5 { background-color: #7c3aed; }
 
-.dot-label {
+/* 动态标签文字 */
+.dots-labels-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: 0.5rem auto 0;
+  padding: 0 0.5rem;
+  color: #6b7280;
   font-size: 0.75rem;
-  opacity: 0; /* 默认隐藏文字，保持界面极简 */
-  transition: opacity 0.2s;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* 仅在首尾显示文字提示，或者悬停显示 */
-.options-dots:hover .dot-label {
-  opacity: 1;
-}
-.dot-btn.selected .dot-label {
-  opacity: 1;
-  color: #ea580c;
-  font-weight: bold;
+.dots-label-item {
+  width: 20%; /* 5等分 */
+  text-align: center;
 }
 
-/* 移动端优化：保持距离 */
+/* 移动端优化 */
 @media (max-width: 640px) {
   .options-dots { padding: 0; }
-  .dot-btn { padding: 5px; }
+  .dots-labels-container { font-size: 0.65rem; }
 }
 
 /* --- 导航按钮 --- */
@@ -203,7 +218,7 @@
 .btn-prev {
   background: transparent;
   border: 2px solid #e5e7eb;
-  color: #6b7280;
+  color: #9ca3af;
   padding: 12px 32px;
   border-radius: 50px;
   font-weight: 600;
@@ -219,20 +234,19 @@
 .btn-next, .btn-primary {
   background-color: #ea580c;
   color: white;
-  padding: 14px 48px; /* 更大的按钮 */
+  padding: 14px 48px;
   border: none;
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
-  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .btn-next:hover, .btn-primary:hover {
   background-color: #c2410c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.4);
 }
 
 /* --- 结果页 --- */
@@ -241,7 +255,6 @@
   margin-bottom: 3rem;
 }
 
-/* 通用结果卡片样式 */
 .res-card {
   background: white;
   border-radius: 16px;
@@ -253,11 +266,12 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-/* Best Match 特有样式 */
+/* Best Match: 黑色高级感 */
 .res-card.best-match {
-  background: linear-gradient(135deg, #fffbf0 0%, #fff 100%); /* 淡淡的金色背景 */
-  border-color: #fed7aa;
-  box-shadow: 0 10px 30px rgba(251, 146, 60, 0.1);
+  background: #111827; /* 纯黑背景 */
+  border-color: #374151;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .watermark {
@@ -266,7 +280,7 @@
   right: 1.5rem;
   font-size: 0.9rem;
   font-weight: 900;
-  color: #e5e7eb;
+  color: rgba(255, 255, 255, 0.1);
   user-select: none;
   pointer-events: none;
   letter-spacing: 0.05em;
@@ -275,35 +289,34 @@
 .res-title {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #111827;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+.best-match .res-title { color: white; }
+.res-card:not(.best-match) .res-title { color: #1f2937; }
+
 
 .res-match-rate {
   font-size: 0.9rem;
-  background: #f3f4f6;
   padding: 4px 12px;
   border-radius: 99px;
-  color: #4b5563;
   font-weight: 600;
 }
-
-.best-match .res-match-rate {
-  background: #fff7ed;
-  color: #ea580c;
-}
+.best-match .res-match-rate { background: #374151; color: #fb923c; }
+.res-card:not(.best-match) .res-match-rate { background: #f3f4f6; color: #4b5563; }
 
 .res-summary {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #374151;
   margin-bottom: 2rem;
 }
+.best-match .res-summary { color: #d1d5db; }
+.res-card:not(.best-match) .res-summary { color: #374151; }
 
-/* 文本层级颜色 */
+
+/* 文本标签颜色 - 在深色卡片中需要调整 */
 .section-label {
   display: block;
   font-size: 0.85rem;
@@ -313,15 +326,16 @@
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
 }
-.label-advice { color: #ea580c; }
-.label-risk { color: #dc2626; }
-.label-diff { color: #2563eb; }
 
-.section-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #4b5563;
-}
+/* Best Match 内部颜色 */
+.best-match .label-advice { color: #fb923c; } /* 橙色 */
+.best-match .label-risk { color: #f87171; }   /* 红色 */
+.best-match .label-diff { color: #60a5fa; }   /* 蓝色 */
+.best-match .section-text { color: #9ca3af; font-size: 1rem; line-height: 1.6; }
+
+/* 普通卡片内部颜色 */
+.res-card:not(.best-match) .label-advice { color: #ea580c; }
+.res-card:not(.best-match) .section-text { color: #4b5563; }
 
 /* 红灯卡片 */
 .res-card.red-flag {
@@ -329,37 +343,80 @@
   border-color: #fecaca;
 }
 .red-flag .res-title { color: #b91c1c; }
-.red-flag .section-text { color: #7f1d1d; }
 
-/* 导流按钮组 */
+/* 导流按钮组 (等宽) */
 .result-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  max-width: 500px;
+  max-width: 600px;
   margin: 3rem auto;
+}
+
+.btn-share, .btn-retry {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.1s;
 }
 
 .btn-share {
   background: #111827;
   color: white;
   border: none;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
 }
 .btn-retry {
   background: white;
   border: 1px solid #d1d5db;
   color: #374151;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+}
+.btn-share:active, .btn-retry:active { transform: scale(0.98); }
+
+/* --- 自定义弹窗 --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
 }
 
-/* 更多测试 */
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 90%;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.modal-btn {
+  background: #ea580c;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* --- 更多测试 --- */
 .more-tests-section {
   margin-top: 4rem;
   border-top: 1px solid #e5e7eb;
@@ -370,7 +427,7 @@
   text-align: center;
   font-size: 1.2rem;
   font-weight: 800;
-  color: #f97316; /* 橙色 */
+  color: #f97316;
   margin-bottom: 1.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -390,22 +447,19 @@
   display: block;
 }
 
-/* 当前测试（已完成） */
 .test-card.completed {
-  background-color: #f0fdf4; /* 浅绿 */
+  background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
 }
 .test-card.completed .t-name { color: #166534; }
 .test-card.completed .t-status { color: #166534; font-size: 0.75rem; font-weight: bold; background: #dcfce7; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 0.5rem; }
 
-/* 其他测试 */
 .test-card.future {
   background-color: #f9fafb;
   border: 1px solid #e5e7eb;
   cursor: not-allowed;
   opacity: 0.7;
 }
-/* 可点击的测试 */
 .test-card.active {
   background-color: white;
   border: 1px solid #e5e7eb;
@@ -414,13 +468,11 @@
 .test-card.active:hover {
   border-color: #fdba74;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .t-name { font-weight: bold; margin-bottom: 0.5rem; display: block; }
 .t-desc { font-size: 0.85rem; color: #6b7280; }
 
-/* 底部小导航 */
 .mini-nav {
   display: flex;
   justify-content: center;
@@ -439,13 +491,3 @@
   color: #f97316;
   border-color: #f97316;
 }
-
-/* 引用块样式 */
-.quote-area {
-  margin: 4rem auto 2rem;
-  text-align: center;
-  max-width: 600px;
-  font-family: serif;
-}
-.quote-text { font-size: 1.25rem; color: #374151; font-style: italic; margin-bottom: 0.5rem; }
-.quote-author { font-size: 0.9rem; color: #9ca3af; }
