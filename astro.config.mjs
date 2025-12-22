@@ -3,6 +3,8 @@ import starlight from '@astrojs/starlight';
 
 import sitemap from '@astrojs/sitemap';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
  site: 'https://polycn.org',
@@ -73,5 +75,5 @@ export default defineConfig({
 
    
     customCss: ['./src/styles/custom.css'], 
-  }), sitemap()],
+  }), sitemap(), react()],
 });

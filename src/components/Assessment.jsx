@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import '../styles/Assessment.css'; // 需确保同目录下有该 CSS 文件
+import '../styles/assessment.css'; // 需确保同目录下有该 CSS 文件
 
 // =====================================================================
 // 1. 数据定义区域
