@@ -596,3 +596,200 @@
   color: #f97316;
   border-color: #f97316;
 }
+
+/* =========================================
+   新增：适应性评估 (Adaption) 专用样式
+   ========================================= */
+
+/* --- 1. 总分卡片 (Total Score) --- */
+.score-card {
+  background: #111827; /* 深色背景 */
+  color: white;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  margin-bottom: 2rem;
+}
+
+.score-circle {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.score-big {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+  margin-right: 0.5rem;
+}
+
+.score-small {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-left: 0 rem;
+  vertical-align: baseline;
+}
+
+.score-comment {
+  font-size: 1.1rem;
+  color: #d1d5db;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* --- 2. 雷达图容器 (Radar Chart) --- */
+.radar-section {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radar-wrapper {
+  width: 100%;
+  max-width: 600px;
+  /* 保持 SVG 比例 */
+  aspect-ratio: 1 / 1; 
+  position: relative;
+}
+
+/* 雷达图交互标签 */
+.radar-label-btn {
+  cursor: pointer;
+  font-size: 0.5rem;
+  font-weight: 700;
+  fill: #6b7280;
+  transition: all 0.3s;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.radar-label-btn:hover, .radar-label-btn.active {
+  fill: #f97316; /* 橙色高亮 */
+  font-size: 0.7rem;
+}
+
+/* 选中维度的数据浮层 */
+.radar-stat-box {
+  margin-top: 1rem;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.stat-name { font-weight: bold; color: #9a3412; margin-bottom: 0.25rem; }
+.stat-val { font-size: 1.25rem; font-weight: 900; color: #ea580c; }
+.stat-desc { font-size: 0.85rem; color: #c2410c; }
+
+/* --- 3. 维度拆解网格 (Dimension Breakdown) --- */
+.breakdown-section {
+  margin-top: 3rem;
+}
+
+.breakdown-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dim-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.dim-card:hover {
+  border-color: #fdba74;
+}
+
+/* 维度卡片头部 */
+.dim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed #f3f4f6;
+}
+
+.dim-name { font-weight: 700; color: #374151; font-size: 1rem; }
+.dim-score { font-weight: 900; color: #f97316; font-size: 1.1rem; }
+
+/* 进度条 */
+.dim-bar-bg {
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 99px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+.dim-bar-fill { height: 100%; border-radius: 99px; }
+
+/* 颜色区分 */
+.fill-high { background: #10b981; } /* 绿 */
+.fill-mid { background: #f59e0b; }  /* 黄 */
+.fill-low { background: #ef4444; }  /* 红 */
+
+.dim-text {
+  font-size: 0.9rem;
+  line-height: 1.5; /* 紧凑行距 */
+  color: #4b5563;
+}
+
+.action-tip {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+/* 移动端优化：紧凑布局 */
+@media (max-width: 640px) {
+  .dim-card {
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem; /* 原为 1.25rem，减小内边距 */
+  }
+
+  /* 如果觉得内部头部间距依然太高，可以加上这一段 */
+  .dim-header {
+    margin-bottom: 0rem;
+    padding-bottom: 0.5rem;
+  }
+}
