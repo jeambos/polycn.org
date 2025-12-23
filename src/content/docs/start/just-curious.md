@@ -1,3 +1,12 @@
+---
+title: 好奇者指南
+description: 为不了解非单偶制的读者做一个简单的介绍
+template: splash
+editUrl: false
+lastUpdated: true
+sidebar:
+  hidden: true
+---
 ## 1. 这真的不是乱搞吗？
 
 当你第一次听说“开放关系”或“多边恋”时，如果觉得这听起来像是在“找借口花心”或者“私生活混乱”，这是非常正常的直觉反应。
