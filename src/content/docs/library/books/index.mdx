@@ -1,18 +1,28 @@
 ---
 title: 馆藏书籍更新列表
 description: PolyCN 馆藏书籍按更新时间排序列表。
+tableOfContents: false
 sidebar:
   label: 最近更新书籍
   order: 1
 ---
 
+import BookShelfGrid from '../../../../components/BookShelfGrid.astro';
 import CategoryListLoader from '../../../../components/CategoryListLoader.astro';
 import QuoteBlock from '../../../../components/QuoteBlock.astro';
 import Footer from '../../../../components/Footer.astro';
 
-此处按最近更新展示。如需按编辑推荐顺序阅读（例如先看《道德浪女》），请点击右上角菜单（电脑端为屏幕左侧的侧边栏）。
+{/* 1. 顶部：全部藏书网格墙 */}
+### 📚 全部藏书
+<BookShelfGrid />
 
-{/* 调用加载器，扫描 library/books 目录下的所有内容 */}
+{/* 分割线效果（可选，或者靠 CSS 的 margin） */}
+<div style="height: 2rem;"></div>
+
+{/* 2. 下方：最近更新列表 */}
+### 📅 最近更新章节
+此处按时间倒序展示最新收录的章节内容。
+
 <CategoryListLoader subdir="library/books" />
 
 <br/>
