@@ -1,0 +1,13 @@
+---
+import { getLibraryItems } from '../utils/dataLoader';
+import CategoryList from './CategoryList.jsx';
+// 确保 CSS 被引入 (如果已经在 React 里引了这里可以不写，但为了保险起见)
+import '../styles/CategoryList.css'; 
+
+const { subdir } = Astro.props;
+
+// 构建时获取数据
+const items = await getLibraryItems(subdir);
+---
+
+<CategoryList client:load items={items} />

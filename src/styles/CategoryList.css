@@ -1,0 +1,165 @@
+/* --- 容器 --- */
+.cat-list-container {
+  font-family: var(--sl-font);
+  margin-top: 1rem;
+}
+
+/* --- 药丸导航 --- */
+.cat-chips-wrapper {
+  margin: 0 0 1.5rem 0;
+  position: relative;
+  /* 右侧边缘遮罩，提示可滑动 */
+  mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+
+.cat-chips-scroll {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none; /* Firefox */
+}
+.cat-chips-scroll::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+.cat-chip {
+  flex-shrink: 0;
+  padding: 0.3rem 0.9rem;
+  border-radius: 99px;
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.cat-chip:hover {
+  background: var(--sl-color-gray-5);
+}
+.cat-chip.active {
+  background: #f97316;
+  color: white;
+  border-color: #f97316;
+  font-weight: 600;
+}
+
+/* --- 列表项 (流式布局) --- */
+.cat-list-body {
+  border-top: 1px solid var(--sl-color-gray-5);
+}
+
+.cat-item-row {
+  display: block;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--sl-color-gray-6);
+  text-decoration: none !important;
+  line-height: 1.5;
+  color: var(--sl-color-text);
+  transition: background 0.1s;
+}
+.cat-item-row:hover {
+  background: var(--sl-color-gray-6);
+}
+
+/* 元素样式 */
+.cat-date {
+  font-family: monospace;
+  color: #9ca3af;
+  font-size: 0.85em;
+  margin-right: 0.8rem;
+  display: inline-block;
+  min-width: 4.2em; /* 保证 MM-DD 对齐 */
+}
+
+.cat-badge {
+  display: inline-block;
+  background: var(--sl-color-gray-5);
+  color: var(--sl-color-gray-2);
+  font-size: 0.75em;
+  padding: 0.1em 0.5em;
+  border-radius: 4px;
+  margin-right: 0.6rem;
+  vertical-align: 1px;
+}
+
+.cat-title {
+  font-weight: 500;
+}
+
+.cat-empty {
+  padding: 3rem;
+  text-align: center;
+  color: var(--sl-color-gray-4);
+}
+
+/* --- 底部工具栏 --- */
+.cat-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+}
+
+.page-btn {
+  padding: 0.2rem 0.6rem;
+  background: var(--sl-color-gray-5);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: var(--sl-color-text);
+}
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.page-info {
+  margin: 0 0.8rem;
+  color: var(--sl-color-gray-3);
+}
+
+.page-size-selector select {
+  background: transparent;
+  border: 1px solid var(--sl-color-gray-5);
+  color: var(--sl-color-gray-3);
+  padding: 0.3rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.page-size-selector select:hover {
+  color: var(--sl-color-text);
+  border-color: var(--sl-color-gray-4);
+}
+
+/* --- 📱 移动端适配 (双行模式) --- */
+@media (max-width: 640px) {
+  .cat-item-row {
+    padding: 0.8rem 0.2rem;
+  }
+  
+  /* 强制换行：标题第一行，信息第二行 */
+  .cat-title {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+  }
+  
+  .cat-badge {
+    font-size: 0.7em; /* 稍微缩小 */
+    margin-right: 0.5rem;
+  }
+  
+  .cat-date {
+    font-size: 0.8em;
+  }
+}
