@@ -92,7 +92,7 @@ items: [
         // 包含：非暴力沟通(NVC)、RADAR复盘法、争吵后的修复、如何谈论需求
       },
       {
-        label: '🚧 边界与协议',
+        label: '🚧 边界、规则与协议',
         autogenerate: { directory: 'library/guides/boundaries' },
         // 包含：制定规则(Rules) vs 设立边界(Boundaries)、否决权(Veto)的争议、安全词、关系协议书模板
       },
@@ -107,7 +107,7 @@ items: [
         // 包含：性健康检测频率、如何谈论性安全、多边性爱(Threesome/Orgy)的礼仪与协商
       },
       {
-        label: '🧩 进阶议题',
+        label: '🧩 进阶议题 & 其他',
         autogenerate: { directory: 'library/guides/advanced' },
         // 包含：出柜(向家人/朋友)、养育子女、职场生存、法律风险等综合议题
       },
@@ -160,7 +160,7 @@ items: [
         // 包含：碎片化的感悟、日记、诗歌、非理论性的个人哲学
       },
       {
-        label: '🎬 影音推荐',
+        label: '🎤 播客视频',
         autogenerate: { directory: 'library/stories/media' },
         // 包含：播客(Podcast)推荐、电影/剧集推荐、视频搬运
       },
