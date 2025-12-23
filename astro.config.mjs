@@ -149,7 +149,7 @@ items: [
     collapsed: true,
     items: [
       {
-        label: '👣 亲身经历',
+        label: '👣 真实经历',
         autogenerate: { directory: 'library/stories/experiences' },
         // 包含：我的开放故事、踩坑实录、采访记录
       },
