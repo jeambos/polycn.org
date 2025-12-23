@@ -1,0 +1,27 @@
+---
+title: 真人故事更新列表
+description: 汇集多边关系的真实经历、踩坑实录与个人随笔。
+sidebar:
+  label: 最近更新故事
+  order: 1
+---
+
+import CategoryListLoader from '../../../../components/CategoryListLoader.astro';
+import QuoteBlock from '../../../../components/QuoteBlock.astro';
+import Footer from '../../../../components/Footer.astro';
+
+这里记录了鲜活的生命体验。无论是喜悦还是挣扎，从他人的故事中，我们看见自己的影子。
+
+{/* 扫描 library/stories 目录 */}
+<CategoryListLoader subdir="library/stories" />
+
+<br/>
+<br/>
+
+<QuoteBlock 
+  content="心中藏着一个没有讲出来的故事，是最大的痛苦。"
+  author="玛雅·安杰卢 (Maya Angelou)"
+  source="https://zh.wikipedia.org/wiki/%E7%8E%9B%E9%9B%85%C2%B7%E5%AE%89%E6%9D%B0%E5%8D%A2"
+/>
+
+<Footer />

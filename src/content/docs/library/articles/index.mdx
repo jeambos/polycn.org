@@ -1,0 +1,27 @@
+---
+title: 深度文章更新列表
+description: 收录学术译介、社会观察与深度书评，提供宏观视角。
+sidebar:
+  label: 最近更新文章
+  order: 1
+---
+
+import CategoryListLoader from '../../../../components/CategoryListLoader.astro';
+import QuoteBlock from '../../../../components/QuoteBlock.astro';
+import Footer from '../../../../components/Footer.astro';
+
+在喧嚣之外，进行冷静的审视与思考。通过理论的棱镜，折射出关系的本质。
+
+{/* 扫描 library/articles 目录 */}
+<CategoryListLoader subdir="library/articles" />
+
+<br/>
+<br/>
+
+<QuoteBlock 
+  content="你可以锁上你的图书馆，如果你愿意；但你无法加上任何门栏，无法加上任何锁链，无法加上任何门闩，来禁锢我思想的自由。"
+  author="弗吉尼亚·伍尔夫 (Virginia Woolf)"
+  source="https://zh.wikipedia.org/wiki/%E5%BC%97%E5%90%89%E5%B0%BC%E4%BA%9A%C2%B7%E4%BC%8D%E5%B0%94%E5%A4%AB"
+/>
+
+<Footer />
