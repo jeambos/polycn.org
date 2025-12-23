@@ -65,7 +65,7 @@ items: [
   // 3.2 📚 书籍推荐 (Books)
   // 保持扁平结构，因为书籍数量有限，直接列出书名文件夹即可，无需再分类
   {
-    label: '📚 书籍推荐',
+    label: '📚 全部图书',
     collapsed: true,
     autogenerate: { directory: 'library/books' },
     // 预期目录结构：
