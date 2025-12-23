@@ -17,7 +17,7 @@ const ALL_TESTS = [
   },
   { 
     id: 'norms', 
-    title: '恋爱观“出厂设置”检测', 
+    title: '恋爱观规范程度自评', 
     desc: '你的观念，是自己的，还是社会赋予的？', 
     link: '/assessment/norms' 
   },

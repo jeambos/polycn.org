@@ -136,7 +136,7 @@ const PAGE_BREAKS = [10, 20, 30, 40]; // 10题/页
 const WelcomeScreen = ({ onStart }) => (
   <div className="quiz-container animate-fade-in">
     <div className="welcome-card">
-      <h1 className="welcome-title">恋爱观“出厂设置”检测</h1>
+      <h1 className="welcome-title">恋爱观规范程度自评</h1>
       
       <div className="intro-box">
         <ul className="intro-list">
