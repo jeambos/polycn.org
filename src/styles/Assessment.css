@@ -968,7 +968,7 @@
   color: white;
 }
 .feat-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   margin-bottom: 1rem;
   color: white !important;
@@ -989,7 +989,7 @@
 /* ✅ 修复1：正文颜色 (移除逗号，移入全局) */
 .feat-desc {
   color: #d1d5db !important; /* 强制浅灰 */
-  font-size: 1.1rem;
+  font-size: 1.25rem !important;
   margin: 0 auto 2rem;
   line-height: 1.7;
   max-width: 600px;
