@@ -639,36 +639,81 @@ const JealousyQuiz = () => {
           )}
         </div>
 
+        {/* 强制覆盖样式的内部 CSS */}
+        <style>{`
+          /* 最符合 (深色高亮) */
+          .opt-primary {
+            background-color: var(--qz-primary) !important;
+            border-color: var(--qz-primary) !important;
+            color: var(--qz-primary-fg) !important;
+          }
+          .opt-primary .dot {
+            background-color: var(--qz-primary-fg) !important;
+            border-color: var(--qz-primary-fg) !important;
+          }
+          
+          /* 也符合 (浅色高亮) */
+          .opt-secondary {
+            background-color: var(--qz-bg-soft) !important;
+            border-color: var(--qz-primary) !important;
+            color: var(--qz-text-soft) !important;
+          }
+          .opt-secondary .dot {
+            background-color: var(--qz-primary) !important;
+            border: none !important;
+          }
+
+          /* 默认圆点样式 */
+          .dot {
+            width: 18px; height: 18px; border-radius: 50%; 
+            border: 2px solid #d1d5db; flex-shrink: 0;
+            transition: all 0.2s;
+          }
+        `}</style>
+
         <div className="options-list">
           {displayOptions.map((opt, idx) => {
             const isPrimary = currentPrimary === opt.dim;
             const isSecondary = tempSecondary.includes(opt.dim);
 
+            // ------------------------------------------------
+            // 场景 A: Step 1 (默认状态)
+            // ------------------------------------------------
             if (step === 1) {
               return (
-                <div key={idx} onClick={() => handlePrimarySelect(opt.dim)} className="option-item"
+                <div 
+                  key={idx} 
+                  onClick={() => handlePrimarySelect(opt.dim)}
+                  className="option-item"
                   style={{
-                    padding: '1rem', marginBottom: '0.8rem', cursor: 'pointer',
-                    border: '1px solid var(--qz-border)', borderRadius: '8px', background: 'var(--qz-bg-card)',
+                    background: 'var(--qz-bg-card)', 
+                    border: '1px solid var(--qz-border)', 
+                    color: 'var(--qz-text-sub)',
+                    padding: '1rem', marginBottom: '0.8rem', cursor: 'pointer', borderRadius: '8px',
                     transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.8rem'
                   }}
                 >
-                  <div style={{width: '18px', height: '18px', borderRadius: '50%', border: '2px solid #d1d5db'}}></div>
-                  <span style={{fontSize: '0.95rem', color: 'var(--qz-text-main)'}}>{opt.text}</span>
+                  <div className="dot"></div>
+                  <span style={{fontSize: '0.95rem'}}>{opt.text}</span>
                 </div>
               );
             }
 
+            // ------------------------------------------------
+            // 场景 B: Step 2 - “最符合” (深橙背景 + 白字)
+            // ------------------------------------------------
             if (isPrimary) {
               return (
-                <div key={idx} onClick={handlePrimaryDeselect} className="option-item" 
+                <div 
+                  key={idx} 
+                  onClick={handlePrimaryDeselect}
+                  className="option-item opt-primary" // 样式由上方 <style> 强力控制
                   style={{
                     padding: '1rem', marginBottom: '0.8rem', borderRadius: '8px',
-                    background: '#e69525', color: 'var(--qz-bg-card)', border: 'none',
-                    display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 1, cursor: 'pointer'
+                    display: 'flex', alignItems: 'center', gap: '0.8rem', cursor: 'pointer'
                   }}
                 >
-                  <div style={{width:'18px', height:'18px', borderRadius:'50%', background:'var(--qz-bg-card)', border:'4px solid #e69525'}}></div>
+                  <div className="dot"></div>
                   <span style={{fontSize: '0.95rem', fontWeight:'bold'}}>
                     {opt.text} <span style={{fontSize:'0.8rem', opacity:0.8}}>(点击取消)</span>
                   </span>
@@ -676,25 +721,25 @@ const JealousyQuiz = () => {
               );
             }
 
+            // ------------------------------------------------
+            // 场景 C: Step 2 - “也符合” (浅橙背景 + 橙字)
+            // ------------------------------------------------
             return (
-              <div key={idx} onClick={() => toggleSecondary(opt.dim)} className="option-item"
+              <div 
+                key={idx} 
+                onClick={() => toggleSecondary(opt.dim)}
+                className={`option-item ${isSecondary ? 'opt-secondary' : ''}`}
                 style={{
+                  // 未选中时保持默认，选中时应用 opt-secondary
+                  background: isSecondary ? '' : 'var(--qz-bg-card)',
+                  border: isSecondary ? '' : '1px solid var(--qz-border)',
+                  color: isSecondary ? '' : 'var(--qz-text-sub)',
+                  
                   padding: '1rem', marginBottom: '0.8rem', cursor: 'pointer', borderRadius: '8px',
-                  border: isSecondary ? '1px solid #e69525' : '1px solid #e5e7eb',
-                  background: isSecondary ? '#fff7ed' : 'var(--qz-bg-card)',
-                  color: isSecondary ? '#c2410c' : 'var(--qz-text-sub)',
                   display: 'flex', alignItems: 'center', gap: '0.8rem', transition: 'all 0.2s'
                 }}
               >
-                <div style={{
-                  width: '18px', height: '18px', borderRadius: '4px', 
-                  border: isSecondary ? 'none' : '2px solid #d1d5db',
-                  background: isSecondary ? '#e69525' : 'transparent',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--qz-bg-card)', fontSize: '12px'
-                }}>
-                  {isSecondary && "✓"}
-                </div>
+                <div className="dot"></div>
                 <span style={{fontSize: '0.95rem', fontWeight: isSecondary?'bold':'normal'}}>{opt.text}</span>
               </div>
             );
