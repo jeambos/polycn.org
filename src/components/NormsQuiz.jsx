@@ -293,7 +293,7 @@ const ResultScreen = ({ answers, onRetry }) => {
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>检测报告</h2>
-        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>以下是您的恋爱观念成分分析，此结果只展示一次，您可截图保存。</p>
+        <p style={{color: 'var(--qz-text-sub)', fontSize: '0.95rem'}}>以下是您的恋爱观念成分分析，此结果只展示一次，您可截图保存。</p>
       </div>
 
       {/* 1. 总分卡片 */}
@@ -307,7 +307,7 @@ const ResultScreen = ({ answers, onRetry }) => {
            scores.totalPercentage >= 60 ? "您在主流与自由之间，似乎正在寻找平衡。" :
            "您是一位亲密关系剧本的“即兴创作者”。"}
         </div>
-        <div style={{marginTop: '1rem', fontSize:'0.85rem', color: '#6b7280'}}>
+        <div style={{marginTop: '1rem', fontSize:'0.85rem', color: 'var(--qz-text-sub)'}}>
           * 数值越高，代表受传统单偶制规范影响越深
         </div>
       </div>
@@ -320,7 +320,7 @@ const ResultScreen = ({ answers, onRetry }) => {
         <h3 className="breakdown-title">
           <span style={{color: '#f97316'}}>✦</span> 您的核心观念透视
         </h3>
-        <p style={{marginBottom: '1.5rem', color: '#6b7280', fontSize: '0.9rem'}}>
+        <p style={{marginBottom: '1.5rem', color: 'var(--qz-text-sub)', fontSize: '0.9rem'}}>
           以下是根据您的回答生成的观念画像（展示您得分最高的 4 个维度）。分数越高代表受传统规范影响越深，分数越低代表越倾向于自主定义。
         </p>
         

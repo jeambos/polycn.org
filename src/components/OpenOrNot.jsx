@@ -242,7 +242,7 @@ const RadarChart = ({ scores, activeDim, onDimClick }) => {
                 onClick={() => onDimClick(key)}
                 style={{
                   fontSize:'0.75rem', 
-                  fill: isActive ? '#e69525' : '#6b7280',
+                  fill: isActive ? '#e69525' : 'var(--qz-text-sub)',
                   fontWeight: isActive ? 'bold' : 'normal',
                   cursor: 'pointer',
                   transition: 'all 0.2s'
@@ -259,13 +259,13 @@ const RadarChart = ({ scores, activeDim, onDimClick }) => {
       {activeDim && (
         <div className="radar-stat-box" style={{
           borderColor: '#fed7aa', 
-          background: '#fff7ed', 
+          background: 'var(--qz-bg-soft)', 
           marginTop: '-1rem',
           textAlign: 'center'
         }}>
           <div className="stat-name" style={{color: '#9a3412'}}>{DIMENSIONS[activeDim].name}</div>
           <div className="stat-val" style={{color: '#ea580c'}}>{scores[activeDim].toFixed(1)} / 5.0</div>
-          <div className="stat-desc" style={{color: '#c2410c', fontSize: '0.9rem'}}>{DIMENSIONS[activeDim].desc}</div>
+          <div className="stat-desc" style={{color: 'var(--qz-text-soft)', fontSize: '0.9rem'}}>{DIMENSIONS[activeDim].desc}</div>
         </div>
       )}
     </div>
@@ -329,7 +329,7 @@ const ResultScreen = ({ answers, onRetry }) => {
   return (
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
-        <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>评估报告</h2>
+        <h2 style={{fontSize: '2rem', fontWeight: '900', color: 'var(--qz-text-main)'}}>评估报告</h2>
       </div>
 
       {/* 1. 总分红绿灯卡片 (深色高级感) */}
@@ -345,7 +345,7 @@ const ResultScreen = ({ answers, onRetry }) => {
              WebkitTextFillColor: 'transparent'
           }}>{scores.totalScore}</span>
         </div>
-        <div className="score-comment" style={{fontSize: '1.2rem', fontWeight: 'bold', color: 'white'}}>
+        <div className="score-comment" style={{fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--qz-bg-card)'}}>
           {currentStatus.title}
         </div>
         <div style={{color: 'rgba(255,255,255,0.85)', marginTop: '0.5rem', fontSize: '0.95rem'}}>
@@ -371,10 +371,10 @@ const ResultScreen = ({ answers, onRetry }) => {
       <RadarChart scores={scores.dimScores} activeDim={activeDim} onDimClick={setActiveDim} />
 
       {/* 4. 今晚聊什么 */}
-      <div style={{background: '#f3f4f6', padding: '1.5rem', borderRadius: '12px', margin: '2rem 0', border: '1px dashed #9ca3af'}}>
-        <h3 style={{margin: '0 0 0.8rem 0', fontSize: '1.1rem', color: '#374151'}}>💬 今晚聊什么？</h3>
-        <p style={{marginBottom: '0.8rem', color: '#4b5563', fontSize: '0.9rem'}}>针对本次测试出的短板，今晚你们可以坦诚讨论一下：</p>
-        <p style={{margin: 0, color: '#1f2937', fontStyle: 'italic', fontWeight: '500', lineHeight: 1.6}}>
+      <div style={{background: 'var(--qz-bg-page)', padding: '1.5rem', borderRadius: '12px', margin: '2rem 0', border: '1px dashed #9ca3af'}}>
+        <h3 style={{margin: '0 0 0.8rem 0', fontSize: '1.1rem', color: 'var(--qz-text-main)'}}>💬 今晚聊什么？</h3>
+        <p style={{marginBottom: '0.8rem', color: 'var(--qz-text-main)', fontSize: '0.9rem'}}>针对本次测试出的短板，今晚你们可以坦诚讨论一下：</p>
+        <p style={{margin: 0, color: 'var(--qz-text-main)', fontStyle: 'italic', fontWeight: '500', lineHeight: 1.6}}>
           “{starterText}”
         </p>
       </div>
@@ -384,9 +384,9 @@ const ResultScreen = ({ answers, onRetry }) => {
         <button 
           onClick={() => setIsDetailsExpanded(!isDetailsExpanded)}
           style={{
-            width: '100%', padding: '0.6rem', background: 'transparent', border: '1px solid #d1d5db', 
+            width: '100%', padding: '0.6rem', background: 'transparent', border: '1px solid var(--qz-border)', 
             borderRadius: '99px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center',
-            color: '#6b7280', fontSize: '0.9rem', transition: 'all 0.2s'
+            color: 'var(--qz-text-sub)', fontSize: '0.9rem', transition: 'all 0.2s'
           }}
         >
           {isDetailsExpanded ? "收起详细诊断报告 ⬆️" : "点击展开详细报告 ⬇️"}
@@ -403,7 +403,7 @@ const ResultScreen = ({ answers, onRetry }) => {
             {Object.keys(DIMENSIONS).map(key => (
               <div key={key} style={{
                 background: '#fff', 
-                border: '1px solid #e5e7eb', 
+                border: '1px solid var(--qz-border)', 
                 borderRadius: '8px', 
                 padding: '1rem',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
@@ -416,7 +416,7 @@ const ResultScreen = ({ answers, onRetry }) => {
                     fontSize: '1rem'
                   }}>{scores.dimScores[key].toFixed(1)}</span>
                 </div>
-                <p style={{fontSize:'0.85rem', color:'#6b7280', margin:0, lineHeight: 1.5}}>
+                <p style={{fontSize:'0.85rem', color:'var(--qz-text-sub)', margin:0, lineHeight: 1.5}}>
                   {getFeedbackText(key, scores.dimScores[key])}
                 </p>
               </div>

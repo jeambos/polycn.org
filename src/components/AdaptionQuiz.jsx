@@ -328,7 +328,7 @@ const ResultScreen = ({ answers, onRetry }) => {
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>适应力画像</h2>
-        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>这是您的多元关系生存能力仪表盘</p>
+        <p style={{color: 'var(--qz-text-sub)', fontSize: '0.95rem'}}>这是您的多元关系生存能力仪表盘</p>
       </div>
 
       {/* 1. 总分卡片 */}

@@ -289,7 +289,7 @@ const RadarChart = ({ scores, activeDim, onDimClick }) => {
             return (
               <text key={key} x={c.x} y={c.y} textAnchor="middle" dominantBaseline="middle" 
                 onClick={() => onDimClick(key)}
-                style={{fontSize:'0.75rem', fill: isActive ? '#e69525' : '#6b7280', fontWeight: isActive ? 'bold' : 'normal', cursor: 'pointer'}}
+                style={{fontSize:'0.75rem', fill: isActive ? '#e69525' : 'var(--qz-text-sub)', fontWeight: isActive ? 'bold' : 'normal', cursor: 'pointer'}}
               >
                 {DIMENSIONS[key].name}
               </text>
@@ -301,7 +301,7 @@ const RadarChart = ({ scores, activeDim, onDimClick }) => {
       {/* 2. 雷达图下方联动标签 */}
       {activeDim && (
         <div className="radar-stat-box" style={{
-          borderColor: '#fed7aa', background: '#fff7ed', marginTop: '-1rem', textAlign: 'center'
+          borderColor: '#fed7aa', background: 'var(--qz-bg-soft)', marginTop: '-1rem', textAlign: 'center'
         }}>
           <div className="stat-name" style={{color: '#9a3412'}}>{DIMENSIONS[activeDim].name}</div>
           <div className="stat-val" style={{color: '#ea580c', fontWeight: 'bold'}}>{scores[activeDim]} 分</div>
@@ -357,7 +357,7 @@ const ResultScreen = ({ answers, onRetry }) => {
   return (
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
-        <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>你的嫉妒画像</h2>
+        <h2 style={{fontSize: '2rem', fontWeight: '900', color: 'var(--qz-text-main)'}}>你的嫉妒画像</h2>
       </div>
 
       {/* === 卡片 1: 主导原型 (黑金配色) === */}
@@ -424,7 +424,7 @@ const ResultScreen = ({ answers, onRetry }) => {
                   <p style={{color: '#374151', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '0.8rem'}}>
                     <b>您像是：</b>{getText(key, scores[key]).desc}
                   </p>
-                  <p style={{color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6}}>
+                  <p style={{color: 'var(--qz-text-sub)', fontSize: '0.9rem', lineHeight: 1.6}}>
                     <b>您可以：</b>{getText(key, scores[key]).adv}
                   </p>
                 </div>
@@ -439,9 +439,9 @@ const ResultScreen = ({ answers, onRetry }) => {
         <button 
           onClick={() => setIsDetailsExpanded(!isDetailsExpanded)}
           style={{
-            width: '100%', padding: '0.8rem', background: 'white', border: '1px solid #d1d5db', 
+            width: '100%', padding: '0.8rem', background: 'var(--qz-bg-card)', border: '1px solid var(--qz-border)', 
             borderRadius: '12px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center',
-            color: '#4b5563', fontSize: '0.95rem', fontWeight: '500', transition: 'all 0.2s',
+            color: 'var(--qz-text-main)', fontSize: '0.95rem', fontWeight: '500', transition: 'all 0.2s',
             boxShadow: '0 2px 5px rgba(0,0,0,0.05)'
           }}
         >
@@ -455,16 +455,16 @@ const ResultScreen = ({ answers, onRetry }) => {
           }}>
             {otherKeys.map(key => (
               <div key={key} style={{
-                background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '1rem'
+                background: 'var(--qz-bg-page)', border: '1px solid var(--qz-border)', borderRadius: '8px', padding: '1rem'
               }}>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem', alignItems:'center'}}>
                   <span style={{fontWeight:'bold', color:'#374151'}}>{DIMENSIONS[key].name}</span>
-                  <span style={{color: '#6b7280', fontWeight: 'bold'}}>{scores[key]} 分</span>
+                  <span style={{color: 'var(--qz-text-sub)', fontWeight: 'bold'}}>{scores[key]} 分</span>
                 </div>
-                <p style={{fontSize:'0.85rem', color:'#4b5563', margin:0, lineHeight: 1.5}}>
+                <p style={{fontSize:'0.85rem', color:'var(--qz-text-sub)', margin:0, lineHeight: 1.5}}>
                   您可能{getText(key, scores[key]).desc.toLowerCase().replace('你','')}
                   <br/>
-                  <span style={{color:'#6b7280', display:'block', marginTop:'0.4rem'}}>建议：{getText(key, scores[key]).adv}</span>
+                  <span style={{color:'var(--qz-text-sub)', display:'block', marginTop:'0.4rem'}}>建议：{getText(key, scores[key]).adv}</span>
                 </p>
               </div>
             ))}
@@ -649,12 +649,12 @@ const JealousyQuiz = () => {
                 <div key={idx} onClick={() => handlePrimarySelect(opt.dim)} className="option-item"
                   style={{
                     padding: '1rem', marginBottom: '0.8rem', cursor: 'pointer',
-                    border: '1px solid #e5e7eb', borderRadius: '8px', background: 'white',
+                    border: '1px solid var(--qz-border)', borderRadius: '8px', background: 'var(--qz-bg-card)',
                     transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.8rem'
                   }}
                 >
                   <div style={{width: '18px', height: '18px', borderRadius: '50%', border: '2px solid #d1d5db'}}></div>
-                  <span style={{fontSize: '0.95rem', color: '#4b5563'}}>{opt.text}</span>
+                  <span style={{fontSize: '0.95rem', color: 'var(--qz-text-main)'}}>{opt.text}</span>
                 </div>
               );
             }
@@ -664,11 +664,11 @@ const JealousyQuiz = () => {
                 <div key={idx} onClick={handlePrimaryDeselect} className="option-item" 
                   style={{
                     padding: '1rem', marginBottom: '0.8rem', borderRadius: '8px',
-                    background: '#e69525', color: 'white', border: 'none',
+                    background: '#e69525', color: 'var(--qz-bg-card)', border: 'none',
                     display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 1, cursor: 'pointer'
                   }}
                 >
-                  <div style={{width:'18px', height:'18px', borderRadius:'50%', background:'white', border:'4px solid #e69525'}}></div>
+                  <div style={{width:'18px', height:'18px', borderRadius:'50%', background:'var(--qz-bg-card)', border:'4px solid #e69525'}}></div>
                   <span style={{fontSize: '0.95rem', fontWeight:'bold'}}>
                     {opt.text} <span style={{fontSize:'0.8rem', opacity:0.8}}>(点击取消)</span>
                   </span>
@@ -681,8 +681,8 @@ const JealousyQuiz = () => {
                 style={{
                   padding: '1rem', marginBottom: '0.8rem', cursor: 'pointer', borderRadius: '8px',
                   border: isSecondary ? '1px solid #e69525' : '1px solid #e5e7eb',
-                  background: isSecondary ? '#fff7ed' : 'white',
-                  color: isSecondary ? '#c2410c' : '#4b5563',
+                  background: isSecondary ? '#fff7ed' : 'var(--qz-bg-card)',
+                  color: isSecondary ? '#c2410c' : 'var(--qz-text-sub)',
                   display: 'flex', alignItems: 'center', gap: '0.8rem', transition: 'all 0.2s'
                 }}
               >
@@ -691,7 +691,7 @@ const JealousyQuiz = () => {
                   border: isSecondary ? 'none' : '2px solid #d1d5db',
                   background: isSecondary ? '#e69525' : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'white', fontSize: '12px'
+                  color: 'var(--qz-bg-card)', fontSize: '12px'
                 }}>
                   {isSecondary && "✓"}
                 </div>

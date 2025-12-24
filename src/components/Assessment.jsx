@@ -207,7 +207,7 @@ const ResultScreen = ({ results, onRetry }) => {
     <div className="quiz-container animate-fade-in">
       <div className="result-header">
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>测试结果</h2>
-        <p style={{color: '#6b7280', fontSize: '0.95rem'}}>以下是您的关系倾向报告，此结果只展示一次，您可截图保存。</p>
+        <p style={{color: 'var(--qz-text-sub)', fontSize: '0.95rem'}}>以下是您的关系倾向报告，此结果只展示一次，您可截图保存。</p>
       </div>
 
       {/* 1. Best Match */}
@@ -470,3 +470,4 @@ const Assessment = () => {
 };
 
 export default Assessment;
+

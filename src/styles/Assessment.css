@@ -1389,3 +1389,94 @@
 }
 .btn-share-style { border-color: var(--qz-primary); color: var(--qz-primary); }
 .btn-retry-style { background: var(--qz-bg-page); }
+
+
+/* ==========================================================================
+   ====== 追加在 Assessment.css 末尾的内容 (夜间模式适配补丁) ======
+   ========================================================================== */
+
+/* 1. 定义一套颜色变量系统 (Theme Engine) */
+:root {
+  /* 品牌色 */
+  --qz-primary: #e69525;
+  --qz-primary-hover: #d97706;
+  --qz-primary-fg: #ffffff;
+
+  /* 背景色 */
+  --qz-bg-page: #f9fafb;   /* 浅灰底 */
+  --qz-bg-card: #ffffff;   /* 白底 */
+  --qz-bg-soft: #fff7ed;   /* 浅橙底 */
+  
+  /* 文字色 */
+  --qz-text-main: #1f2937; /* 深灰 */
+  --qz-text-sub: #4b5563;  /* 中灰 */
+  --qz-text-soft: #c2410c; /* 橙红字 */
+
+  /* 边框与装饰 */
+  --qz-border: #e5e7eb;
+}
+
+/* 2. 夜间模式覆盖 (当 data-theme='dark' 时自动生效) */
+:root[data-theme='dark'] {
+  --qz-primary: #fb923c; 
+  --qz-primary-hover: #f97316;
+  --qz-primary-fg: #18181b;
+
+  --qz-bg-page: #18181b;   /* 深黑底 */
+  --qz-bg-card: #27272a;   /* 卡片黑底 */
+  --qz-bg-soft: #431407;   /* 深棕底 */
+
+  --qz-text-main: #f4f4f5; /* 亮白字 */
+  --qz-text-sub: #a1a1aa;  /* 灰白字 */
+  --qz-text-soft: #fdba74; /* 浅橙字 */
+
+  --qz-border: #3f3f46;
+}
+
+/* 3. 强制颜色适配 (通过 !important 覆盖 JSX 中的内联样式) */
+
+/* 强制卡片背景 */
+.quiz-card, .welcome-card, .score-card, .result-header, .quiz-container {
+  background-color: var(--qz-bg-card) !important;
+  color: var(--qz-text-main) !important;
+  border-color: var(--qz-border) !important;
+}
+
+/* 强制标题和正文颜色 */
+h1, h2, h3, h4, strong, .question-text {
+  color: var(--qz-text-main) !important;
+}
+p, li, span, .intro-item {
+  color: var(--qz-text-sub); /* 这里不加 important，允许特定高亮 */
+}
+
+/* 强制选项样式适配 */
+.option-item {
+  background-color: var(--qz-bg-card) !important;
+  border-color: var(--qz-border) !important;
+  color: var(--qz-text-sub) !important;
+}
+
+/* 强制选中态 (Step 1) */
+/* 这里匹配你 JSX 里写死的橙色背景 */
+.option-item[style*="#e69525"], 
+.option-item[style*="rgb(230, 149, 37)"] {
+  background-color: var(--qz-primary) !important;
+  border-color: var(--qz-primary) !important;
+  color: var(--qz-primary-fg) !important;
+}
+
+/* 强制选中态 (Step 2) */
+/* 这里匹配你 JSX 里写死的浅色背景 */
+.option-item[style*="#fff7ed"],
+.option-item[style*="rgb(255, 247, 237)"] {
+  background-color: var(--qz-bg-soft) !important;
+  border-color: var(--qz-primary) !important;
+  color: var(--qz-text-soft) !important;
+}
+
+/* 底部固定栏适配 */
+.nav-bar-fixed, .result-actions {
+  background-color: var(--qz-bg-card) !important;
+  border-top-color: var(--qz-border) !important;
+}
