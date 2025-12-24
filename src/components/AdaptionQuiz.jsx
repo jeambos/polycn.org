@@ -411,14 +411,12 @@ const ResultScreen = ({ answers, onRetry }) => {
             className="action-card-btn btn-share-style"
           >
             <strong>分享结果</strong>
-            <span style={{fontSize:'0.85rem', color:'#6b7280'}}>生成截图</span>
           </div>
         </div>
 
         {/* Retry Button */}
         <div onClick={onRetry} className="action-card-btn btn-retry-style">
-          <strong>重新测试</strong>
-          <span style={{fontSize:'0.85rem', color:'#9ca3af'}}>清空记录</span>
+          <strong>重测本卷</strong>
         </div>
       </div>
 
@@ -426,9 +424,10 @@ const ResultScreen = ({ answers, onRetry }) => {
 
       {/* 6. Mini Nav */}
       <div className="mini-nav">
-        <a href="/" className="mini-link">回到首页</a>
-        <a href="/start" className="mini-link">开始探索</a>
+        <a href="/" className="mini-link">全站首页</a>
+        <a href="/start" className="mini-link">开始菜单</a>
         <a href="/library" className="mini-link">全部馆藏</a>
+        <a href="/wiki" className="mini-link">百科Wiki</a>
       </div>
     </div>
   );

@@ -434,14 +434,16 @@ const ResultScreen = ({ answers, onRetry }) => {
           </div>
         </div>
         <div onClick={onRetry} className="action-card-btn btn-retry-style">
-          <strong>重新测试</strong>
+          <strong>重测本卷</strong>
         </div>
       </div>
 
-      <MoreTests currentId="openornot" status="result" />
+      {/* 6. Mini Nav */}
       <div className="mini-nav">
-        <a href="/" className="mini-link">回到首页</a>
-        <a href="/assessment" className="mini-link">更多测试</a>
+        <a href="/" className="mini-link">全站首页</a>
+        <a href="/start" className="mini-link">开始菜单</a>
+        <a href="/library" className="mini-link">全部馆藏</a>
+        <a href="/wiki" className="mini-link">百科Wiki</a>
       </div>
     </div>
   );
