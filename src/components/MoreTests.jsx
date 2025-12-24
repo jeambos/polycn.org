@@ -30,9 +30,9 @@ const ALL_TESTS = [
   { 
     id: 'jealousy', 
     title: '嫉妒类型图谱', 
-    desc: '防御型嫉妒 vs 竞争型嫉妒', 
-    link: '#', 
-    isFuture: true 
+    desc: '深入探索你的嫉妒从何而来', 
+    link: '/assessment/jealousy', 
+    isFuture: false
   }
 ];
 
