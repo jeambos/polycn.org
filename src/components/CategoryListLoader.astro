@@ -14,7 +14,8 @@ const bookNameCache = new Map();
 /**
  * 读取书籍显示名称
  */
-const getBookDisplayName = (folderKey) => {
+// 加上 : string 即可
+const getBookDisplayName = (folderKey: string) => {
   if (!folderKey) return '';
   if (bookNameCache.has(folderKey)) return bookNameCache.get(folderKey);
 
