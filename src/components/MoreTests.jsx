@@ -21,6 +21,12 @@ const ALL_TESTS = [
     desc: '你的观念，是自己的，还是社会赋予的？', 
     link: '/assessment/norms' 
   },
+    { 
+    id: 'openornot', 
+    title: '开放关系准备度测试', 
+    desc: '你们的关系，能应对开放后的挑战吗？', 
+    link: '/assessment/openornot' 
+  },
   { 
     id: 'jealousy', 
     title: '嫉妒类型图谱', 

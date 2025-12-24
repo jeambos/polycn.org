@@ -79,10 +79,10 @@ const QUESTIONS = [
   { id: 40, dim: 'sex', text: "对于戴套、定期去医院检查这些事，我们俩都是那种特别怕死、特别惜命的人，绝对不会因为一时兴起就心存侥幸。" }
 ];
 
-const PAGE_BREAKS = [5, 10, 15, 20, 25, 30, 35, 40]; // 5题/页，每页对应一个维度
+const PAGE_BREAKS = [5, 10, 15, 20, 25, 30, 35, 40];
 
 // =====================================================================
-// 3. 结果反馈逻辑 (Traffic Light & Starters)
+// 3. 结果反馈逻辑
 // =====================================================================
 
 const STARTERS = {
@@ -100,7 +100,6 @@ const getFeedbackText = (dimKey, score) => {
   const isHigh = score >= 4;
   const isLow = score <= 2.5;
 
-  // 简版评语，用于展开详情
   const texts = {
     trust: {
       low: "你们的关系目前处于消耗状态，或者存在未解决的矛盾。",
@@ -175,8 +174,8 @@ const SharePopover = ({ onClose }) => (
   </div>
 );
 
-// 纯展示型雷达图 (无交互)
-const RadarChart = ({ scores }) => {
+// 雷达图 (带交互)
+const RadarChart = ({ scores, activeDim, onDimClick }) => {
   const size = 300;
   const center = size / 2;
   const radius = 100;
@@ -226,22 +225,49 @@ const RadarChart = ({ scores }) => {
             return <line key={i} x1={s.x} y1={s.y} x2={e.x} y2={e.y} stroke="#e5e7eb" strokeWidth="1" />;
           })}
           {/* 数据层 */}
-          <polygon points={points} fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" strokeWidth="2" />
+          <polygon points={points} fill="rgba(230, 149, 37, 0.2)" stroke="#e69525" strokeWidth="2" />
           {axes.map((key, i) => {
             const c = getCoordinates(scores[key] || 0, i);
-            return <circle key={i} cx={c.x} cy={c.y} r="3" fill="#10b981" />;
+            return <circle key={i} cx={c.x} cy={c.y} r="3" fill="#e69525" />;
           })}
-          {/* 标签层 */}
+          {/* 标签层 (可点击) */}
           {axes.map((key, i) => {
             const c = getLabelCoordinates(i);
+            const isActive = activeDim === key;
             return (
-              <text key={key} x={c.x} y={c.y} textAnchor="middle" dominantBaseline="middle" style={{fontSize:'0.7rem', fill:'#6b7280'}}>
+              <text 
+                key={key} x={c.x} y={c.y} 
+                textAnchor="middle" 
+                dominantBaseline="middle" 
+                onClick={() => onDimClick(key)}
+                style={{
+                  fontSize:'0.75rem', 
+                  fill: isActive ? '#e69525' : '#6b7280',
+                  fontWeight: isActive ? 'bold' : 'normal',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
                 {DIMENSIONS[key].name}
               </text>
             );
           })}
         </svg>
       </div>
+      
+      {/* 联动分数标签 (参考 NormsQuiz) */}
+      {activeDim && (
+        <div className="radar-stat-box" style={{
+          borderColor: '#fed7aa', 
+          background: '#fff7ed', 
+          marginTop: '-1rem',
+          textAlign: 'center'
+        }}>
+          <div className="stat-name" style={{color: '#9a3412'}}>{DIMENSIONS[activeDim].name}</div>
+          <div className="stat-val" style={{color: '#ea580c'}}>{scores[activeDim].toFixed(1)} / 5.0</div>
+          <div className="stat-desc" style={{color: '#c2410c', fontSize: '0.9rem'}}>{DIMENSIONS[activeDim].desc}</div>
+        </div>
+      )}
     </div>
   );
 };
@@ -249,6 +275,7 @@ const RadarChart = ({ scores }) => {
 const ResultScreen = ({ answers, onRetry }) => {
   const [showShare, setShowShare] = useState(false);
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+  const [activeDim, setActiveDim] = useState('trust'); // 默认选中第一个维度
 
   // 计算分数
   const scores = useMemo(() => {
@@ -305,9 +332,9 @@ const ResultScreen = ({ answers, onRetry }) => {
         <h2 style={{fontSize: '2rem', fontWeight: '900', color: '#1f2937'}}>评估报告</h2>
       </div>
 
-      {/* 1. 总分红绿灯卡片 */}
+      {/* 1. 总分红绿灯卡片 (深色高级感) */}
       <div className="score-card" style={{
-        background: `linear-gradient(135deg, ${currentStatus.color} 0%, ${status === 'yellow' ? '#b45309' : status === 'red' ? '#7f1d1d' : '#047857'} 100%)`,
+        background: `linear-gradient(135deg, ${currentStatus.color} 0%, ${status === 'yellow' ? '#92400e' : status === 'red' ? '#7f1d1d' : '#064e3b'} 100%)`,
         boxShadow: `0 10px 30px -10px ${currentStatus.color}66`
       }}>
         <div className="watermark">PolyCN</div>
@@ -321,7 +348,7 @@ const ResultScreen = ({ answers, onRetry }) => {
         <div className="score-comment" style={{fontSize: '1.2rem', fontWeight: 'bold', color: 'white'}}>
           {currentStatus.title}
         </div>
-        <div style={{color: 'rgba(255,255,255,0.9)', marginTop: '0.5rem', fontSize: '0.95rem'}}>
+        <div style={{color: 'rgba(255,255,255,0.85)', marginTop: '0.5rem', fontSize: '0.95rem'}}>
           {currentStatus.text}
         </div>
       </div>
@@ -340,57 +367,58 @@ const ResultScreen = ({ answers, onRetry }) => {
         </div>
       )}
 
-      {/* 3. 雷达图 */}
-      <RadarChart scores={scores.dimScores} />
+      {/* 3. 雷达图 (带交互) */}
+      <RadarChart scores={scores.dimScores} activeDim={activeDim} onDimClick={setActiveDim} />
 
       {/* 4. 今晚聊什么 */}
       <div style={{background: '#f3f4f6', padding: '1.5rem', borderRadius: '12px', margin: '2rem 0', border: '1px dashed #9ca3af'}}>
         <h3 style={{margin: '0 0 0.8rem 0', fontSize: '1.1rem', color: '#374151'}}>💬 今晚聊什么？</h3>
-        <p style={{margin: 0, color: '#4b5563', fontStyle: 'italic', lineHeight: 1.6}}>
+        <p style={{marginBottom: '0.8rem', color: '#4b5563', fontSize: '0.9rem'}}>针对本次测试出的短板，今晚你们可以坦诚讨论一下：</p>
+        <p style={{margin: 0, color: '#1f2937', fontStyle: 'italic', fontWeight: '500', lineHeight: 1.6}}>
           “{starterText}”
         </p>
       </div>
 
-      {/* 5. 详细诊断 (折叠) */}
+      {/* 5. 详细诊断 (折叠 + Grid布局) */}
       <div style={{marginBottom: '2rem'}}>
         <button 
           onClick={() => setIsDetailsExpanded(!isDetailsExpanded)}
           style={{
-            width: '100%', padding: '1rem', background: 'white', border: '1px solid #e5e7eb', 
-            borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center',
-            color: '#4b5563', fontWeight: '600'
+            width: '100%', padding: '0.6rem', background: 'transparent', border: '1px solid #d1d5db', 
+            borderRadius: '99px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center',
+            color: '#6b7280', fontSize: '0.9rem', transition: 'all 0.2s'
           }}
         >
-          {isDetailsExpanded ? "收起详细诊断报告 ⬆️" : "展开详细诊断报告 ⬇️"}
+          {isDetailsExpanded ? "收起详细诊断报告 ⬆️" : "点击展开详细报告 ⬇️"}
         </button>
         
         {isDetailsExpanded && (
-          <div className="animate-fade-in" style={{marginTop: '1rem'}}>
-            <h4 style={{margin: '1.5rem 0 1rem', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem'}}>A. 关系内功组</h4>
-            {['trust', 'comms', 'values', 'resilience'].map(key => (
-              <div key={key} style={{marginBottom: '1rem'}}>
-                <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.3rem'}}>
-                  <span style={{fontWeight:'bold', color:'#374151'}}>{DIMENSIONS[key].name}</span>
+          <div className="animate-fade-in" style={{
+            marginTop: '1.5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // 响应式 Grid：电脑双栏，手机单栏
+            gap: '0.8rem'
+          }}>
+            {/* 平铺所有8个维度 */}
+            {Object.keys(DIMENSIONS).map(key => (
+              <div key={key} style={{
+                background: '#fff', 
+                border: '1px solid #e5e7eb', 
+                borderRadius: '8px', 
+                padding: '1rem',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+              }}>
+                <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem', alignItems:'center'}}>
+                  <span style={{fontWeight:'bold', color:'#374151', fontSize:'0.95rem'}}>{DIMENSIONS[key].name}</span>
                   <span style={{
                     color: scores.dimScores[key] < 3 ? '#ef4444' : scores.dimScores[key] >= 4 ? '#10b981' : '#f59e0b',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    fontSize: '1rem'
                   }}>{scores.dimScores[key].toFixed(1)}</span>
                 </div>
-                <p style={{fontSize:'0.9rem', color:'#6b7280', margin:0}}>{getFeedbackText(key, scores.dimScores[key])}</p>
-              </div>
-            ))}
-
-            <h4 style={{margin: '2rem 0 1rem', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem'}}>B. 现实红线组</h4>
-            {['indep', 'reality', 'equality', 'sex'].map(key => (
-              <div key={key} style={{marginBottom: '1rem'}}>
-                <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.3rem'}}>
-                  <span style={{fontWeight:'bold', color:'#374151'}}>{DIMENSIONS[key].name}</span>
-                  <span style={{
-                    color: scores.dimScores[key] < 3 ? '#ef4444' : scores.dimScores[key] >= 4 ? '#10b981' : '#f59e0b',
-                    fontWeight: 'bold'
-                  }}>{scores.dimScores[key].toFixed(1)}</span>
-                </div>
-                <p style={{fontSize:'0.9rem', color:'#6b7280', margin:0}}>{getFeedbackText(key, scores.dimScores[key])}</p>
+                <p style={{fontSize:'0.85rem', color:'#6b7280', margin:0, lineHeight: 1.5}}>
+                  {getFeedbackText(key, scores.dimScores[key])}
+                </p>
               </div>
             ))}
           </div>
@@ -483,7 +511,7 @@ const OpenOrNot = () => {
     <div className="quiz-container animate-fade-in">
       <div className="progress-container">
         <div className="progress-track">
-          <div className="progress-fill" style={{ width: `${progress}%`, background: '#10b981' }}></div>
+          <div className="progress-fill" style={{ width: `${progress}%`, background: '#e69525' }}></div>
         </div>
       </div>
 
@@ -499,8 +527,9 @@ const OpenOrNot = () => {
                   className={`dot-btn ${answers[q.id] === val ? 'selected' : ''}`}
                 >
                   <div className={`dot-circle dot-size-${val} dot-color-${val}`} style={{
-                    borderColor: '#10b981', // 使用绿色系区分
-                    backgroundColor: answers[q.id] === val ? '#10b981' : 'transparent'
+                    // 修正：使用橙色系 (落日橙)
+                    borderColor: '#e69525', 
+                    backgroundColor: answers[q.id] === val ? '#e69525' : 'transparent'
                   }}></div>
                 </button>
               ))}
@@ -520,7 +549,7 @@ const OpenOrNot = () => {
 
       <div className="nav-actions">
         {pageIndex > 0 && <button onClick={handlePrev} className="btn-prev">上一页</button>}
-        <button onClick={handleNext} className={`btn-next ${shakeBtn ? 'animate-shake' : ''}`} style={{backgroundColor: '#059669'}}>
+        <button onClick={handleNext} className={`btn-next ${shakeBtn ? 'animate-shake' : ''}`} style={{backgroundColor: '#e69525'}}>
           {pageIndex < PAGE_BREAKS.length - 1 ? "下一页" : "查看结果"}
         </button>
       </div>
