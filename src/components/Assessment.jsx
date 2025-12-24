@@ -279,7 +279,7 @@ const ResultScreen = ({ results, onRetry }) => {
       {/* 4. Actions (Grid布局) */}
       <div className="result-actions">
         {/* Share Button with Popover */}
-        <div style={{position: 'relative', width: '100%'}}>
+        <div style={{position: 'relative', width: '65%'}}>
           {showShare && <SharePopover onClose={() => setShowShare(false)} />}
           <div 
             onClick={() => setShowShare(true)} 
