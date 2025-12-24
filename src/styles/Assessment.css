@@ -1030,3 +1030,362 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* src/styles/Assessment.css */
+
+/* ==========================================================================
+   1. 变量定义 (Design Tokens)
+   ========================================================================== */
+:root {
+  /* 品牌色 - 落日橙 */
+  --qz-primary: #e69525;
+  --qz-primary-hover: #d97706;
+  --qz-primary-text: #ffffff; /* 深色背景上的文字 */
+
+  /* 状态色 - 浅色背景 (用于 Step 2 选中 / 提示条) */
+  --qz-bg-soft: #fff7ed;
+  --qz-text-soft: #c2410c;
+  --qz-border-soft: #fed7aa;
+
+  /* 基础颜色 */
+  --qz-bg-card: #ffffff;
+  --qz-bg-page: #f9fafb;
+  --qz-text-main: #374151;
+  --qz-text-sub: #6b7280;
+  --qz-border: #e5e7eb;
+  
+  /* 阴影 */
+  --qz-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --qz-shadow-hover: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* --- 夜间模式适配 (Dark Mode) --- */
+:root[data-theme='dark'] {
+  --qz-primary: #f97316; /* 夜间稍微亮一点的橙 */
+  --qz-primary-hover: #ea580c;
+  
+  --qz-bg-soft: #431407; /* 深棕色背景 */
+  --qz-text-soft: #fdba74; /* 浅橙色文字 */
+  --qz-border-soft: #7c2d12;
+
+  --qz-bg-card: #18181b; /* Zinc-900 */
+  --qz-bg-page: #27272a;
+  --qz-text-main: #f4f4f5;
+  --qz-text-sub: #a1a1aa;
+  --qz-border: #3f3f46;
+}
+
+/* ==========================================================================
+   2. 基础容器与动画
+   ========================================================================== */
+.quiz-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  font-family: var(--sl-font-system); /* 复用 Starlight 字体变量 */
+  color: var(--qz-text-main);
+  position: relative;
+  /* 清除 Starlight 默认间距 */
+  --sl-content-gap-y: 0px !important; 
+  margin-top: 0 !important;
+}
+
+.quiz-container * {
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.animate-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* ==========================================================================
+   3. 进度条 (Progress Bar)
+   ========================================================================== */
+.progress-container {
+  width: 100%;
+  padding: 0 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--qz-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background-color: var(--qz-primary);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* ==========================================================================
+   4. 答题卡片 (Question Card)
+   ========================================================================== */
+.quiz-card {
+  background: var(--qz-bg-card);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--qz-shadow);
+  border: 1px solid var(--qz-border);
+  margin-bottom: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.quiz-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--qz-primary);
+  margin-bottom: 0.8rem;
+}
+
+.quiz-scenario {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: var(--qz-text-main);
+}
+
+/* --- 步骤提示条 --- */
+.step-hint {
+  background: var(--qz-bg-soft);
+  color: var(--qz-text-soft);
+  border: 1px solid var(--qz-border-soft);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
+   5. 选项样式 (Options) - 核心交互部分
+   ========================================================================== */
+.option-item {
+  display: flex;
+  align-items: flex-start; /* 对齐顶部，防止多行文字错位 */
+  gap: 0.8rem;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--qz-border);
+  background: var(--qz-bg-card);
+  color: var(--qz-text-sub);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-item:hover {
+  border-color: var(--qz-primary);
+  background: var(--qz-bg-page);
+}
+
+/* 选项左侧图标容器 */
+.option-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px; /* 视觉微调对齐 */
+  border-radius: 50%;
+  border: 2px solid var(--qz-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+}
+
+.option-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--qz-text-main);
+}
+
+/* --- 状态：Step 1 选中 (最符合) --- */
+.option-item.is-primary {
+  background: var(--qz-primary);
+  border-color: var(--qz-primary);
+  color: var(--qz-primary-text);
+  opacity: 1 !important;
+}
+.option-item.is-primary .option-icon {
+  background: var(--qz-bg-card); /* 白色圆点 */
+  border-color: var(--qz-bg-card);
+}
+.option-item.is-primary .option-text {
+  color: var(--qz-primary-text);
+  font-weight: 700;
+}
+.option-tip {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+/* --- 状态：Step 2 选中 (也符合) --- */
+.option-item.is-secondary {
+  background: var(--qz-bg-soft);
+  border-color: var(--qz-primary);
+  color: var(--qz-text-soft);
+}
+.option-item.is-secondary .option-icon {
+  background: var(--qz-primary);
+  border: none;
+  border-radius: 4px; /* 方形打钩 */
+}
+.option-item.is-secondary .option-text {
+  color: var(--qz-text-soft);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   6. 底部导航与操作
+   ========================================================================== */
+.nav-bar-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--qz-bg-card);
+  border-top: 1px solid var(--qz-border);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-bar-inner {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-skip {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--qz-border);
+  background: var(--qz-bg-page);
+  color: var(--qz-text-sub);
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-skip:hover {
+  background: var(--qz-border);
+}
+
+.btn-next, .btn-prev, .action-card-btn {
+  /* 复用原有样式逻辑，但建议统一用变量 */
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.1s;
+}
+.btn-next {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--qz-primary);
+  color: white;
+}
+.btn-next:disabled {
+  background: var(--qz-border);
+  cursor: not-allowed;
+}
+.btn-prev {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  color: var(--qz-text-sub);
+  border: 1px solid var(--qz-border);
+}
+
+/* ==========================================================================
+   7. 结果页 (Result Screen)
+   ========================================================================== */
+.result-header h2 {
+  color: var(--qz-text-main);
+  margin-bottom: 1.5rem;
+}
+
+/* 主导原型卡片 - 黑金风格 (Hardcoded for high contrast) */
+.card-dominant {
+  background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+  border: 1px solid #3f3f46;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.card-dominant .highlight { color: #fbbf24; font-weight: bold; }
+.card-dominant .text { color: #d4d4d8; font-size: 0.95rem; line-height: 1.6; }
+
+/* 次要原型卡片 */
+.card-secondary {
+  background: var(--qz-bg-card);
+  border: 2px solid var(--qz-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--qz-shadow);
+}
+
+/* 其他维度 Grid */
+.grid-others {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.card-other {
+  background: var(--qz-bg-page);
+  border: 1px solid var(--qz-border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* 展开按钮 */
+.btn-expand {
+  width: 100%;
+  padding: 0.6rem;
+  background: transparent;
+  border: 1px solid var(--qz-border);
+  border-radius: 99px;
+  color: var(--qz-text-sub);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-expand:hover {
+  border-color: var(--qz-primary);
+  color: var(--qz-primary);
+}
+
+/* 分享/重测按钮组 */
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.action-card-btn {
+  flex: 1;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 12px;
+  background: var(--qz-bg-card);
+  border: 1px solid var(--qz-border);
+  color: var(--qz-text-main);
+  box-shadow: var(--qz-shadow);
+}
+.btn-share-style { border-color: var(--qz-primary); color: var(--qz-primary); }
+.btn-retry-style { background: var(--qz-bg-page); }
