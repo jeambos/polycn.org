@@ -1,0 +1,167 @@
+/* src/styles/Quiz.css */
+
+/* ==========================================================================
+   1. Design Tokens (CSS Variables)
+   ========================================================================== */
+:root {
+  /* --- 调色板 --- */
+  --qz-primary: #e69525;         /* 日间主色 (落日橙) */
+  --qz-primary-hover: #d97706;
+  --qz-primary-fg: #ffffff;      /* 主色背景上的文字 */
+
+  --qz-bg-page: #f9fafb;         /* 页面底色 */
+  --qz-bg-card: #ffffff;         /* 卡片底色 */
+  --qz-bg-soft: #fff7ed;         /* 浅色背景 (选中态) */
+  --qz-bg-input: #ffffff;
+  
+  --qz-text-main: #1f2937;       /* 主要文字 */
+  --qz-text-sub: #4b5563;        /* 次要文字 */
+  --qz-text-soft: #c2410c;       /* 浅色背景上的彩色文字 */
+  
+  --qz-border: #e5e7eb;
+  
+  /* --- 形状与间距 --- */
+  --qz-radius-card: 16px;
+  --qz-radius-btn: 99px;
+  --qz-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --qz-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* --- 动画 --- */
+  --qz-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🌑 夜间模式适配 */
+:root[data-theme='dark'] {
+  --qz-primary: #fb923c;         /* 夜间提亮 */
+  --qz-primary-hover: #f97316;
+  --qz-primary-fg: #18181b;
+
+  --qz-bg-page: #18181b;         /* 深黑底 */
+  --qz-bg-card: #27272a;         /* 次黑底 */
+  --qz-bg-soft: #431407;         /* 深棕底 */
+  
+  --qz-text-main: #f4f4f5;
+  --qz-text-sub: #a1a1aa;
+  --qz-text-soft: #fdba74;
+
+  --qz-border: #3f3f46;
+  --qz-shadow: none;             /* 夜间去阴影 */
+  /* 夜间卡片加个边框代偿阴影 */
+  --qz-card-border: 1px solid #3f3f46; 
+}
+
+/* ==========================================================================
+   2. 原子类 (Utility Classes)
+   ========================================================================== */
+
+/* 容器 */
+.qz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--qz-text-main);
+}
+
+/* 卡片 */
+.qz-card {
+  background-color: var(--qz-bg-card);
+  border-radius: var(--qz-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--qz-shadow);
+  border: 1px solid var(--qz-border);
+  margin-bottom: 1.5rem;
+  transition: var(--qz-transition);
+}
+:root[data-theme='dark'] .qz-card {
+  border: var(--qz-card-border);
+}
+
+/* 标题 */
+.qz-heading-xl {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--qz-text-main);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+.qz-heading-lg {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--qz-text-main);
+  margin-bottom: 1rem;
+}
+.qz-text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--qz-text-sub);
+}
+
+/* 按钮 - 主色 */
+.qz-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--qz-primary);
+  color: var(--qz-primary-fg);
+  border: none;
+  border-radius: var(--qz-radius-btn);
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--qz-transition);
+}
+.qz-btn-primary:hover:not(:disabled) {
+  background-color: var(--qz-primary-hover);
+  transform: translateY(-1px);
+}
+.qz-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+/* 按钮 - 次要/描边 */
+.qz-btn-outline {
+  background: transparent;
+  border: 1px solid var(--qz-border);
+  color: var(--qz-text-sub);
+  border-radius: var(--qz-radius-btn);
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--qz-transition);
+}
+.qz-btn-outline:hover {
+  border-color: var(--qz-text-sub);
+  color: var(--qz-text-main);
+}
+
+/* 进度条 */
+.qz-progress-track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--qz-border);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.qz-progress-fill {
+  height: 100%;
+  background-color: var(--qz-primary);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* 动画工具 */
+.qz-fade-in { animation: qzFadeIn 0.5s ease-out; }
+@keyframes qzFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.qz-shake { animation: qzShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes qzShake { 
+  0%, 100% { transform: translateX(0); } 
+  25% { transform: translateX(-5px); } 
+  75% { transform: translateX(5px); } 
+}
