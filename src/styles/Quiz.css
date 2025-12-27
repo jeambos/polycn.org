@@ -4,6 +4,13 @@
    1. Design Tokens
    ========================================================================== */
 :root {
+
+  /* 1. 字体修改：使用全站统一的高级衬线体 (Serif) */
+  --qz-heading-font: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "Georgia", serif;
+  
+  /* 保留正文为易读的无衬线体 */
+  --qz-body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
   /* --- 调色板 --- */
   --qz-primary: #e69525;
   --qz-primary-hover: #d97706;
@@ -58,7 +65,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 1.5rem 1rem; /* 稍微减小页面边距 */
-  font-family: var(--qz-font-family);
+  font-family: var(--qz-body-font); /* 正文默认 */
   color: var(--qz-text-main);
   line-height: var(--qz-line-height);
 }
@@ -72,6 +79,13 @@
 }
 
 /* 卡片 */
+
+/* 标题专用字体 */
+.qz-heading-xl, .qz-heading-lg, .quiz-title {
+  font-family: var(--qz-heading-font) !important;
+  /* ... 其他样式保持不变 ... */
+}
+
 .qz-card {
   background-color: var(--qz-bg-card);
   border-radius: var(--qz-radius-card);
@@ -87,18 +101,22 @@
 
 /* 标题 */
 .qz-heading-xl {
-  font-size: 1.8rem;
-  font-weight: 900;
+  font-size: 2.5rem; /* 稍微加大 */
+  font-weight: 900;  /* 移植：极粗字重 */
   color: var(--qz-text-main);
-  margin-bottom: 1.2rem !important; /* 强制覆盖 */
-  line-height: 1.2;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.1;
+  letter-spacing: -0.02em; /* 移植：负字间距，紧凑感来源 */
 }
+
 .qz-heading-lg {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 700; /* 保持粗体 */
   color: var(--qz-text-main);
-  margin-bottom: 1rem !important;
+  margin-bottom: 1.2rem !important;
+  letter-spacing: -0.01em; /* 轻微负间距 */
 }
+
 .qz-text-body {
   font-size: 1rem;
   color: var(--qz-text-sub);
@@ -109,20 +127,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--qz-primary);
-  color: var(--qz-primary-fg);
+  
+  /* 移植：渐变色设计 (亮橙 -> 深橙) */
+  background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+  color: white; /* 渐变背景配白字 */
+  
   border: none;
   border-radius: var(--qz-radius-btn);
-  padding: 0.7rem 2rem; /* 稍微紧凑一点 */
-  font-size: 1rem;
-  font-weight: 700;
+  padding: 0.8rem 2.5rem; /* 加宽一点 */
+  font-size: 1.1rem;
+  font-weight: 800; /* 字体加粗 */
   cursor: pointer;
-  font-family: var(--qz-font-family); /* 按钮也用宋体 */
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3); /* 移植：漂亮的橙色投影 */
+  transition: all 0.2s ease;
 }
+
 .qz-btn-primary:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  /* 悬停时稍微调深渐变或位移 */
+  background: linear-gradient(135deg, #f59e0b 0%, #c2410c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.4);
 }
 .qz-btn-primary:disabled {
   opacity: 0.5;

@@ -9,39 +9,73 @@ import '../../../styles/Quiz.css';
  * @param {string} id - DOM ID，用于锚点滚动
  */
 const QuestionCard = ({ question, value, onChange, id }) => {
+
+
+  const DOT_COLORS = {
+    1: '#fbbf24', // 黄色 (完全不符合)
+    2: '#fb923c', // 橙色
+    3: '#f472b6', // 粉色 (中立)
+    4: '#a78bfa', // 浅紫
+    5: '#7c3aed'  // 深紫 (完全符合)
+  };
   
   // 渲染五点量表 (Scale)
   const renderScale = () => (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '400px', margin: '0 auto', height: '60px' }}>
-        {[1, 2, 3, 4, 5].map((val) => (
-          <button
-            key={val}
-            onClick={() => onChange(val)}
-            className="qz-scale-btn" // 方便 CSS 选中（如果需要）
-            style={{
-              background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: '48px', height: '48px'
-            }}
-          >
-            <div style={{
-              width: val === 3 ? '24px' : val === 1 || val === 5 ? '36px' : '28px',
-              height: val === 3 ? '24px' : val === 1 || val === 5 ? '36px' : '28px',
-              borderRadius: '50%',
-              border: '2px solid',
-              // 选中态逻辑：只改变样式，不处理跳转
-              borderColor: value === val ? 'var(--qz-primary)' : 'var(--qz-border)',
-              backgroundColor: value === val ? 'var(--qz-primary)' : 'transparent',
-              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-              transform: value === val ? 'scale(1.1)' : 'scale(1)'
-            }} />
-          </button>
-        ))}
+        {[1, 2, 3, 4, 5].map((val) => {
+          const isActive = value === val;
+          const myColor = DOT_COLORS[val];
+          
+
+          
+
+          return (
+            <button
+              key={val}
+              onClick={() => onChange(val)}
+              className="qz-scale-btn"
+              style={{
+                background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '48px', height: '48px'
+              }}
+            >
+              <div style={{
+                // 尺寸逻辑：两端大(32px)，中间小
+                width: val === 3 ? '20px' : (val === 1 || val === 5 ? '32px' : '24px'),
+                height: val === 3 ? '20px' : (val === 1 || val === 5 ? '32px' : '24px'),
+                borderRadius: '50%',
+                // 边框逻辑：始终显示彩圈，宽度随尺寸变化
+                borderWidth: val === 3 ? '2px' : '3px',
+                borderStyle: 'solid',
+                borderColor: myColor, 
+                // 背景逻辑：选中时填充颜色，未选中透明
+                backgroundColor: isActive ? myColor : 'transparent',
+                // 动画与变换
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: isActive ? 'scale(1.15)' : 'scale(1)'
+              }} />
+            </button>
+          );
+        })}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '400px', margin: '0.5rem auto 0', fontSize: '0.75rem', color: 'var(--qz-text-sub)' }}>
-        <span>完全<br/>不符合</span>
-        <span>完全<br/>符合</span>
+      {/* 辅助文字：5点全配文 */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        maxWidth: '420px', // 稍微加宽一点以容纳文字
+        margin: '0.5rem auto 0', 
+        fontSize: '0.75rem', 
+        color: 'var(--qz-text-sub)',
+        textAlign: 'center',
+        lineHeight: 1.4
+      }}>
+        <div style={{ width: '18%', marginTop: '0rem' }}>完全<br/>不符合</div>
+        <div style={{ width: '18%', marginTop: '0rem' }}>不太<br/>符合</div>
+        <div style={{ width: '18%', marginTop: '0rem' }}>中立<br/>说不清</div>
+        <div style={{ width: '18%', marginTop: '0rem' }}>基本<br/>符合</div>
+        <div style={{ width: '18%', marginTop: '0rem' }}>完全<br/>符合</div>
       </div>
     </div>
   );
