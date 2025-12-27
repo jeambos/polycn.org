@@ -72,24 +72,32 @@ const QuizPager = ({
   // ------------------------------------------------
   // 答题处理
   // ------------------------------------------------
+  // ------------------------------------------------
+  // 答题处理
+  // ------------------------------------------------
   const handleAnswer = (qId, val) => {
+    // 1. 更新答案状态
     setAnswers(prev => ({ ...prev, [qId]: val }));
 
-    // 逻辑 B (需求2): 做题后，出现在下一题下方（即使中间有跳过）
+    // 2. 逻辑 B (修复版): 做题后，智能跳过已答题目
     const currentQIndex = visibleQuestions.findIndex(q => q.id === qId);
-    const nextQ = visibleQuestions[currentQIndex + 1];
+    
+    // 从当前题目的【下一题】开始，向后查找第一个【在 answers 里没有值】的题目
+    // 注意：此时 answers 变量还是旧闭包中的值，但这不影响查找“后续”题目
+    const nextUnansweredQ = visibleQuestions
+      .slice(currentQIndex + 1)
+      .find(q => answers[q.id] === undefined);
 
-    if (nextQ) {
-      // 如果有下一题，标签移过去
-      setActiveLabelId(nextQ.id);
+    if (nextUnansweredQ) {
+      // 场景 1: 后面还有没写的题 -> 标签移过去，屏幕滚过去
+      setActiveLabelId(nextUnansweredQ.id);
       
-      // 列表模式下自动滚动
       if (mode === 'list') {
-        setTimeout(() => scrollToNextUnansweredOrButton(nextQ.id), 300);
+        setTimeout(() => scrollToNextUnansweredOrButton(nextUnansweredQ.id), 300);
       }
     } else {
-      // 如果是本页最后一题，标签保持不动 (满足需求3)
-      // 并且滚动到下一页按钮
+      // 场景 2: 本页后续题目都写完了 -> 滚到底部按钮
+      // 此时 activeLabelId 保持在当前题即可，或者不做处理
       if (mode === 'list') {
         setTimeout(() => scrollToNextUnansweredOrButton(null), 300);
       }
