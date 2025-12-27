@@ -61,7 +61,7 @@ const QuestionCard = ({ question, value, onChange, id, showScaleLabels }) => {
       
       {/* ✅ 2. 辅助文字：根据 showScaleLabels 控制显隐 */}
       {showScaleLabels && (
-        <div className="qz-fade-in" style={{ 
+        <div className="qz-fade-in qz-scale-labels" style={{
           display: 'flex', 
           justifyContent: 'space-between', 
           maxWidth: '420px', 

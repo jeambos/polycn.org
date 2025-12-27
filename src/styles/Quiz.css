@@ -194,3 +194,9 @@
 
 .qz-shake { animation: qzShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes qzShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* 强制清除五点量表文字的默认间距 */
+.qz-scale-labels > div {
+  margin-top: 0 !important;
+}
+
