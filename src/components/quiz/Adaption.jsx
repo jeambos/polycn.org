@@ -10,14 +10,14 @@ import { ScoreCard, ResultAnalysis, ResultActions } from './ui/ResultDashboard';
 // =====================================================================
 
 const DIMENSIONS = {
-  comms: { name: "高难度沟通", desc: "面对羞耻或恐惧时坦诚表达的能力" },
-  resilience: { name: "情绪韧性", desc: "自我安抚与消化负面情绪的能力" },
-  boundaries: { name: "边界维护", desc: "清楚底线并坚定拒绝的能力" },
-  conflict: { name: "冲突修复", desc: "从对抗模式切换回合作模式的能力" },
-  bandwidth: { name: "情感带宽", desc: "同时滋养多段关系的心力储备" },
-  decondition: { name: "去规训化", desc: "摆脱主流恋爱剧本的思维弹性" },
-  resource: { name: "资源统筹", desc: "对时间与精力的理性规划能力" },
-  autonomy: { name: "独处与自主", desc: "精神独立与享受独处的能力" }
+  communication: { name: "坦诚沟通", desc: "面对羞耻或恐惧时，依然能真实表达想法与感受的能力" },
+  regulation: { name: "情绪调节", desc: "觉察自身情绪波动，并以建设性方式进行自我安抚与消化的能力" },
+  boundaries: { name: "守卫底线", desc: "清晰界定自我边界，并在被侵犯时能坚定维护、不因讨好而退让" },
+  conflict: { name: "化解冲突", desc: "在分歧中寻求共识，将对抗转化为理解，修复关系裂痕的能力" },
+  bandwidth: { name: "情感带宽", desc: "承载他人情绪、提供支持以及应对关系中复杂情感流动的心理容量" },
+  deconditioning: { name: "去规训化", desc: "识别并剥离主流社会既定脚本的束缚，摆脱无意识的顺从" },
+  energy: { name: "精力分配", desc: "调动精神能量以处理生活杂务、解决实际问题并维持秩序的能力" },
+  independence: { name: "精神独立", desc: "建立内在评价体系，不依赖外界认可作为自我价值来源的稳固状态" }
 };
 
 const getAdvice = (dimKey, score) => {
