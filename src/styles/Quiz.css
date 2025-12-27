@@ -111,10 +111,10 @@
 
 .qz-heading-lg {
   font-size: 1.35rem;
-  font-weight: 700; /* 保持粗体 */
+  font-weight: 600; /* 保持粗体 */
   color: var(--qz-text-main);
   margin-bottom: 1.2rem !important;
-  letter-spacing: -0.01em; /* 轻微负间距 */
+  letter-spacing: 0em; /* 轻微负间距 */
 }
 
 .qz-text-body {

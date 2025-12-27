@@ -4,11 +4,6 @@ import QuestionCard from './QuestionCard';
 
 /**
  * 问卷分页与逻辑控制器
- * @param {Array} questions - 题目数组
- * @param {function} onFinish - 完成回调 (answers) => void
- * @param {string} mode - 'list'(默认) | 'single'
- * @param {number} perPage - 列表模式下每页题目数 (默认10)
- * @param {function} getNextQuestionId - (选填) 单题模式下的跳转逻辑 (currentId, answer) => nextId
  */
 const QuizPager = ({ 
   questions, 
@@ -19,123 +14,11 @@ const QuizPager = ({
 }) => {
   const [answers, setAnswers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0); // list: 页码; single: 题号
-  const [history, setHistory] = useState([]); // single: 历史栈(用于回退)
+  const [history, setHistory] = useState([]); // single: 历史栈
   const [shakeBtn, setShakeBtn] = useState(false);
-
-  // ------------------------------------------------
-  // 滚动辅助函数
-  // ------------------------------------------------
-  const scrollToId = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
-
-  const scrollToNextUnansweredOrButton = (currentQId, currentQs) => {
-    // 1. 找当前页里，位于当前题之后的第一个空题
-    const currentIndexInPage = currentQs.findIndex(q => q.id === currentQId);
-    const nextUnanswered = currentQs.slice(currentIndexInPage + 1).find(q => answers[q.id] === undefined);
-    
-    if (nextUnanswered) {
-      scrollToId(`q-${nextUnanswered.id}`);
-    } else {
-      // 2. 如果都做完了，滚动到下一页按钮
-      scrollToId('qz-next-btn');
-    }
-  };
-
-  // ------------------------------------------------
-  // 答题处理
-  // ------------------------------------------------
-  const handleAnswer = (qId, val, currentQs) => {
-    setAnswers(prev => {
-      const newAnswers = { ...prev, [qId]: val };
-      return newAnswers;
-    });
-
-    // 仅在列表模式下触发自动滚动
-    if (mode === 'list') {
-      // 稍微延迟一点，让用户看到选中效果
-      setTimeout(() => {
-        scrollToNextUnansweredOrButton(qId, currentQs);
-      }, 300);
-    }
-  };
-
-  // ------------------------------------------------
-  // 导航逻辑：下一页 / 下一题
-  // ------------------------------------------------
-  const handleNext = () => {
-    // 1. 校验逻辑
-    let currentQs = [];
-    if (mode === 'list') {
-      const start = currentIndex * perPage;
-      currentQs = questions.slice(start, start + perPage);
-    } else {
-      currentQs = [questions[currentIndex]]; // 单题模式
-    }
-
-    const firstUnanswered = currentQs.find(q => answers[q.id] === undefined);
-
-    if (firstUnanswered) {
-      setShakeBtn(true);
-      setTimeout(() => setShakeBtn(false), 500);
-      scrollToId(`q-${firstUnanswered.id}`); // 滚到没做的那题
-      return;
-    }
-
-    // 2. 跳转逻辑
-    if (mode === 'list') {
-      // List Mode: 简单翻页
-      const totalPages = Math.ceil(questions.length / perPage);
-      if (currentIndex < totalPages - 1) {
-        setCurrentIndex(prev => prev + 1);
-        window.scrollTo(0, 0);
-      } else {
-        onFinish(answers);
-      }
-    } else {
-      // Single Mode: 支持条件跳转
-      const currentQ = questions[currentIndex];
-      const nextId = getNextQuestionId ? getNextQuestionId(currentQ.id, answers[currentQ.id]) : null;
-      
-      let nextIndex = -1;
-      if (nextId) {
-        nextIndex = questions.findIndex(q => q.id === nextId);
-      } else {
-        nextIndex = currentIndex + 1;
-      }
-
-      if (nextIndex < questions.length && nextIndex !== -1) {
-        setHistory(prev => [...prev, currentIndex]); // 入栈
-        setCurrentIndex(nextIndex);
-        window.scrollTo(0, 0);
-      } else {
-        onFinish(answers);
-      }
-    }
-  };
-
-  // ------------------------------------------------
-  // 导航逻辑：上一页 / 上一题
-  // ------------------------------------------------
-  const handlePrev = () => {
-    if (mode === 'list') {
-      if (currentIndex > 0) {
-        setCurrentIndex(prev => prev - 1);
-        window.scrollTo(0, 0);
-      }
-    } else {
-      if (history.length > 0) {
-        const prevIndex = history[history.length - 1];
-        setHistory(prev => prev.slice(0, -1)); // 出栈
-        setCurrentIndex(prevIndex);
-        window.scrollTo(0, 0);
-      } else if (currentIndex > 0) {
-        // Fallback if no history (linear)
-        setCurrentIndex(prev => prev - 1);
-      }
-    }
-  };
+  
+  // ✅ 新增：专门控制辅助文字显示在哪一题
+  const [activeLabelId, setActiveLabelId] = useState(null);
 
   // ------------------------------------------------
   // 渲染计算
@@ -149,23 +32,149 @@ const QuizPager = ({
     }
   }, [questions, currentIndex, mode, perPage]);
 
-  // 进度条计算
+  // ------------------------------------------------
+  // 逻辑 A: 页面加载/切换时，定位到第一个未作答
+  // ------------------------------------------------
+  useEffect(() => {
+    // 找本页第一个没做的
+    const firstUnanswered = visibleQuestions.find(q => answers[q.id] === undefined);
+    
+    if (firstUnanswered) {
+      setActiveLabelId(firstUnanswered.id);
+    } else {
+      // 需求3: 如果都做完了(找不到unanswer)，不要清空，停留在本页最后一题
+      // 这样能保持高度，防止布局塌缩
+      if (visibleQuestions.length > 0) {
+        setActiveLabelId(visibleQuestions[visibleQuestions.length - 1].id);
+      }
+    }
+    // 注意：这里依赖 visibleQuestions 变化（翻页时触发），而不依赖 answers
+    // 这样答题时不会强制跳回“第一个未作答”
+  }, [visibleQuestions]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ------------------------------------------------
+  // 滚动辅助
+  // ------------------------------------------------
+  const scrollToId = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const scrollToNextUnansweredOrButton = (targetId) => {
+    // 这里的 targetId 是我们要去的那一题
+    if (targetId) {
+      scrollToId(`q-${targetId}`);
+    } else {
+      scrollToId('qz-next-btn');
+    }
+  };
+
+  // ------------------------------------------------
+  // 答题处理
+  // ------------------------------------------------
+  const handleAnswer = (qId, val) => {
+    setAnswers(prev => ({ ...prev, [qId]: val }));
+
+    // 逻辑 B (需求2): 做题后，出现在下一题下方（即使中间有跳过）
+    const currentQIndex = visibleQuestions.findIndex(q => q.id === qId);
+    const nextQ = visibleQuestions[currentQIndex + 1];
+
+    if (nextQ) {
+      // 如果有下一题，标签移过去
+      setActiveLabelId(nextQ.id);
+      
+      // 列表模式下自动滚动
+      if (mode === 'list') {
+        setTimeout(() => scrollToNextUnansweredOrButton(nextQ.id), 300);
+      }
+    } else {
+      // 如果是本页最后一题，标签保持不动 (满足需求3)
+      // 并且滚动到下一页按钮
+      if (mode === 'list') {
+        setTimeout(() => scrollToNextUnansweredOrButton(null), 300);
+      }
+    }
+  };
+
+  // ------------------------------------------------
+  // 导航逻辑
+  // ------------------------------------------------
+  const handleNext = () => {
+    // 逻辑 C (需求1): 提交答案(点击下一页)时，如果校验失败，回到第一个未作答
+    const firstUnanswered = visibleQuestions.find(q => answers[q.id] === undefined);
+
+    if (firstUnanswered) {
+      setShakeBtn(true);
+      setTimeout(() => setShakeBtn(false), 500);
+      
+      // 核心：不仅滚动，标签也要移过去，提示用户“这里没填”
+      setActiveLabelId(firstUnanswered.id);
+      scrollToId(`q-${firstUnanswered.id}`);
+      return;
+    }
+
+    // --- 翻页逻辑 ---
+    if (mode === 'list') {
+      const totalPages = Math.ceil(questions.length / perPage);
+      if (currentIndex < totalPages - 1) {
+        setCurrentIndex(prev => prev + 1);
+        window.scrollTo(0, 0);
+      } else {
+        onFinish(answers);
+      }
+    } else {
+      // Single Mode Jump Logic
+      const currentQ = questions[currentIndex];
+      const nextId = getNextQuestionId ? getNextQuestionId(currentQ.id, answers[currentQ.id]) : null;
+      
+      let nextIndex = -1;
+      if (nextId) {
+        nextIndex = questions.findIndex(q => q.id === nextId);
+      } else {
+        nextIndex = currentIndex + 1;
+      }
+
+      if (nextIndex < questions.length && nextIndex !== -1) {
+        setHistory(prev => [...prev, currentIndex]);
+        setCurrentIndex(nextIndex);
+        window.scrollTo(0, 0);
+      } else {
+        onFinish(answers);
+      }
+    }
+  };
+
+  const handlePrev = () => {
+    if (mode === 'list') {
+      if (currentIndex > 0) {
+        setCurrentIndex(prev => prev - 1);
+        window.scrollTo(0, 0);
+      }
+    } else {
+      if (history.length > 0) {
+        const prevIndex = history[history.length - 1];
+        setHistory(prev => prev.slice(0, -1));
+        setCurrentIndex(prevIndex);
+        window.scrollTo(0, 0);
+      } else if (currentIndex > 0) {
+        setCurrentIndex(prev => prev - 1);
+      }
+    }
+  };
+
   const progress = Math.round((Object.keys(answers).length / questions.length) * 100);
-  
   const isFirstPage = mode === 'list' ? currentIndex === 0 : (currentIndex === 0 && history.length === 0);
   const isLastStep = mode === 'list' 
     ? currentIndex === Math.ceil(questions.length / perPage) - 1 
-    : currentIndex === questions.length - 1; // 单题模式的“最后”比较模糊，通常由跳转逻辑决定，这里仅做简单参考
+    : currentIndex === questions.length - 1;
 
   return (
     <div>
-      {/* 顶部进度条 (可选，通过Portal或Context传出去更好，这里先简单内置) */}
-      {/* ✅ 新增：内置进度条 */}
+      {/* 进度条 */}
       <div className="qz-progress-track">
         <div className="qz-progress-fill" style={{ width: `${progress}%` }}></div>
       </div>
-      {/* 如果外层 QuizContainer 已经有了进度条，这里可以不渲染，或者配合使用 */}
-      
+
       {/* 题目列表 */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {visibleQuestions.map(q => (
@@ -174,7 +183,9 @@ const QuizPager = ({
             id={`q-${q.id}`}
             question={q}
             value={answers[q.id]}
-            onChange={(val) => handleAnswer(q.id, val, visibleQuestions)}
+            onChange={(val) => handleAnswer(q.id, val)}
+            // ✅ 核心：只显示 activeLabelId 匹配的那一题
+            showScaleLabels={q.id === activeLabelId}
           />
         ))}
       </div>

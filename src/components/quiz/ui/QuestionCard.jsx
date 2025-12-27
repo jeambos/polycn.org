@@ -3,22 +3,23 @@ import '../../../styles/Quiz.css';
 
 /**
  * 纯展示型题目卡片
- * @param {object} question - 题目对象 {id, text, type, options...}
+ * @param {object} question - 题目对象
  * @param {any} value - 当前答案
- * @param {function} onChange - 回调 (val) => {}
- * @param {string} id - DOM ID，用于锚点滚动
+ * @param {function} onChange - 回调
+ * @param {string} id - DOM ID
+ * @param {boolean} showScaleLabels - 是否显示辅助文字（新增）
  */
-const QuestionCard = ({ question, value, onChange, id }) => {
-
-
-  const DOT_COLORS = {
-    1: '#fbbf24', // 黄色 (完全不符合)
-    2: '#fb923c', // 橙色
-    3: '#f472b6', // 粉色 (中立)
-    4: '#a78bfa', // 浅紫
-    5: '#7c3aed'  // 深紫 (完全符合)
-  };
+const QuestionCard = ({ question, value, onChange, id, showScaleLabels }) => {
   
+  // ✅ 1. 定义圆点颜色：紫色(#8b5cf6) -> 橙色(#f97316)
+  const DOT_COLORS = {
+    1: '#8b5cf6', // 紫色 (完全不符合)
+    2: '#a78bfa', // 浅紫
+    3: '#f472b6', // 粉色 (中立)
+    4: '#fb923c', // 浅橙
+    5: '#f97316'  // 橙色 (完全符合)
+  };
+
   // 渲染五点量表 (Scale)
   const renderScale = () => (
     <div>
@@ -26,9 +27,6 @@ const QuestionCard = ({ question, value, onChange, id }) => {
         {[1, 2, 3, 4, 5].map((val) => {
           const isActive = value === val;
           const myColor = DOT_COLORS[val];
-          
-
-          
 
           return (
             <button
@@ -46,7 +44,7 @@ const QuestionCard = ({ question, value, onChange, id }) => {
                 width: val === 3 ? '20px' : (val === 1 || val === 5 ? '32px' : '24px'),
                 height: val === 3 ? '20px' : (val === 1 || val === 5 ? '32px' : '24px'),
                 borderRadius: '50%',
-                // 边框逻辑：始终显示彩圈，宽度随尺寸变化
+                // 边框逻辑：始终显示彩圈
                 borderWidth: val === 3 ? '2px' : '3px',
                 borderStyle: 'solid',
                 borderColor: myColor, 
@@ -60,23 +58,29 @@ const QuestionCard = ({ question, value, onChange, id }) => {
           );
         })}
       </div>
-      {/* 辅助文字：5点全配文 */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        maxWidth: '420px', // 稍微加宽一点以容纳文字
-        margin: '0.5rem auto 0', 
-        fontSize: '0.75rem', 
-        color: 'var(--qz-text-sub)',
-        textAlign: 'center',
-        lineHeight: 1.4
-      }}>
-        <div style={{ width: '18%', marginTop: '0rem' }}>完全<br/>不符合</div>
-        <div style={{ width: '18%', marginTop: '0rem' }}>不太<br/>符合</div>
-        <div style={{ width: '18%', marginTop: '0rem' }}>中立<br/>说不清</div>
-        <div style={{ width: '18%', marginTop: '0rem' }}>基本<br/>符合</div>
-        <div style={{ width: '18%', marginTop: '0rem' }}>完全<br/>符合</div>
-      </div>
+      
+      {/* ✅ 2. 辅助文字：根据 showScaleLabels 控制显隐 */}
+      {showScaleLabels && (
+        <div className="qz-fade-in" style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          maxWidth: '420px', 
+          margin: '0.5rem auto 0', 
+          fontSize: '0.85rem', 
+          color: 'var(--qz-text-sub)',
+          textAlign: 'center',
+          lineHeight: 1.4,
+          fontWeight: 500,
+          // 强制使用无衬线字体以保持清晰
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+        }}>
+          <div style={{ width: '18%', marginTop: '0 !important' }}>完全<br/>不符合</div>
+          <div style={{ width: '18%', marginTop: '0 !important' }}>基本<br/>不符合</div>
+          <div style={{ width: '18%', marginTop: '0 !important' }}>中立<br/>说不清</div>
+          <div style={{ width: '18%', marginTop: '0 !important' }}>基本<br/>符合</div>
+          <div style={{ width: '18%', marginTop: '0 !important' }}>完全<br/>符合</div>
+        </div>
+      )}
     </div>
   );
 
@@ -84,7 +88,6 @@ const QuestionCard = ({ question, value, onChange, id }) => {
   const renderOptions = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
       {question.options.map((opt, idx) => {
-        // 兼容单选和多选(数组)
         const isSelected = Array.isArray(value) 
           ? value.includes(opt.value || opt.dim) 
           : (value === opt.value || opt.dim ? value === (opt.value || opt.dim) : false);
@@ -103,7 +106,6 @@ const QuestionCard = ({ question, value, onChange, id }) => {
               transition: 'all 0.2s'
             }}
           >
-            {/* 选中指示器：圆点或勾选 */}
             <div style={{
               width: '18px', height: '18px', borderRadius: '50%',
               border: isSelected ? '5px solid var(--qz-primary)' : '2px solid var(--qz-border)',
@@ -127,7 +129,6 @@ const QuestionCard = ({ question, value, onChange, id }) => {
         {question.text}
       </h3>
       
-      {/* 根据 type 渲染不同内容 */}
       {(question.type === 'scale' || !question.type) && renderScale()}
       {(question.type === 'option' || question.type === 'selection') && renderOptions()}
     </div>
