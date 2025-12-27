@@ -3,10 +3,10 @@ import '../../styles/Quiz.css';
 import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import RadarChart from './ui/RadarChart';
-import { ScoreCard, MoreDetails, ResultActions } from './ui/ResultDashboard';
+import { ScoreCard, ResultAnalysis, ResultActions } from './ui/ResultDashboard';
 
 // =====================================================================
-// 1. 数据定义 (完全保留原版)
+// 1. 数据定义
 // =====================================================================
 
 const DIMENSIONS = {
@@ -144,13 +144,11 @@ const Adaption = () => {
   const handleFinish = (answers) => {
     const raw = {};
     const count = {};
-    // 初始化
     Object.keys(DIMENSIONS).forEach(k => { raw[k] = 0; count[k] = 0; });
 
     Object.entries(answers).forEach(([qId, val]) => {
       const q = QUESTIONS.find(i => i.id === parseInt(qId));
       if (q) {
-        // 反向题处理: 5->1, 4->2, 3->3, 2->4, 1->5
         const actualVal = q.reverse ? (6 - val) : val;
         raw[q.dim] += actualVal;
         count[q.dim] += 1;
@@ -164,7 +162,6 @@ const Adaption = () => {
       totalSum += raw[k];
     });
     
-    // 总分 (满分 40题 * 5 = 200 -> 映射到 100)
     const totalScore = Math.round((totalSum / 200) * 100);
 
     setScores({ dimScores, totalScore });
@@ -179,12 +176,16 @@ const Adaption = () => {
     window.scrollTo(0, 0);
   };
 
-  // 获取所有维度 (按分数从高到低排序)
-  const allSortedScores = useMemo(() => {
+  // 准备数据供 ResultAnalysis 使用
+  const analysisItems = useMemo(() => {
     if (!showResult) return [];
     return Object.entries(scores.dimScores)
       .sort(([, a], [, b]) => b - a)
-      .map(([key, val]) => ({ key, val, ...DIMENSIONS[key] }));
+      .map(([key, val]) => ({ 
+        label: DIMENSIONS[key].name, 
+        score: `${val.toFixed(1)}分`, // 格式化为字符串，Analysis组件会自动解析数值
+        content: getAdvice(key, val)
+      }));
   }, [scores, showResult]);
 
   // --- 渲染 ---
@@ -207,7 +208,7 @@ const Adaption = () => {
 
   if (showResult) return (
     <QuizContainer>
-      {/* 1. 结果大卡片 (黑金风格) */}
+      {/* 1. 结果大卡片 */}
       <ScoreCard 
         title="适应力画像" 
         theme="dark"
@@ -231,26 +232,15 @@ const Adaption = () => {
         onDimClick={setActiveDim}
       />
 
-      {/* 3. 详细解读 (全维度) */}
-      <div style={{ marginTop: '3rem' }}>
-        <h3 className="qz-heading-lg" style={{ color: 'var(--qz-primary)' }}>✦ 全维度能力解析</h3>
-        <p className="qz-text-body" style={{ marginBottom: '1.5rem' }}>
-          以下是您在 8 个核心能力维度上的具体得分与建议（按优势强弱排序）。
-        </p>
-        
-        <MoreDetails 
-          label="详细报告"
-          items={allSortedScores.map(d => ({
-            label: d.name,
-            score: `${d.val.toFixed(1)}分`,
-            content: getAdvice(d.key, d.val)
-          }))}
-        />
-      </div>
+      {/* 3. 全维度结果解析 (使用新组件) */}
+      <ResultAnalysis 
+        items={analysisItems} 
+        title="全维度能力解析"
+      />
 
+      {/* 4. 底部按钮组 (ResultAnalysis 不包含按钮，所以这里要放) */}
       <ResultActions onRetry={handleRetry} />
-
-      <QuizFooter currentId="adaption" status="result" onRetry={handleRetry} />
+      <QuizFooter currentId="adaption" status="result" />
     </QuizContainer>
   );
 
@@ -261,7 +251,7 @@ const Adaption = () => {
         questions={QUESTIONS} 
         onFinish={handleFinish}
         mode="list" 
-        perPage={8} // 40题，分5页
+        perPage={8} 
       />
     </QuizContainer>
   );

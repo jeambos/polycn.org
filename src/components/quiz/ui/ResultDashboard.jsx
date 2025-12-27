@@ -51,9 +51,10 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
 };
 
 /**
- * 2. 详情列表 (MoreDetails) - 样式降级为辅助按钮
+ * 2. 详情列表 (MoreDetails) - 基础组件
+ * (样式已降级为辅助操作：白底灰边)
  */
-export const MoreDetails = ({ items = [], label = "详细报告" }) => {
+export const MoreDetails = ({ items = [], label = "剩余详情" }) => {
   const [isOpen, setIsOpen] = useState(false);
   if (!items || items.length === 0) return null;
 
@@ -64,15 +65,13 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
         className="qz-btn-outline"
         style={{ 
           width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: 0,
-          // ✅ 降级：回归白色背景，灰色边框
           background: 'var(--qz-bg-card)',
-          padding: '0.8rem',
           borderColor: 'var(--qz-border)',
           borderWidth: '2px',
           color: 'var(--qz-text-sub)',
-          padding: '0.8rem',
+          padding: '1.5rem',
           fontSize: '1rem',
-          fontWeight: 'normal'
+          fontWeight: 600,
         }}
       >
         {isOpen ? `收起${label}` : `查看${label}`} 
@@ -97,14 +96,94 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
 };
 
 /**
- * 3. 结果操作区 (ResultActions) - 分享按钮升级为视觉焦点
+ * 3. 智能分析模块 (ResultAnalysis) - ✅ 新增组件
+ * 自动进行高分/低分分流展示
+ */
+export const ResultAnalysis = ({ 
+  items = [], 
+  title = "全维度结果解析", 
+  threshold = 4.0 // 默认高分阈值
+}) => {
+  // 逻辑分流
+  const highScores = [];
+  const normalScores = [];
+
+  items.forEach(item => {
+    // 尝试解析分数 (支持 "4.5" 或 "4.5分")
+    const numScore = parseFloat(item.score);
+    if (!isNaN(numScore) && numScore >= threshold) {
+      highScores.push(item);
+    } else {
+      normalScores.push(item);
+    }
+  });
+
+  return (
+    <div style={{ marginTop: '3rem' }}>
+      <h3 className="qz-heading-lg" style={{ color: 'var(--qz-primary)' }}>✦ {title}</h3>
+      <p className="qz-text-body" style={{ marginBottom: '1.5rem' }}>
+        以下是您在 {items.length} 个核心维度上的具体得分与建议（按优势强弱排序）。
+      </p>
+
+      {/* A. 高分展示区 (荣誉榜样式) */}
+      {highScores.length > 0 && (
+        <div style={{ display: 'grid', gap: '1rem', marginBottom: '1.5rem' }}>
+          {highScores.map((d, i) => (
+            <div key={i} className="qz-card" style={{ 
+              border: '2px solid var(--qz-primary)',
+              background: 'var(--qz-bg-soft)',
+              marginBottom: 0,
+              position: 'relative',
+              padding: '1.5rem'
+            }}>
+              <div style={{ 
+                position: 'absolute', top: 0, right: 0, 
+                background: 'var(--qz-primary)', color: 'white', 
+                padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold',
+                borderBottomLeftRadius: '12px'
+              }}>
+                高分
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', alignItems: 'center' }}>
+                <span style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--qz-text-soft)' }}>{d.label}</span>
+                <span style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--qz-primary)' }}>{d.score}</span>
+              </div>
+              <div style={{ fontSize: '0.95rem', lineHeight: 1.6, color: 'var(--qz-text-main)' }}>
+                {d.content}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* B. 普通/低分展示区 (折叠收纳) */}
+      {normalScores.length > 0 && (
+        <MoreDetails 
+          label="其他维度详情"
+          items={normalScores}
+        />
+      )}
+
+      {/* C. 全满分彩蛋 */}
+      {normalScores.length === 0 && highScores.length > 0 && (
+        <div style={{ textAlign: 'center', color: 'var(--qz-text-sub)', margin: '2rem 0', fontStyle: 'italic' }}>
+          全部结果均展示完毕，没有其余结果。
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * 4. 结果操作区 (ResultActions)
+ * (样式已升级为视觉焦点：浅橙色背景+橙色边框)
  */
 export const ResultActions = ({ onRetry }) => {
   const [showShare, setShowShare] = useState(false);
 
   return (
     <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-      {/* 分享按钮 (占比 7) - ✅ 升级：浅橙色背景+橙色边框 */}
+      {/* 分享按钮 (占比 7) */}
       <div style={{ position: 'relative', flex: 7 }}>
         {showShare && <LocalSharePopover onClose={() => setShowShare(false)} />}
         <div 
@@ -112,7 +191,7 @@ export const ResultActions = ({ onRetry }) => {
           className="qz-card"
           style={{ 
             width: '100%', marginBottom: 0, textAlign: 'center', cursor: 'pointer', 
-            // 样式升级
+            // 样式升级：诱导点击
             background: 'var(--qz-bg-soft)', 
             border: '2px solid var(--qz-primary)', 
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60px',
