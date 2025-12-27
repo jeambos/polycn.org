@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import '../../styles/Quiz.css';
-import { QuizFrame, WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
+import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import RadarChart from './ui/RadarChart';
-import { ScoreCard, MoreDetails, ResultActions } from './ui/ResultDashboard';
+import { ScoreCard, MoreDetails } from './ui/ResultDashboard';
 
 // =====================================================================
 // 1. 数据定义 (严格保持原版文案与逻辑参数)
@@ -42,7 +42,7 @@ const RESULT_FEEDBACK = {
     low: "你坚定地认为恋爱是两个人的事，能够有效地隔离原生家庭的干预。这种独立性是你维护关系自由的护城河。"
   },
   institution: {
-    high: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径清晰，但也可能形成束缚。",
+    high: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径清晰，但也可能限制了角色的多元性。",
     mid: "你认可婚姻的价值，但也不完全否认其他形式的可能性。你可能在‘为了感情’和‘为了制度’之间寻求某种务实的妥协。",
     low: "你对‘修成正果’有不同的定义。相比于外在的证书或仪式，你更看重关系内在的质量和真实的生命体验。"
   },
@@ -135,6 +135,7 @@ const Norms = () => {
     window.scrollTo(0, 0);
   };
 
+  // 这里的 answers 来自 QuizPager 的回传
   const handleFinish = (answers) => {
     // 1. 维度分计算 (Raw Sum)
     const raw = {};
@@ -182,7 +183,7 @@ const Norms = () => {
   // --- 渲染 ---
 
   if (!started) return (
-    <QuizFrame>
+    <QuizContainer>
       <WelcomeCard 
         title="恋爱观规范程度自评"
         introList={[
@@ -194,11 +195,11 @@ const Norms = () => {
         onStart={handleStart}
       />
       <QuizFooter currentId="norms" />
-    </QuizFrame>
+    </QuizContainer>
   );
 
   if (showResult) return (
-    <QuizFrame>
+    <QuizContainer>
       {/* 1. 结果大卡片 (黑金风格) */}
       <ScoreCard 
         title="检测报告" 
@@ -245,23 +246,20 @@ const Norms = () => {
         />
       </div>
 
-      <ResultActions onRetry={handleRetry} />
-      <QuizFooter currentId="norms" status="result" />
-    </QuizFrame>
+      <QuizFooter currentId="norms" status="result" onRetry={handleRetry} />
+    </QuizContainer>
   );
 
   // 答题页：使用新的 QuizPager
   return (
-    <QuizFrame>
-      <QuizContainer>
-        <QuizPager 
-          questions={QUESTIONS} 
-          onFinish={handleFinish}
-          mode="list"  // 列表模式
-          perPage={10} // 每页10题
-        />
-      </QuizContainer>
-    </QuizFrame>
+    <QuizContainer>
+      <QuizPager 
+        questions={QUESTIONS} 
+        onFinish={handleFinish}
+        mode="list"  // 列表模式
+        perPage={10} // 每页10题
+      />
+    </QuizContainer>
   );
 };
 

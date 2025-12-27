@@ -160,6 +160,10 @@ const QuizPager = ({
   return (
     <div>
       {/* 顶部进度条 (可选，通过Portal或Context传出去更好，这里先简单内置) */}
+      {/* ✅ 新增：内置进度条 */}
+      <div className="qz-progress-track">
+        <div className="qz-progress-fill" style={{ width: `${progress}%` }}></div>
+      </div>
       {/* 如果外层 QuizContainer 已经有了进度条，这里可以不渲染，或者配合使用 */}
       
       {/* 题目列表 */}
