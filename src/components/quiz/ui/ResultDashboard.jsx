@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
 import '../../../styles/Quiz.css';
 
-// 局部 Popover 组件 (保持不变)
+// 局部 Popover 组件
 const LocalSharePopover = ({ onClose }) => (
-  <div style={{
-    position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)',
-    background: '#1f2937', color: 'white', padding: '0.8rem 1.2rem', borderRadius: '8px',
-    marginBottom: '10px', fontSize: '0.9rem', textAlign: 'center', width: '260px', zIndex: 10
-  }}>
-    <div style={{ marginBottom: '0.5rem' }}>请<b>截图</b>保存此页面或分享给好友 :)</div>
-    <button onClick={onClose} style={{ 
-      background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', 
-      padding: '2px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem',
-      marginTop: 0 // 强制去除 margin
-    }}>我知道了</button>
-    <div style={{
-      position: 'absolute', top: '100%', left: '50%', marginLeft: '-6px',
-      borderWidth: '6px', borderStyle: 'solid', borderColor: '#1f2937 transparent transparent transparent'
-    }}></div>
+  <div className="share-popover">
+    <div className="popover-text">请<b>截图</b>保存此页面或分享给好友 :)</div>
+    <button onClick={onClose} className="popover-close">我知道了</button>
   </div>
 );
 
@@ -37,10 +25,7 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
     }
   };
 
-  const currentStyle = {
-    ...styles.theme[theme],
-    ...styles.variant[variant]
-  };
+  const currentStyle = { ...styles.theme[theme], ...styles.variant[variant] };
 
   if (variant === 'secondary') {
     currentStyle.background = 'var(--qz-bg-card)';
@@ -57,11 +42,8 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
         position: 'absolute', bottom: '0.5rem', right: '1rem', 
         opacity: 0.05, fontWeight: '900', fontSize: '1.5rem', pointerEvents: 'none', fontFamily: 'sans-serif'
       }}>PolyCN</div>
-      
       {title && (
-        <div style={{ 
-          fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '0.8rem', opacity: 0.8, fontWeight: 'bold'
-        }}>{title}</div>
+        <div style={{ fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '0.8rem', opacity: 0.8, fontWeight: 'bold' }}>{title}</div>
       )}
       <div>{children}</div>
     </div>
@@ -69,11 +51,10 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
 };
 
 /**
- * 2. 详情列表 (MoreDetails)
+ * 2. 详情列表 (MoreDetails) - 样式降级为辅助按钮
  */
 export const MoreDetails = ({ items = [], label = "详细报告" }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   if (!items || items.length === 0) return null;
 
   return (
@@ -81,32 +62,32 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="qz-btn-outline"
-        style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: 0 }}
+        style={{ 
+          width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: 0,
+          // ✅ 降级：回归白色背景，灰色边框
+          background: 'var(--qz-bg-card)',
+          padding: '0.8rem',
+          borderColor: 'var(--qz-border)',
+          borderWidth: '2px',
+          color: 'var(--qz-text-sub)',
+          padding: '0.8rem',
+          fontSize: '1rem',
+          fontWeight: 'normal'
+        }}
       >
-        {isOpen ? `收起${label}` : `展开${label}`} 
-        <span>{isOpen ? '⬆️' : '⬇️'}</span>
+        {isOpen ? `收起${label}` : `查看${label}`} 
+        <span style={{ display: 'inline-block', transition: 'transform 0.3s', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>⬇️</span>
       </button>
 
       {isOpen && (
-        <div className="qz-fade-in" style={{ 
-          marginTop: '1.2rem', 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-          gap: '1rem' 
-        }}>
+        <div className="qz-fade-in" style={{ marginTop: '1.2rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
           {items.map((item, idx) => (
-            <div key={idx} className="qz-card" style={{ 
-              marginBottom: 0, 
-              background: 'var(--qz-bg-page)', 
-              border: '1px solid var(--qz-border)' 
-            }}>
+            <div key={idx} className="qz-card" style={{ marginBottom: 0, background: 'var(--qz-bg-page)', border: '1px solid var(--qz-border)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', alignItems: 'center' }}>
                 <span style={{ fontWeight: 'bold', color: 'var(--qz-text-main)' }}>{item.label}</span>
                 <span style={{ fontWeight: 'bold', color: 'var(--qz-primary)' }}>{item.score}</span>
               </div>
-              <div style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--qz-text-sub)' }}>
-                {item.content}
-              </div>
+              <div style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--qz-text-sub)' }}>{item.content}</div>
             </div>
           ))}
         </div>
@@ -116,14 +97,14 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
 };
 
 /**
- * 3. 结果操作区 (ResultActions) - 已修改比例
+ * 3. 结果操作区 (ResultActions) - 分享按钮升级为视觉焦点
  */
 export const ResultActions = ({ onRetry }) => {
   const [showShare, setShowShare] = useState(false);
 
   return (
     <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-      {/* 分享按钮 (占比 7) */}
+      {/* 分享按钮 (占比 7) - ✅ 升级：浅橙色背景+橙色边框 */}
       <div style={{ position: 'relative', flex: 7 }}>
         {showShare && <LocalSharePopover onClose={() => setShowShare(false)} />}
         <div 
@@ -131,9 +112,12 @@ export const ResultActions = ({ onRetry }) => {
           className="qz-card"
           style={{ 
             width: '100%', marginBottom: 0, textAlign: 'center', cursor: 'pointer', 
-            border: '1px solid var(--qz-primary)', 
+            // 样式升级
+            background: 'var(--qz-bg-soft)', 
+            border: '2px solid var(--qz-primary)', 
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60px',
-            color: 'var(--qz-primary)', fontWeight: 'bold', fontSize: '1.1rem'
+            color: 'var(--qz-text-soft)', fontWeight: 'bold', fontSize: '1.1rem',
+            boxShadow: '0 4px 12px rgba(234, 88, 12, 0.15)'
           }}
         >
           分享结果

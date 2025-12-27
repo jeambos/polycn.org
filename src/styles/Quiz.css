@@ -200,3 +200,93 @@
   margin-top: 0 !important;
 }
 
+/* --- MoreTests 组件样式 --- */
+
+.more-tests-section {
+  margin-top: 4rem;
+  border-top: 1px solid var(--qz-border);
+  padding-top: 2rem;
+}
+
+.more-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--qz-text-main);
+  margin-bottom: 1.5rem;
+}
+
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* 基础卡片 */
+.test-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.t-name { font-weight: bold; margin-bottom: 0.5rem; display: block; font-size: 1.1rem; color: var(--qz-text-main); }
+.t-desc { font-size: 0.9rem; color: var(--qz-text-sub); line-height: 1.4; }
+
+/* 1. 普通可点击卡片 */
+.test-card.active {
+  background-color: var(--qz-bg-card);
+  border: 1px solid var(--qz-border);
+  cursor: pointer;
+}
+.test-card.active:hover {
+  border-color: var(--qz-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--qz-shadow-hover);
+}
+
+/* 2. 当前页 (灰色不可点) */
+.test-card.current {
+  background-color: var(--qz-bg-page);
+  border: 1px solid var(--qz-border);
+  opacity: 0.7;
+  cursor: default;
+}
+.current-badge {
+  font-size: 0.8rem; color: var(--qz-text-sub); background: rgba(0,0,0,0.05);
+  padding: 2px 8px; border-radius: 4px; display: inline-block; width: fit-content;
+}
+
+/* 3. 已完成 (绿色 + 大对勾背景) */
+.test-card.completed {
+  background-color: #f0fdf4; /* 浅绿背景 */
+  border: 1px solid #bbf7d0; /* 绿边框 */
+  /* SVG 大对勾背景 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dcfce7'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 110% 50%; /* 靠右居中 */
+  background-size: 50%; /* 图标大小 */
+}
+.test-card.completed .t-name { color: #15803d; } /* 深绿文字 */
+.test-card.completed .t-status { 
+  color: #166534; font-size: 0.85rem; font-weight: bold; margin-top: 0.5rem;
+}
+
+/* 底部链接 */
+.more-link-wrapper { text-align: center; margin-top: 2rem; }
+.more-link { color: var(--qz-text-sub); text-decoration: none; font-size: 0.95rem; }
+.more-link:hover { color: var(--qz-primary); }
+
+/* 夜间模式微调 */
+:root[data-theme='dark'] .test-card.completed {
+  background-color: rgba(6, 78, 59, 0.3); /* 深墨绿 */
+  border-color: #065f46;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23064e3b'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+}
+:root[data-theme='dark'] .test-card.completed .t-name { color: #34d399; }
+:root[data-theme='dark'] .test-card.completed .t-status { color: #34d399; }

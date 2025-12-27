@@ -3,7 +3,7 @@ import '../../styles/Quiz.css';
 import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import RadarChart from './ui/RadarChart';
-import { ScoreCard, MoreDetails, ResultActions} from './ui/ResultDashboard';
+import { ScoreCard, MoreDetails, ResultActions } from './ui/ResultDashboard';
 
 // =====================================================================
 // 1. 数据定义 (严格保持原版文案与逻辑参数)
@@ -42,7 +42,7 @@ const RESULT_FEEDBACK = {
     low: "你坚定地认为恋爱是两个人的事，能够有效地隔离原生家庭的干预。这种独立性是你维护关系自由的护城河。"
   },
   institution: {
-    high: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径清晰，但也可能限制了角色的多元性。",
+    high: "你倾向于将‘修成正果’（如结婚、生子）视为一段关系成功与否的核心指标。这让你的人生路径清晰，但也可能形成束缚。",
     mid: "你认可婚姻的价值，但也不完全否认其他形式的可能性。你可能在‘为了感情’和‘为了制度’之间寻求某种务实的妥协。",
     low: "你对‘修成正果’有不同的定义。相比于外在的证书或仪式，你更看重关系内在的质量和真实的生命体验。"
   },
@@ -171,11 +171,11 @@ const Norms = () => {
     window.scrollTo(0, 0);
   };
 
-// 获取所有维度 (按分数从高到低排序)
+  // ✅ 修复：获取所有维度 (按分数从高到低排序)，变量名改为 allSortedScores
   const allSortedScores = useMemo(() => {
     if (!showResult) return [];
     return Object.entries(scores.dimScores)
-      .sort(([, a], [, b]) => b - a) // 降序排列
+      .sort(([, a], [, b]) => b - a)
       .map(([key, val]) => ({ key, val, ...DIMENSIONS[key] }));
   }, [scores, showResult]);
 
@@ -227,25 +227,25 @@ const Norms = () => {
         onDimClick={setActiveDim}
       />
 
-      {/* 3. 详细解读 (Top 4) */}
+      {/* 3. 详细解读 (全维度) */}
       <div style={{ marginTop: '3rem' }}>
-        <h3 className="qz-heading-lg" style={{ color: 'var(--qz-primary)' }}>✦ 核心观念透视</h3>
+        <h3 className="qz-heading-lg" style={{ color: 'var(--qz-primary)' }}>✦ 全维度深度解析</h3>
         <p className="qz-text-body" style={{ marginBottom: '1.5rem' }}>
           以下是您在所有 8 个维度上的具体得分与评估（按分数从高到低排序）。
         </p>
         
-        {/* 使用新组件展示列表，展示所有项目 */}
+        {/* ✅ 修复：正确使用 allSortedScores */}
         <MoreDetails 
           label="详细报告"
-          items={highScores.map(d => ({
+          items={allSortedScores.map(d => ({
             label: d.name,
             score: `${d.val.toFixed(1)}分`,
-            content: getFeedback(d.key, d.val) // getFeedback 已根据分数返回 High/Mid/Low 不同评价
+            content: getFeedback(d.key, d.val)
           }))}
         />
       </div>
 
-      <ResultActions onRetry={handleRetry} /> 
+      <ResultActions onRetry={handleRetry} />
       <QuizFooter currentId="norms" status="result" />
     </QuizContainer>
   );

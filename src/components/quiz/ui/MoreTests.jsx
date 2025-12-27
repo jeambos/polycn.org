@@ -10,61 +10,74 @@ const ALL_TESTS = [
 ];
 
 const MoreTests = ({ currentId, status = 'welcome' }) => {
-  // 如果没有 currentId，说明是索引页模式，显示所有
-  const displayList = currentId 
-    ? [
-        ...ALL_TESTS.filter(t => t.id === currentId), 
-        ...ALL_TESTS.filter(t => t.id !== currentId)
-      ].slice(0, 4) // 推荐模式只显示4个
-    : ALL_TESTS;
+  // 模式判断
+  const isIndexMode = !currentId;
+  
+  let displayList = [];
+  if (isIndexMode) {
+    // 索引模式：显示全部
+    displayList = ALL_TESTS;
+  } else {
+    // 推荐模式：固定显示 4 个
+    // 逻辑：把 currentId 对应的测试放到第一个，剩下的按顺序补足
+    const currentTest = ALL_TESTS.find(t => t.id === currentId);
+    const others = ALL_TESTS.filter(t => t.id !== currentId);
+    displayList = currentTest ? [currentTest, ...others] : ALL_TESTS;
+    displayList = displayList.slice(0, 4); // 只取前4个
+  }
 
   return (
-    <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--qz-border)' }}>
-      {currentId && (
-        <h4 className="qz-heading-lg" style={{ textAlign: 'center', fontSize: '1.2rem', color: 'var(--qz-primary)' }}>
-          更多测试
-        </h4>
+    <div className="more-tests-section">
+      {!isIndexMode && (
+        <h4 className="more-title">更多测试</h4>
       )}
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
-        {displayList.map(test => {
+      <div className={`test-grid ${isIndexMode ? 'cols-2' : ''}`}>
+        {displayList.map((test, index) => {
           const isCurrent = test.id === currentId;
-          
-          // 当前测试的高亮状态
-          if (isCurrent) {
-            const isFinished = status === 'result';
-            return (
-              <div key={test.id} className="qz-card" style={{ 
-                border: '1px solid var(--qz-primary)', 
-                backgroundColor: isFinished ? 'var(--qz-bg-soft)' : 'var(--qz-bg-page)',
-                marginBottom: 0 
-              }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--qz-primary)' }}>
-                  {test.title}
+
+          // --- 特殊处理：如果是当前页面的测试 (且不是索引模式) ---
+          if (isCurrent && !isIndexMode) {
+            
+            // 场景 A: 结果页 (绿色已完成)
+            if (status === 'result') {
+              return (
+                <div key={test.id} className="test-card completed">
+                  <span className="t-name">{test.title}</span>
+                  <span className="t-status">✅ 已完成</span>
                 </div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--qz-text-sub)' }}>
-                  {isFinished ? '✅ 已完成' : '📍 正在进行'}
+              );
+            } 
+            
+            // 场景 B: 欢迎页/进行中 (灰色不可点)
+            else {
+              return (
+                <div key={test.id} className="test-card current">
+                  <span className="t-name">{test.title}</span>
+                  <span className="t-status current-badge">📍 您已在此</span>
                 </div>
-              </div>
-            );
+              );
+            }
           }
 
-          // 其他测试的链接状态
+          // --- 普通测试卡片 (可点击) ---
           return (
-            <a key={test.id} href={test.link} className="qz-card" style={{ 
-              textDecoration: 'none', cursor: 'pointer', marginBottom: 0,
-              display: 'block', transition: 'transform 0.2s'
-            }}>
-              <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--qz-text-main)' }}>
-                {test.title}
-              </div>
-              <div style={{ fontSize: '0.9rem', color: 'var(--qz-text-sub)' }}>
-                {test.desc}
-              </div>
+            <a key={test.id} href={test.link} className="test-card active">
+              <span className="t-name">{test.title}</span>
+              <span className="t-desc">{test.desc}</span>
             </a>
           );
         })}
       </div>
+
+      {/* 底部链接：仅在推荐模式下显示 */}
+      {!isIndexMode && (
+        <div className="more-link-wrapper">
+          <a href="/assessment" className="more-link">
+            查看测试首页 &rarr;
+          </a>
+        </div>
+      )}
     </div>
   );
 };
