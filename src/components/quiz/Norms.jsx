@@ -10,14 +10,14 @@ import { ScoreCard, MoreDetails, ResultActions } from './ui/ResultDashboard';
 // =====================================================================
 
 const DIMENSIONS = {
-  enmeshment: { name: "伴侣共生", desc: "个体独立性 vs 融合共生" },
-  one_only: { name: "全能期待", desc: "伴侣功能的多样性 vs 唯一性" },
-  gender: { name: "性别脚本", desc: "传统分工 vs 多元角色" },
-  family: { name: "代际边界", desc: "自我主导 vs 家庭干预" },
-  institution: { name: "制度迷思", desc: "形式主义 vs 关系实质" },
-  jealousy: { name: "嫉妒逻辑", desc: "嫉妒即爱 vs 嫉妒即信号" },
-  sex_love: { name: "性爱捆绑", desc: "性道德化 vs 身体自主" },
-  exclusivity: { name: "绝对排他", desc: "身心绑定 vs 流动接受度" }
+  enmeshment: { name: "二人一体", desc: "认为相爱就该毫无保留、共享一切，还是保留个人隐私与独立空间？" },
+  one_only: { name: "全能伴侣", desc: "期望伴侣能满足自己经济、情感、娱乐等所有需求，还是接受需求可以多处满足？" },
+  gender: { name: "传统分工", desc: "认同“男强女弱/男主外女主内”的定式，还是支持根据能力与意愿灵活分配角色？" },
+  family: { name: "顺应父母", desc: "认为伴侣的选择必须得到父母认可才算正当，还是坚持恋爱结婚完全是个人的私事？" },
+  institution: { name: "世俗标配", desc: "认为没有房车、彩礼或领证的关系是不完整的，还是看重相处的实质内容重于形式？" },
+  jealousy: { name: "嫉妒即爱", desc: "认为“吃醋”是爱的必要证明，还是认为嫉妒是不安全感的体现，需自我消化？" },
+  sex_love: { name: "性爱绑定", desc: "坚持“有爱才能有性”的道德准则，还是认为在知情同意下，性和爱可以独立存在？" },
+  exclusivity: { name: "绝对排他", desc: "认为关系必须在身体和精神上保持绝对唯一的占有，还是能接纳更具流动性的关系形态？" }
 };
 
 const RESULT_FEEDBACK = {
@@ -73,7 +73,7 @@ const getFeedback = (dimKey, score) => {
 // 题目数据：完全保留原版
 const QUESTIONS = [
   // Page 1: 伴侣共生 + 全能期待
-  { id: 1, dim: 'enmeshment', text: "“你就是我的另一半”，没有伴侣，我觉得我的人生是不完整的。" },
+  { id: 1, dim: 'enmeshment', text: "对象就是我的另一半，谈恋爱不存在什么两个人。" },
   { id: 2, dim: 'enmeshment', text: "做重大决定时，如果伴侣不同意，我就倾向于不去做了。" },
   { id: 3, dim: 'enmeshment', text: "我不太喜欢伴侣有我完全不认识的社交圈子，我想融入他/她的所有生活。" },
   { id: 4, dim: 'enmeshment', text: "如果伴侣想一个人去长途旅行而不带我，我会觉得他/她可能没那么爱我了。" },
