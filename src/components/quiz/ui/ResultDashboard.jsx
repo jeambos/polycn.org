@@ -1,36 +1,47 @@
 import React, { useState } from 'react';
 import '../../../styles/Quiz.css';
 
+// 局部 Popover 组件 (保持不变)
+const LocalSharePopover = ({ onClose }) => (
+  <div style={{
+    position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)',
+    background: '#1f2937', color: 'white', padding: '0.8rem 1.2rem', borderRadius: '8px',
+    marginBottom: '10px', fontSize: '0.9rem', textAlign: 'center', width: '260px', zIndex: 10
+  }}>
+    <div style={{ marginBottom: '0.5rem' }}>请<b>截图</b>保存此页面或分享给好友 :)</div>
+    <button onClick={onClose} style={{ 
+      background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', 
+      padding: '2px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem',
+      marginTop: 0 // 强制去除 margin
+    }}>我知道了</button>
+    <div style={{
+      position: 'absolute', top: '100%', left: '50%', marginLeft: '-6px',
+      borderWidth: '6px', borderStyle: 'solid', borderColor: '#1f2937 transparent transparent transparent'
+    }}></div>
+  </div>
+);
+
 /**
  * 1. 万能分数卡 (ScoreCard)
- * @param {string} title - 卡片标题 (如 "主导原型")
- * @param {string} variant - 'hero'(主导/大卡片) | 'secondary'(次要/描边卡片)
- * @param {string} theme - 'light'(白底) | 'dark'(黑金/深色) | 'brand'(品牌色背景)
- * @param {ReactNode} children - 卡片内容
  */
 export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }) => {
-  // 样式映射
   const styles = {
-    // 主题配色
     theme: {
       light: { background: 'var(--qz-bg-card)', color: 'var(--qz-text-main)', border: '1px solid var(--qz-border)' },
       dark: { background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)', color: '#f4f4f5', border: '1px solid #3f3f46' },
       brand: { background: 'linear-gradient(135deg, var(--qz-primary) 0%, #d97706 100%)', color: 'var(--qz-primary-fg)', border: 'none' },
     },
-    // 变体形状
     variant: {
-      hero: { padding: '2.5rem 1.5rem', marginBottom: '2rem' },
-      secondary: { padding: '1.5rem', marginBottom: '1rem', border: '2px solid var(--qz-primary)' }, // 强制覆盖边框为品牌色
+      hero: { padding: '2rem 1.5rem', marginBottom: '2rem' },
+      secondary: { padding: '1.25rem', marginBottom: '1rem', border: '2px solid var(--qz-primary)' },
     }
   };
 
-  // 组合样式
   const currentStyle = {
     ...styles.theme[theme],
     ...styles.variant[variant]
   };
 
-  // 如果是 secondary 变体，强制覆盖背景为卡片色，边框为品牌色
   if (variant === 'secondary') {
     currentStyle.background = 'var(--qz-bg-card)';
     currentStyle.color = 'var(--qz-text-main)';
@@ -40,30 +51,18 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
   return (
     <div className="qz-card" style={{ 
       ...currentStyle, 
-      textAlign: 'center', 
-      position: 'relative',
-      overflow: 'hidden',
-      marginBottom: currentStyle.marginBottom
+      textAlign: 'center', position: 'relative', overflow: 'hidden', marginBottom: currentStyle.marginBottom
     }}>
-      {/* 水印 */}
       <div style={{ 
-        position: 'absolute', bottom: '1rem', right: '1rem', 
-        opacity: 0.05, fontWeight: '900', fontSize: '1.5rem', pointerEvents: 'none' 
-      }}>
-        PolyCN
-      </div>
+        position: 'absolute', bottom: '0.5rem', right: '1rem', 
+        opacity: 0.05, fontWeight: '900', fontSize: '1.5rem', pointerEvents: 'none', fontFamily: 'sans-serif'
+      }}>PolyCN</div>
       
-      {/* 小标题 */}
       {title && (
         <div style={{ 
-          fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', 
-          marginBottom: '1rem', opacity: 0.8 
-        }}>
-          {title}
-        </div>
+          fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '0.8rem', opacity: 0.8, fontWeight: 'bold'
+        }}>{title}</div>
       )}
-
-      {/* 内容插槽 */}
       <div>{children}</div>
     </div>
   );
@@ -71,8 +70,6 @@ export const ScoreCard = ({ title, variant = 'hero', theme = 'light', children }
 
 /**
  * 2. 详情列表 (MoreDetails)
- * @param {Array} items - [{ label, score, content }]
- * @param {string} label - 按钮文字 (默认"详细报告")
  */
 export const MoreDetails = ({ items = [], label = "详细报告" }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +81,7 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="qz-btn-outline"
-        style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: 0 }}
       >
         {isOpen ? `收起${label}` : `展开${label}`} 
         <span>{isOpen ? '⬆️' : '⬇️'}</span>
@@ -92,7 +89,7 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
 
       {isOpen && (
         <div className="qz-fade-in" style={{ 
-          marginTop: '1.5rem', 
+          marginTop: '1.2rem', 
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
           gap: '1rem' 
@@ -114,6 +111,48 @@ export const MoreDetails = ({ items = [], label = "详细报告" }) => {
           ))}
         </div>
       )}
+    </div>
+  );
+};
+
+/**
+ * 3. 结果操作区 (ResultActions) - 已修改比例
+ */
+export const ResultActions = ({ onRetry }) => {
+  const [showShare, setShowShare] = useState(false);
+
+  return (
+    <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+      {/* 分享按钮 (占比 7) */}
+      <div style={{ position: 'relative', flex: 7 }}>
+        {showShare && <LocalSharePopover onClose={() => setShowShare(false)} />}
+        <div 
+          onClick={() => setShowShare(true)} 
+          className="qz-card"
+          style={{ 
+            width: '100%', marginBottom: 0, textAlign: 'center', cursor: 'pointer', 
+            border: '1px solid var(--qz-primary)', 
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60px',
+            color: 'var(--qz-primary)', fontWeight: 'bold', fontSize: '1.1rem'
+          }}
+        >
+          分享结果
+        </div>
+      </div>
+
+      {/* 重测按钮 (占比 3) */}
+      <div 
+        onClick={onRetry} 
+        className="qz-card"
+        style={{ 
+          flex: 3, marginBottom: 0, textAlign: 'center', cursor: 'pointer', 
+          background: 'var(--qz-bg-page)', color: 'var(--qz-text-sub)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60px',
+          fontWeight: 'bold', fontSize: '1rem'
+        }}
+      >
+        重新测试
+      </div>
     </div>
   );
 };

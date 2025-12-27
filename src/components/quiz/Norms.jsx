@@ -3,7 +3,7 @@ import '../../styles/Quiz.css';
 import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import RadarChart from './ui/RadarChart';
-import { ScoreCard, MoreDetails } from './ui/ResultDashboard';
+import { ScoreCard, MoreDetails, ResultActions} from './ui/ResultDashboard';
 
 // =====================================================================
 // 1. 数据定义 (严格保持原版文案与逻辑参数)
@@ -171,13 +171,12 @@ const Norms = () => {
     window.scrollTo(0, 0);
   };
 
-  // 获取 Top 4 维度 (用于详细解读)
-  const highScores = useMemo(() => {
+// 获取所有维度 (按分数从高到低排序)
+  const allSortedScores = useMemo(() => {
     if (!showResult) return [];
     return Object.entries(scores.dimScores)
-      .sort(([, a], [, b]) => b - a)
-      .map(([key, val]) => ({ key, val, ...DIMENSIONS[key] }))
-      .slice(0, 4);
+      .sort(([, a], [, b]) => b - a) // 降序排列
+      .map(([key, val]) => ({ key, val, ...DIMENSIONS[key] }));
   }, [scores, showResult]);
 
   // --- 渲染 ---
@@ -232,21 +231,22 @@ const Norms = () => {
       <div style={{ marginTop: '3rem' }}>
         <h3 className="qz-heading-lg" style={{ color: 'var(--qz-primary)' }}>✦ 核心观念透视</h3>
         <p className="qz-text-body" style={{ marginBottom: '1.5rem' }}>
-          以下是根据您的回答生成的观念画像（展示您得分最高的 4 个维度）。
+          以下是您在所有 8 个维度上的具体得分与评估（按分数从高到低排序）。
         </p>
         
-        {/* 使用新组件展示列表 */}
+        {/* 使用新组件展示列表，展示所有项目 */}
         <MoreDetails 
-          label="核心观念详情"
+          label="详细报告"
           items={highScores.map(d => ({
             label: d.name,
             score: `${d.val.toFixed(1)}分`,
-            content: getFeedback(d.key, d.val)
+            content: getFeedback(d.key, d.val) // getFeedback 已根据分数返回 High/Mid/Low 不同评价
           }))}
         />
       </div>
 
-      <QuizFooter currentId="norms" status="result" onRetry={handleRetry} />
+      <ResultActions onRetry={handleRetry} /> 
+      <QuizFooter currentId="norms" status="result" />
     </QuizContainer>
   );
 
