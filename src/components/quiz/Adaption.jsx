@@ -3,7 +3,7 @@ import '../../styles/Quiz.css';
 import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import RadarChart from './ui/RadarChart';
-import { ScoreCard, MoreDetails } from './ui/ResultDashboard';
+import { ScoreCard, MoreDetails, ResultActions } from './ui/ResultDashboard';
 
 // =====================================================================
 // 1. 数据定义 (完全保留原版)
@@ -247,6 +247,8 @@ const Adaption = () => {
           }))}
         />
       </div>
+
+      <ResultActions onRetry={handleRetry} />
 
       <QuizFooter currentId="adaption" status="result" onRetry={handleRetry} />
     </QuizContainer>
