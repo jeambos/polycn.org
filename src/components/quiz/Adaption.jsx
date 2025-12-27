@@ -251,6 +251,7 @@ const Adaption = () => {
         onFinish={handleFinish}
         mode="list" 
         perPage={8} 
+        quizId="adaption" // ✅ 新增：唯一标识，用于本地存储
       />
     </QuizContainer>
   );

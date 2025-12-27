@@ -262,6 +262,7 @@ const Norms = () => {
         onFinish={handleFinish}
         mode="list"  // 列表模式
         perPage={10} // 每页10题
+        quizId="norms" // ✅ 新增：唯一标识，用于本地存储
       />
     </QuizContainer>
   );
