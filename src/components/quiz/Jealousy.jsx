@@ -4,6 +4,7 @@ import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import CaseReactionPager from './ui/CaseReactionPager';
 import RadarChart from './ui/RadarChart';
 import { ScoreCard, ResultAnalysis, ResultActions } from './ui/ResultDashboard';
+import { QuizStorage } from '../../utils/quizStorage'; // 引入工具
 
 // =====================================================================
 // 1. 数据定义

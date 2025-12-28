@@ -3,6 +3,7 @@ import '../../styles/Quiz.css';
 import { WelcomeCard, QuizContainer, QuizFooter } from './ui/QuizFrame';
 import QuizPager from './ui/QuizPager';
 import { ScoreCard, ResultActions } from './ui/ResultDashboard';
+import { QuizStorage } from '../../utils/quizStorage'; // 引入工具
 
 // =====================================================================
 // 1. 数据定义 (保持原版逻辑)
