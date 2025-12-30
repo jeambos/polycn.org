@@ -1,0 +1,36 @@
+---
+title: 关系实践 (Practices)
+description: 时间管理、日程协调与协议制定等实操指南。
+sidebar:
+  order: 4
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro'; 
+
+{/* === 1. 简介 === */}
+爱是动词，关系是动词的累积。
+
+只有理论是不够的。这个分类关注“怎么做”：如何使用 Google Calendar 管理三人的日程？如何制定安全性行为协议？如何处理过夜、同居、财务共享等具体的生活细节？这里是多边关系的“生活黑客”指南。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="practices" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="爱是一种行动，从来不是简简单单的感觉而已。"
+    author="贝尔·胡克斯（bell hooks）"
+    source="https://www.goodreads.com/quotes/291578-love-is-an-action-never-simply-a-feeling"
+  />
+</div>
+
+{/* <Footer /> */}

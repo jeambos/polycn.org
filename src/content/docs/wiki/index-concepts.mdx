@@ -1,0 +1,48 @@
+---
+title: 基础概念 (Concepts)
+description: 多元亲密关系的基石词汇与核心定义。
+sidebar:
+  order: 2  # 1. 人工标记显示顺序 (1-8)
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro'; 
+
+{/* === 1. 本分类简介 === */}
+这里是多元关系大厦的地基。
+
+在这个分类下，汇集了所有你必须了解的入门术语（如 Polyamory, ENM, RA 等）。如果不理解这些词，你阅读后续的高阶文章可能会感到困惑。建议新手从这里开始。
+
+{/* === 2. 词条列表框架 === */}
+<WikiCategoryList category="concepts" />
+
+{/* === 3. 底部导航链接 === */}
+<div style={{ 
+  display: 'flex', 
+  gap: '1rem', 
+  marginTop: '3rem', 
+  paddingTop: '2rem',
+  borderTop: '1px solid var(--sl-color-gray-5)' 
+}}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">
+    返回 Wiki 大厅
+  </LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">
+    全站首页
+  </LinkButton>
+</div>
+
+{/* === 4. 引用区 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="语言的边界就是我们世界的边界。"
+    author="路德维希·维特根斯坦"
+    source="https://www.goodreads.com/quotes/7429965-the-limits-of-your-language-are-the-limits-of-your"
+  />
+</div>
+
+{/* === 5. 页脚 === */}
+{/* 确保你真的有这个组件，否则会报错 */}
+{/* <Footer /> */}

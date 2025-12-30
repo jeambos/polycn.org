@@ -1,0 +1,36 @@
+---
+title: 社会与处境 (Society)
+description: 出柜、法律风险、养育子女与社会污名。
+sidebar:
+  order: 8
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+{/* === 1. 简介 === */}
+我们不是活在真空中。
+
+当非单偶制生活撞上单偶制霸权社会，摩擦不可避免。本分类关注“出柜”策略、职场生存、多边家庭的法律困境、子女养育挑战以及如何建立社群支持系统。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="society" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="长大成人并成为真实的自己，这需要极大的勇气。"
+    author="E.E. 卡明斯 (E.E. Cummings)"
+    source="https://www.goodreads.com/quotes/806-it-takes-courage-to-grow-up-and-become-who-you"
+  />
+</div>
+
+{/* <Footer /> */}

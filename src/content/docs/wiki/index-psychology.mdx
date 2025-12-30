@@ -1,0 +1,36 @@
+---
+title: 情绪与心理 (Psychology)
+description: 嫉妒、安全感、依恋类型与内在成长。
+sidebar:
+  order: 5
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro'; 
+
+{/* === 1. 简介 === */}
+向内探索，是向外连接的前提。
+
+开放关系往往是内心不安全感的放大器。在这里，我们直面嫉妒（Jealousy）、探索助兴（Compersion）、分析依恋风格（Attachment Styles），并学习如何在新关系能量（NRE）中保持平衡。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="psychology" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="我们受到的折磨，更多是来自于想象，而非现实。"
+    author="塞涅卡"
+    source="https://www.goodreads.com/quotes/341035-we-suffer-more-often-in-imagination-than-in-reality"
+  />
+</div>
+
+{/* <Footer /> */}

@@ -1,0 +1,36 @@
+---
+title: 关系形式 (Forms)
+description: 从 V 型结构到关系安那其，探索多元关系的各种拓扑结构。
+sidebar:
+  order: 3
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+{/* === 1. 简介 === */}
+每一段关系都有其独特的形状。
+
+在这个分类下，我们将探讨不同的关系架构。无论是等级森严的“金字塔”，还是去中心化的“关系安那其”；是紧密的“厨桌式多边恋”，还是独立的“平行式多边恋”。在这里找到描述你们连接方式的几何学。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="forms" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="地图不是疆域。"
+    author="阿尔弗雷德·科日布斯基 (Alfred Korzybski)"
+    source="https://www.goodreads.com/quotes/8131216-a-map-is-not-the-territory-it-represents-but-if"
+  />
+</div>
+
+{/* <Footer /> */}

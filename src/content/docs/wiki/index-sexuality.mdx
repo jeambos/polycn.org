@@ -1,0 +1,36 @@
+---
+title: 性与身体 (Sexuality)
+description: 性健康、性癖好、性取向与身体自主权。
+sidebar:
+  order: 7
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+{/* === 1. 简介 === */}
+身体是灵魂的殿堂，也是快乐的源泉。
+
+在这个分类下，我们探讨性积极（Sex Positivity）、性传播感染（STI）的去污名化与防护、BDSM 与知情同意，以及各种性取向与性别认同的光谱。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="sexuality" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="这世界上的一切事情都是关于性的，除了性这件事本身。性是关于权力的。"
+    author="王尔德 (Oscar Wilde)"
+    source="https://www.goodreads.com/quotes/6218-everything-in-the-world-is-about-sex-except-sex-sex"
+  />
+</div>
+
+{/* <Footer /> */}

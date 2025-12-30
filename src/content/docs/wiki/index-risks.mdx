@@ -1,0 +1,36 @@
+---
+title: 风险与退出 (Risks)
+description: 识别红旗、处理分手、反操纵与创伤疗愈。
+sidebar:
+  order: 9
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+{/* === 1. 简介 === */}
+知道何时离开，比知道如何开始更重要。
+
+多边关系有时会成为施虐者的游乐场。本分类致力于帮助你识别有毒关系（Toxic Relationships）、警惕“独角兽狩猎”中的权力滥用、处理复杂的“多边分手”，以及在创伤后重建自我。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="risks" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="界限是这样一个距离：在这个距离上，我可以同时爱你也爱我自己。"
+    author="普伦蒂斯·汉普希尔 (Prentis Hemphill)"
+    source="https://www.goodreads.com/quotes/9987183-boundaries-are-the-distance-at-which-i-can-love-you"
+  />
+</div>
+
+{/* <Footer /> */}

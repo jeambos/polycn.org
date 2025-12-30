@@ -1,0 +1,36 @@
+---
+title: 沟通与冲突 (Communication)
+description: 非暴力沟通、雷达复盘与艰难对话的技巧。
+sidebar:
+  order: 6
+---
+
+import { LinkButton } from '@astrojs/starlight/components';
+import WikiCategoryList from '../../../components/wiki/WikiCategoryList.jsx';
+import QuoteBlock from '../../../components/QuoteBlock.astro';
+import Footer from '../../../components/Footer.astro';
+
+{/* === 1. 简介 === */}
+多边关系能存活多久，取决于沟通的质量。
+
+仅仅“诚实”是不够的，我们还需要“清晰”与“仁慈”。本分类汇集了非暴力沟通（NVC）、RADAR 复盘法、界限设定话术以及如何处理分歧与冷战的工具箱。
+
+{/* === 2. 列表 === */}
+<WikiCategoryList category="communication" />
+
+{/* === 3. 导航 === */}
+<div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+  <LinkButton href="/wiki" variant="secondary" icon="left-arrow">返回 Wiki 大厅</LinkButton>
+  <LinkButton href="/" variant="minimal" icon="house">全站首页</LinkButton>
+</div>
+
+{/* === 4. 语录 === */}
+<div style={{ margin: '4rem 0' }}>
+  <QuoteBlock 
+    content="每一个愤怒或评判的背后，都隐藏着一个未被满足的需求。"
+    author="马歇尔·卢森堡 (Marshall B. Rosenberg) (出自《非暴力沟通》)"
+    source="https://www.goodreads.com/quotes/763462-at-the-core-of-all-anger-is-a-need-that"
+  />
+</div>
+
+{/* <Footer /> */}
