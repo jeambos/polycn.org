@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+import wikiLinkPlugin from 'remark-wiki-link';
+
 import sitemap from '@astrojs/sitemap';
 
 import react from '@astrojs/react';
@@ -189,4 +191,26 @@ items: [
    
     customCss: ['./src/styles/custom.css'], 
   }), sitemap(), react()],
+
+markdown: {
+    remarkPlugins: [
+      [
+        wikiLinkPlugin, 
+        { 
+          // 2. 关键配置：定义链接生成的逻辑
+          // 当你写 [[polyamory]] 时，它会生成 <a href="/wiki/polyamory">...</a>
+          hrefTemplate: (permalink) => `/wiki/${permalink}`,
+          
+          // 可选：支持别名分割符，例如 [[polyamory|多边恋]]
+          aliasDivider: '|',
+          
+          // 可选：如果不希望链接变成红色（死链检测），可以把这个设为空数组
+          // 或者你需要配置 pageResolver 来真实检测文件是否存在，但在 Astro 中这比较复杂，
+          // 通常我们只做简单的路径转换即可。
+          pageResolver: (name) => [name], 
+        }
+      ],
+    ],
+  },
+
 });
