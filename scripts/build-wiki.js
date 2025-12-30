@@ -1,10 +1,11 @@
 // scripts/build-wiki.js
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 // === 配置区域 ===
-const SOURCE_DIR = path.join(__dirname, '../wiki_source'); // 输入目录
-const OUTPUT_DIR = path.join(__dirname, '../src/content/docs/wiki'); // 输出目录 (建议放在 wiki 下的子目录，如 entries)
+// Node v22 可以直接使用 import.meta.dirname 获取当前目录
+const SOURCE_DIR = path.join(import.meta.dirname, '../wiki_source'); 
+const OUTPUT_DIR = path.join(import.meta.dirname, '../src/content/docs/wiki'); 
 
 // === 主逻辑 ===
 
@@ -17,12 +18,14 @@ async function buildWiki() {
   }
 
   // 2. 初始化数据库 (内存中)
-  // 结构: { "polyamory": { titleCN, titleEN, keywords: [], definitions: [] } }
   const wikiDB = {};
 
   // 3. 读取源文件
   if (!fs.existsSync(SOURCE_DIR)) {
     console.error(`❌ 错误：找不到源目录 ${SOURCE_DIR}`);
+    // 如果目录不存在，先创建它，避免报错
+    fs.mkdirSync(SOURCE_DIR, { recursive: true });
+    console.log(`✅ 已自动创建源目录，请放入 markdown 文件后重试。`);
     return;
   }
 
@@ -39,45 +42,33 @@ async function buildWiki() {
     if (!body) continue;
 
     // 解析正文中的词条 (按 ### 分割)
-    // 技巧：用 split 切分，第一部分通常是空的或者文件介绍，跳过
     const sections = body.split(/^###\s+/m).slice(1);
 
     for (const section of sections) {
-      // 分离 标题行 和 内容
       const firstLineEnd = section.indexOf('\n');
       const headerRaw = firstLineEnd === -1 ? section : section.slice(0, firstLineEnd).trim();
       const definitionContent = firstLineEnd === -1 ? '' : section.slice(firstLineEnd).trim();
 
       // === 关键：解析标题行 (兼容中英文括号) ===
-      // 正则逻辑：
-      // 1. (.+?)  -> 捕获前面的英文名
-      // 2. [（(]  -> 匹配中文或英文左括号
-      // 3. (.+?)  -> 捕获括号内的别名内容
-      // 4. [)）]  -> 匹配中文或英文右括号
       const match = headerRaw.match(/^(.+?)\s*(?:[（(](.+?)[)）])?$/);
 
       if (match) {
-        const titleEN = match[1].trim(); // 例如: compersion
-        const aliasesRaw = match[2] ? match[2].trim() : ''; // 例如: 同乐 同喜 共喜
+        const titleEN = match[1].trim(); 
+        const aliasesRaw = match[2] ? match[2].trim() : ''; 
         
-        // 生成 Slug (文件名): 转小写，空格变短横线
         const slug = titleEN.toLowerCase().replace(/\s+/g, '-');
-
-        // 处理别名：按空格分割
         const keywords = aliasesRaw.split(/\s+/).filter(k => k);
-        const titleCN = keywords.length > 0 ? keywords[0] : titleEN; // 第一个别名作为中文标准名
+        const titleCN = keywords.length > 0 ? keywords[0] : titleEN; 
 
-        // 初始化词条对象 (如果不存在)
         if (!wikiDB[slug]) {
           wikiDB[slug] = {
             titleEN,
             titleCN,
-            keywords: [titleEN, ...keywords], // 把英文名也加入搜索关键词
+            keywords: [titleEN, ...keywords], 
             definitions: []
           };
         }
 
-        // 添加定义
         if (definitionContent) {
           wikiDB[slug].definitions.push({
             book: meta.book || '未知书籍',
@@ -111,13 +102,21 @@ async function buildWiki() {
 
     // 构造正文
     const definitionsText = entry.definitions.map(def => {
-      const sourceInfo = `《${def.book}》${def.author ? ` (${def.author}, ${def.year})` : ''}`;
-      // 如果有链接，给书名加链接
-      // const sourceLink = def.link ? `[${sourceInfo}](${def.link})` : sourceInfo; 
-      // 既然你希望格式简洁，我们暂不加链接，或者你可以按需把下面这行解注
+      // 目标格式：**《书名》** / *作者 （年份）*
+      let sourceInfo = `**《${def.book}》**`;
       
-      return `${sourceInfo} 认为，${entry.titleEN} 是：\n\n> ${def.content.replace(/\n/g, '\n> ')}`; 
-      // replace 是为了让多段落引用也能正确显示引用线
+      if (def.author) {
+        sourceInfo += ` / *${def.author}`;
+        if (def.year) {
+          sourceInfo += ` （${def.year}）`; // 使用全角括号
+        }
+        sourceInfo += `*`; // 结束斜体
+      }
+      
+      // 处理引用块：确保多段落引用每行都有 >
+      const quotedContent = def.content.split('\n').map(line => line.trim() ? `> ${line}` : '>').join('\n');
+      
+      return `${sourceInfo}\n\n${quotedContent}`; 
     }).join('\n\n');
 
     const fileContent = `${frontmatter}\n\n这里是 ${entry.titleCN} 的 wiki 页面。\n\n## 定义汇编\n\n${definitionsText}\n`;
@@ -129,21 +128,38 @@ async function buildWiki() {
   console.log(`🎉 构建完成！已处理 ${files.length} 个源文件，生成了 ${count} 个 Wiki 词条。`);
 }
 
-// 辅助函数：简易解析 frontmatter (不依赖第三方库)
+// 辅助函数：健壮的 Frontmatter 解析 (兼容 Windows \r\n 和 Mac/Linux \n)
 function parseFrontmatter(text) {
-  const match = text.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/);
-  if (!match) return { meta: {}, body: text };
+  // 正则解释：
+  // ^---\s*[\r\n]+  -> 匹配开头的 ---，允许后面有空格，必须换行
+  // ([\s\S]+?)      -> 捕获中间的 meta 内容 (非贪婪)
+  // [\r\n]+---\s* -> 匹配结束的 ---，允许前面有换行，后面有空格
+  // [\r\n]+         -> 必须换行后才是正文
+  // ([\s\S]*)       -> 捕获剩下的正文
+  const match = text.match(/^---\s*[\r\n]+([\s\S]+?)[\r\n]+---\s*[\r\n]+([\s\S]*)$/);
+  
+  if (!match) {
+    // 调试信息：如果你发现还有文件解析失败，控制台会告诉你
+    if (text.trim().startsWith('---')) {
+      console.warn('⚠️ 警告：发现疑似 Frontmatter 但解析失败，请检查 --- 后面是否有奇怪的字符。');
+    }
+    return { meta: {}, body: text };
+  }
 
   const metaRaw = match[1];
   const body = match[2];
   const meta = {};
 
-  metaRaw.split('\n').forEach(line => {
-    const parts = line.split(':');
-    if (parts.length >= 2) {
-      const key = parts[0].trim();
-      const value = parts.slice(1).join(':').trim();
-      meta[key] = value;
+  // 按行分割，兼容 \r\n
+  metaRaw.split(/\r?\n/).forEach(line => {
+    // 找到第一个冒号的位置
+    const colonIndex = line.indexOf(':');
+    if (colonIndex !== -1) {
+      const key = line.slice(0, colonIndex).trim();
+      const value = line.slice(colonIndex + 1).trim();
+      if (key && value) {
+        meta[key] = value;
+      }
     }
   });
 

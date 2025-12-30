@@ -1,5 +1,5 @@
 ---
-book: More Than Two (Second Edition)
+book: More Than Two (第二版)
 author: Eve Rickert & Andrea Zanin
 year: 2024
 link: /library/books/more-than-two
@@ -17,7 +17,7 @@ link: /library/books/more-than-two
 ### asexuality (无性恋 无性吸引 ace asexual)
 一个谱系，包括对他人缺乏性兴趣或吸引力，或对性活动缺乏兴趣。无性恋者可能简称自己为“ace”。
 
-### bdsm (绑缚与调教 支配与臣服 施虐与受虐)
+### bdsm (BDSM 绑缚与调教 支配与臣服 施虐与受虐 情爱权力交换 SM)
 一个三重缩写，代表“绑缚与调教 (bondage and discipline)”、“支配与臣服 (dominance and submission)”和“施虐与受虐 (sadism and masochism)”。在实践中，这个缩写一般指的是各种在知情同意的情况下参与的，涉及权力关系、痛觉（或其他强烈的感觉）和恋物癖的多种性癖活动。
 
 ### bisexual (双性恋)

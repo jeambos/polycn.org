@@ -1,14 +1,14 @@
 ---
 book: 道德浪女
 author: Janet W. Hardy & Dossie Easton
-year: 2017
+year: 2013
 link: /library/books/ethical-slut
 ---
 
 ### asexual (无性恋 无性吸引 ace)
 完全感受不到性吸引的人。据估计，美国至少有1%的人口是无性恋。无性恋社群已经有一整套非常广泛的词汇体系来描述其内部各种口味和类型。如果在网上搜索一下“无性恋”，你将发现，对于这一极少有人谈论的性取向其实已经有着丰富的信息了。
 
-### bdsm (绑缚与调教 支配与臣服 施虐与受虐 情爱权力交换 SM)
+### bdsm (BDSM 绑缚与调教 支配与臣服 施虐与受虐 情爱权力交换 SM)
 指一个人控制另一个人、和（或）将其束缚、奴役起来，和（或）给其带来强烈感官刺激的行为。BDSM的缩写来自于B/D（Bondage & Discipline，绑缚与调教）、 D/S（Dominance & Submission，支配与臣服）、 S/M（Sadism & Masochism，虐恋与受虐）三个方面。你可能还会听到它的别名：癖好（kink）、情爱权力交换（erotic power exchange），或者也有人简单地称之为SM。
 
 ### centrist (某某中心主义)
