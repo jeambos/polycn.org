@@ -9,6 +9,40 @@ import react from '@astrojs/react';
 
 import fs from 'node:fs';
 
+// === 新增：自动读取 Wiki 别名映射，生成重定向规则 ===
+let wikiRedirects = {};
+try {
+  const mapData = fs.readFileSync('./src/content/wiki-map.json', 'utf-8');
+  const { aliases } = JSON.parse(mapData);
+  
+  Object.entries(aliases).forEach(([alias, targetSlug]) => {
+    // 1. 简单清洗：去除首尾空格
+    const cleanAlias = alias.trim();
+    const cleanSlug = targetSlug.trim();
+
+    // 2. 核心修复逻辑：
+    // 如果 别名(转小写) 等于 目标slug(转小写)，说明这只是大小写差异。
+    // 这种情况下，不要生成重定向，直接跳过。
+    // 例子：Alias="Risks", Slug="risks" -> 跳过 (避免冲突)
+    // 例子：Alias="风险", Slug="risks" -> 通过 (生成重定向)
+    if (cleanAlias.toLowerCase() === cleanSlug.toLowerCase()) {
+      return; 
+    }
+
+    // 3. 避免带空格的 URL (可选)
+    // 如果你不想让 "/wiki/Solo Poly" 这种带空格的网址生效，可以在这里过滤
+    // if (cleanAlias.includes(' ')) return;
+
+    wikiRedirects[`/wiki/${cleanAlias}`] = `/wiki/${cleanSlug}`;
+  });
+  
+  console.log(`🔀 已加载 ${Object.keys(wikiRedirects).length} 条 Wiki 重定向规则`);
+} catch (e) {
+  console.log('⚠️ 未找到 wiki-map.json，跳过自动重定向配置。');
+}
+
+// ====================================================
+
 // 1. 读取别名映射表
 // 注意：如果是第一次运行，文件可能不存在，要做个容错
 let wikiMap = { aliases: {}, slugs: [] };
@@ -22,6 +56,8 @@ try {
 // https://astro.build/config
 export default defineConfig({
  site: 'https://polycn.org',
+
+ redirects: wikiRedirects,
  
  integrations: [starlight({
     title: 'PolyCN',
@@ -243,7 +279,7 @@ markdown: {
         }
       ],
 
-      
+
     ],
   },
 
