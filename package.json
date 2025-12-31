@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "gen-wiki": "node scripts/build-wiki.js"
+    "gen:wiki": "node scripts/build-wiki.js",
+    "gen:map": "node scripts/gen-map.js"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

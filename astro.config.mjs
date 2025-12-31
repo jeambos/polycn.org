@@ -7,6 +7,18 @@ import sitemap from '@astrojs/sitemap';
 
 import react from '@astrojs/react';
 
+import fs from 'node:fs';
+
+// 1. 读取别名映射表
+// 注意：如果是第一次运行，文件可能不存在，要做个容错
+let wikiMap = { aliases: {}, slugs: [] };
+try {
+  const data = fs.readFileSync('./src/content/wiki-map.json', 'utf-8');
+  wikiMap = JSON.parse(data);
+} catch (e) {
+  console.log('⚠️ wiki-map.json not found, wiki links might not work until build.');
+}
+
 // https://astro.build/config
 export default defineConfig({
  site: 'https://polycn.org',
@@ -210,6 +222,28 @@ markdown: {
           pageResolver: (name) => [name], 
         }
       ],
+
+      [
+        wikiLinkPlugin, 
+        { 
+          // 2. 核心魔法：页面解析器
+          // 当你写 [[多边恋]] 时，这个函数会被调用
+          pageResolver: (name) => {
+            // 查表：多边恋 -> polyamory
+            const slug = wikiMap.aliases[name] || wikiMap.aliases[name.toLowerCase()];
+            // 如果查到了，返回 slug；没查到，就原样返回(可能会死链)
+            return [slug || name];
+          },
+
+          // 3. 链接生成器
+          // permalink 就是上面解析出来的 slug
+          hrefTemplate: (permalink) => `/wiki/${permalink}`,
+          
+          aliasDivider: '|', // 依然保留 | 功能，以备不时之需
+        }
+      ],
+
+      
     ],
   },
 
